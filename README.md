@@ -12,8 +12,8 @@ cd server
 npm install
 ```
 
-## Client
-
+## /client
+To start: `npm start`
 ### Dependencies
 - [vue.js](https://vuejs.org/) - Front End Framework
   - [vuex](https://vuex.vuejs.org/) - vue state manager
@@ -30,8 +30,8 @@ todo
 todo
 
 
-## Server
-
+## /server
+To start: `npm start`
 ### Dependencies
 
 - [express.js](https://expressjs.com/) - Minimal web framework for node.js
