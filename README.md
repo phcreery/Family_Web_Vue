@@ -1,2 +1,45 @@
 # Family_Web_Vue
-Recreate Creery Family_Web in vue
+Recreate Creery Family_Web in node.js, JS, and Vue.js
+
+## Setup
+```
+git clone https://github.com/phcreery/Family_Web_Vue
+
+cd Family_Web_Vue/client
+npm install
+cd ..
+cd server
+npm install
+```
+
+## Client
+
+### Dependencies
+- [vue.js](https://vuejs.org/) - Front End Framework
+  - [vuex](https://vuex.vuejs.org/) - vue state manager
+  - [vuetify](https://vuetifyjs.com/en/) - Material Design component framework for Vue.js
+  - [vue-router]() - Vue.js' page request server
+- [axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js
+- [Howler]() - Audio Library
+- [vue-awesome-swiper]() - awesome-swiper slideshow/carousel for vue
+
+### To add a page
+todo
+
+### To add an API connection
+todo
+
+
+## Server
+
+### Dependencies
+
+- [express.js](https://expressjs.com/) - Minimal web framework for node.js
+- [bcrypt-nodejs]() - Crypto engine for password hashing, token generation & validation
+- [cors]() - 
+- [ffmetadata]() - library for reading file metadata
+- [morgan]() - HTTP request logger middleware for node.js express.js
+- [nodemon](https://nodemon.io/) - Nodemon is a utility that will monitor for any changes in your source and automatically restart your server.
+
+## To add an API endpoint
+todo
