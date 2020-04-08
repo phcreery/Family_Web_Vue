@@ -9,7 +9,7 @@
             v-for="(track, index) in playlist"
             :key="track.title"
             v-show="track.display"
-            color="secondary">
+            color="orange">
             <v-list-item-action>
               <v-btn fab dark :block=true small color="primary" @click="playTrack()">
                 <v-icon>mdi-play</v-icon>
