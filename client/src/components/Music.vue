@@ -2,7 +2,7 @@
   <div>
       <div :class="{playlist}">
 
-        <v-list >
+        <v-list>
           <v-subheader>MUSIC</v-subheader>
           <v-list-item-group v-model="item" >
           <v-list-item
@@ -22,7 +22,7 @@
             {{ track.duration | minutes }}
           </v-list-item>
           </v-list-item-group>
-        </template>
+        </v-list>
       </div>
 
 
@@ -62,7 +62,6 @@
           <v-spacer></v-spacer>
         </v-toolbar>
 
-      
   </div>
 </template>
 
