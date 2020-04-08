@@ -45,7 +45,7 @@ module.exports = (app) => {
             }
             console.log(metadata); 
               for(let i in metadata){      
-                  data.push({name: items[i], title: metadata[i].title, album: metadata[i].album, artist: metadata[i].album_artist, duration: metadata[i].TLEN, display:true});
+                  data.push({name: items[i], title: metadata[i].title, album: metadata[i].album, artist: metadata[i].album_artist, duration: metadata[i].TLEN, howl: null, display:true});
               }
               res.json(data);
               res.end();
