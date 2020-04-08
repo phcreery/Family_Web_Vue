@@ -1,62 +1,69 @@
 <template>
-  <v-card :class="{playlist}">
-    <v-list>
-      <v-subheader>MUSIC</v-subheader>
-      <v-list-item-group v-model="item" >
-      <v-list-item
-        v-for="(track, index) in playlist"
-        :key="track.title"
-        v-show="track.display"
-        color="secondary">
-        <v-list-item-action>
-          <v-btn fab dark :block=true small color="primary" @click="playTrack()">
-            <v-icon>mdi-play</v-icon>
+  <div>
+      <div :class="{playlist}">
+
+        <v-list >
+          <v-subheader>MUSIC</v-subheader>
+          <v-list-item-group v-model="item" >
+          <v-list-item
+            v-for="(track, index) in playlist"
+            :key="track.title"
+            v-show="track.display"
+            color="secondary">
+            <v-list-item-action>
+              <v-btn fab dark :block=true small color="primary" @click="playTrack()">
+                <v-icon>mdi-play</v-icon>
+              </v-btn>
+              </v-list-item-action>
+            <v-list-item-content @click="selectTrack(track)" @dblclick="playTrack()">
+              <v-list-item-title>{{ index | numbers }}  {{ track.artist }} - {{ track.title }}</v-list-item-title>
+            </v-list-item-content>
+            <v-spacer></v-spacer>
+            {{ track.duration | minutes }}
+          </v-list-item>
+          </v-list-item-group>
+        </template>
+      </div>
+
+
+        <v-toolbar height="40" top>
+          <v-progress-linear top absolute height="40" v-model="trackProgress" @click="updateSeek($event)" >
+            <template v-slot="{ value }">
+                <strong>{{ Math.ceil(value) }}%</strong>
+            </template>
+          </v-progress-linear>
+        </v-toolbar>
+        <v-toolbar flat height=90>
+          <v-btn text icon @click="toggleMute">
+            <template v-if="!this.$data.muted">
+              <v-icon v-if="this.$data.volume >= 0.5">volume_up</v-icon>
+              <v-icon v-else-if="this.$data.volume > 0">volume_down</v-icon>
+              <v-icon v-else>volume_mute</v-icon>
+            </template>
+            <v-icon v-show="this.$data.muted">volume_off</v-icon>
           </v-btn>
-          </v-list-item-action>
-        <v-list-item-content @click="selectTrack(track)" @dblclick="playTrack()">
-          <v-list-item-title>{{ index | numbers }}  {{ track.artist }} - {{ track.title }}</v-list-item-title>
-        </v-list-item-content>
-        <v-spacer></v-spacer>
-        {{ track.duration | minutes }}
-      </v-list-item>
-      </v-list-item-group>
-    </v-list>
-    <v-toolbar height="40">
-      <v-progress-linear top absolute height="40" v-model.lazy="trackProgress" @click="updateSeek($event)" >
-        <template v-slot="{ value }">
-            <strong>{{ Math.ceil(value) }}%</strong>
-        </template>
-      </v-progress-linear>
-    </v-toolbar>
-    <v-toolbar flat height=90>
-      <v-btn text icon @click="toggleMute">
-        <template v-if="!this.$data.muted">
-          <v-icon v-if="this.$data.volume >= 0.5">volume_up</v-icon>
-          <v-icon v-else-if="this.$data.volume > 0">volume_down</v-icon>
-          <v-icon v-else>volume_mute</v-icon>
-        </template>
-        <v-icon v-show="this.$data.muted">volume_off</v-icon>
-      </v-btn>
-      <v-slider v-model="volume" hide-details @input="updateVolume(volume)" max="1" step="0.1"></v-slider>
-      <v-spacer></v-spacer>
-      <v-btn outlined fab small color="secondary" @click="skipTrack('prev')" class="ma-3">
-        <v-icon>skip_previous</v-icon>
-      </v-btn>
-      <v-btn outlined fab small color="secondary" @click="stopTrack" class="ma-3">
-        <v-icon>stop</v-icon>
-      </v-btn>
-      <v-btn outlined fab color="primary" @click="playTrack()" class="ma-3">
-        <v-icon large>play_arrow</v-icon>
-      </v-btn>
-      <v-btn outlined fab small color="secondary " @click="pauseTrack" class="ma-3">
-        <v-icon>pause</v-icon>
-      </v-btn>
-      <v-btn outlined fab small color="secondary" @click="skipTrack('next')" class="ma-3">
-        <v-icon>skip_next</v-icon>
-      </v-btn>
-      <v-spacer></v-spacer>
-    </v-toolbar>
-  </v-card>
+          <v-slider v-model="volume" hide-details @input="updateVolume(volume)" max="1" step="0.1"></v-slider>
+          <v-spacer></v-spacer>
+          <v-btn outlined fab small color="secondary" @click="skipTrack('prev')" class="ma-3">
+            <v-icon>skip_previous</v-icon>
+          </v-btn>
+          <v-btn outlined fab small color="secondary" @click="stopTrack" class="ma-3">
+            <v-icon>stop</v-icon>
+          </v-btn>
+          <v-btn outlined fab color="primary" @click="playTrack()" class="ma-3">
+            <v-icon large>play_arrow</v-icon>
+          </v-btn>
+          <v-btn outlined fab small color="secondary " @click="pauseTrack" class="ma-3">
+            <v-icon>pause</v-icon>
+          </v-btn>
+          <v-btn outlined fab small color="secondary" @click="skipTrack('next')" class="ma-3">
+            <v-icon>skip_next</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+
+      
+  </div>
 </template>
 
 <script>
@@ -219,7 +226,7 @@ export default {
         this.updateSeek(event)
       },
       get: function () {
-        console.log(this.progress * 100)
+        // console.log(this.progress * 100)
         return this.progress * 100
       }
     }

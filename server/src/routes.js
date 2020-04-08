@@ -43,7 +43,7 @@ module.exports = (app) => {
             if(err){
               console.log(err)
             }
-            console.log(metadata); 
+            // console.log(metadata); 
               for(let i in metadata){      
                   data.push({name: items[i], title: metadata[i].title, album: metadata[i].album, artist: metadata[i].album_artist, duration: metadata[i].TLEN, howl: null, display:true});
               }
