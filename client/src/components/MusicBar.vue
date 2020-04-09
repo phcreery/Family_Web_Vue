@@ -1,24 +1,18 @@
 <template>
 
   <div class="MFooter">
-      <v-toolbar height="40" top>
-        <v-progress-linear top absolute height="40" v-model="trackProgress" @click="updateSeek($event)" >
-          <template v-slot="{ value }">
-              <strong>{{ Math.ceil(value) }}%</strong>
-          </template>
+      <v-toolbar height="8" top>
+        <v-progress-linear top absolute height="8" v-model="trackProgress" @click="updateSeek($event)" >
+
         </v-progress-linear>
       </v-toolbar>
       <v-toolbar flat height=90>
-        <v-btn text icon @click="toggleMute">
-          <template v-if="!this.$data.muted">
-            <v-icon v-if="this.$data.volume >= 0.5">volume_up</v-icon>
-            <v-icon v-else-if="this.$data.volume > 0">volume_down</v-icon>
-            <v-icon v-else>volume_mute</v-icon>
-          </template>
-          <v-icon v-show="this.$data.muted">volume_off</v-icon>
-        </v-btn>
-        <v-slider v-model="volume" hide-details @input="updateVolume(volume)" max="1" step="0.1"></v-slider>
-        <v-spacer></v-spacer>
+     
+        <v-toolbar-title>{{ trackInfo.artist }} - {{ trackInfo.title }}</v-toolbar-title>
+        <v-subheader :inset="inset">{{trackInfo.seek | minutes}}/{{trackInfo.duration | minutes}}</v-subheader>
+      
+
+      <v-card flat class="mx-auto" style="position: fixed; left: 40%;">
         <v-btn fab small color="secondary" @click="skipTrack('prev')" class="ma-3">
           <v-icon>skip_previous</v-icon>
         </v-btn>
@@ -34,16 +28,32 @@
         <v-btn fab small color="secondary" @click="skipTrack('next')" class="ma-3">
           <v-icon>skip_next</v-icon>
         </v-btn>
-        <v-spacer></v-spacer>
+      </v-card>
+      
+      <v-spcaer></v-spcaer>
+      <v-toolbar flat style="position: fixed; right: 0%; width: 20%">
+        <v-btn text icon @click="toggleMute" >
+          <template v-if="!this.$data.muted">
+            <v-icon v-if="this.$data.volume >= 0.5">volume_up</v-icon>
+            <v-icon v-else-if="this.$data.volume > 0">volume_down</v-icon>
+            <v-icon v-else>volume_mute</v-icon>
+          </template>
+          <v-icon v-show="this.$data.muted">volume_off</v-icon>
+        </v-btn>
+        <v-slider v-model="volume" hide-details @input="updateVolume(volume)" max="1" step="0.1" >
+        </v-slider>
+    
       </v-toolbar>
-
+      </v-toolbar>
+<!--
       <v-card height="60">
         <v-card-title>
-          <h2>{{ trackInfo.artist }} - {{ trackInfo.title }}</h2>
+          <h3>{{ trackInfo.artist }} - {{ trackInfo.title }}</h3>
           <v-spacer></v-spacer>
           <h3>{{trackInfo.seek | minutes}}/{{trackInfo.duration | minutes}}</h3>
         </v-card-title>
       </v-card>
+      -->
   </div>
 
 </template>
@@ -60,7 +70,10 @@ export default {
   data () {
     return {
       volume: 0.5,
-      muted: false
+      muted: false,
+      hover: true,
+      progressClass: 'progress',
+      progresshoverClass: 'progresshover'
     }
   },
   computed: {
@@ -139,9 +152,16 @@ export default {
 
   .MFooter {
     position: fixed;
-    height: 225px;
+    /* height: 225px; */
     left: 0px;
     bottom: 0px;
     right: 0px;
- }
+  }
+
+  .progress {
+    height: 4;
+  }
+  .progresshover {
+    height: 40;
+  }
 </style>

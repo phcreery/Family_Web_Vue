@@ -8,9 +8,9 @@
             <router-view />
 
         </v-content>
-        <v-footer dark app inset> <!-- footer in or out of v-content?? -->
+        <!-- <v-footer dark app inset> 
           <span class="white--text">Made by the Creery Boys</span>
-        </v-footer>
+        </v-footer> -->
     </v-app>
   </div>
 </template>

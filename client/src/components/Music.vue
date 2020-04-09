@@ -151,6 +151,10 @@ export default {
       }
     }
   },
+  beforeCreate: function () {
+    this.$store.commit('startLoading')
+    setTimeout(() => {}, 3000)
+  },
   created: async function () {
     const list = await MusicService.getlist()
     const baseURL = await MusicService.getBaseURL()
@@ -164,6 +168,9 @@ export default {
         src: [baseURL + `${file}`]
       })
     })
+    this.$store.commit('stopLoading')
+  },
+  mounted: function () {
   },
   filters: {
     numbers: (value) => {

@@ -9,9 +9,10 @@ export default new Vuex.Store({
     token: null,
     user: null,
     isUserLoggedIn: false,
-    toggleSidebar: false
+    toggleSidebar: false,
+    isLoading: false
   },
-  mutations: {
+  mutations: { // sync
     setToken (state, token) {
       state.token = token
       if (token) {
@@ -25,9 +26,15 @@ export default new Vuex.Store({
     },
     TOGGLE_SIDEBAR (state) {
       state.toggleSidebar = !state.toggleSidebar
+    },
+    startLoading (state) {
+      state.isLoading = true
+    },
+    stopLoading (state) {
+      state.isLoading = false
     }
   },
-  actions: {
+  actions: { // async
     setToken ({commit}, token) {
       commit('setToken', token)
     },

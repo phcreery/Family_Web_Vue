@@ -12,6 +12,15 @@
         Browse
       </v-btn>
     </v-toolbar-items>
+
+    <v-progress-linear
+        :active="isloading"
+        indeterminate
+        absolute
+        bottom
+        color="white"
+      ></v-progress-linear>
+
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn
@@ -51,6 +60,11 @@ export default {
     },
     drawerState () {
       this.$store.dispatch('toggleSidebar')
+    }
+  },
+  computed: {
+    isloading () {
+      return this.$store.state.isLoading
     }
   }
 }
