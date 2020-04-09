@@ -44,6 +44,11 @@ export default {
           icon: 'content_copy',
           title: 'Tasks',
           href: '/'
+        },
+        {
+          icon: 'mdi-music',
+          title: 'Playground',
+          href: '/#/Playground'
         }
       ]
     }

@@ -4,6 +4,7 @@ import SlideShow4 from '@/components/SlideShow4'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Music from '@/components/Music'
+import Playground from '@/components/Playground'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/music',
       name: 'music',
       component: Music
+    },
+    {
+      path: '/playground',
+      name: 'playground',
+      component: Playground
     }
   ]
 })

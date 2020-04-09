@@ -1,7 +1,7 @@
 <template>
   <div>
       <div :class="{playlist}">
-
+        <div id="scroll-target" class="overflow-y-auto">
         <v-list>
           <v-subheader>MUSIC</v-subheader>
           <v-list-item-group v-model="item" >
@@ -9,65 +9,40 @@
             v-for="(track, index) in playlist"
             :key="track.title"
             v-show="track.display"
-            color="orange">
+            :class="[{selected: track === currentTrack}]"
+            @click="selectTrack(track)" @dblclick="playTrack()">
             <v-list-item-action>
-              <v-btn fab dark :block=true small color="primary" @click="playTrack()">
-                <v-icon>mdi-play</v-icon>
+              <v-btn fab outlined :block=true small color="primary" @click="selectTrack(track); playTrack()">
+                <v-icon>{{ track == currentTrack ? 'mdi-pause' : 'mdi-play' }}</v-icon>
               </v-btn>
-              </v-list-item-action>
-            <v-list-item-content @click="selectTrack(track)" @dblclick="playTrack()">
-              <v-list-item-title>{{ index | numbers }}  {{ track.artist }} - {{ track.title }}</v-list-item-title>
+            </v-list-item-action>
+            <v-list-item-content >
+              <v-list-item-title :class="[{selected: track === currentTrack}]">{{ index | numbers }}  {{ track.artist }} - {{ track.title }}</v-list-item-title>
             </v-list-item-content>
             <v-spacer></v-spacer>
             {{ track.duration | minutes }}
           </v-list-item>
           </v-list-item-group>
         </v-list>
+        </div>
       </div>
-
-
-        <v-toolbar height="40" top>
-          <v-progress-linear top absolute height="40" v-model="trackProgress" @click="updateSeek($event)" >
-            <template v-slot="{ value }">
-                <strong>{{ Math.ceil(value) }}%</strong>
-            </template>
-          </v-progress-linear>
-        </v-toolbar>
-        <v-toolbar flat height=90>
-          <v-btn text icon @click="toggleMute">
-            <template v-if="!this.$data.muted">
-              <v-icon v-if="this.$data.volume >= 0.5">volume_up</v-icon>
-              <v-icon v-else-if="this.$data.volume > 0">volume_down</v-icon>
-              <v-icon v-else>volume_mute</v-icon>
-            </template>
-            <v-icon v-show="this.$data.muted">volume_off</v-icon>
-          </v-btn>
-          <v-slider v-model="volume" hide-details @input="updateVolume(volume)" max="1" step="0.1"></v-slider>
-          <v-spacer></v-spacer>
-          <v-btn outlined fab small color="secondary" @click="skipTrack('prev')" class="ma-3">
-            <v-icon>skip_previous</v-icon>
-          </v-btn>
-          <v-btn outlined fab small color="secondary" @click="stopTrack" class="ma-3">
-            <v-icon>stop</v-icon>
-          </v-btn>
-          <v-btn outlined fab color="primary" @click="playTrack()" class="ma-3">
-            <v-icon large>play_arrow</v-icon>
-          </v-btn>
-          <v-btn outlined fab small color="secondary " @click="pauseTrack" class="ma-3">
-            <v-icon>pause</v-icon>
-          </v-btn>
-          <v-btn outlined fab small color="secondary" @click="skipTrack('next')" class="ma-3">
-            <v-icon>skip_next</v-icon>
-          </v-btn>
-          <v-spacer></v-spacer>
-        </v-toolbar>
-
+      asdf
+      <MusicBar
+        :progress="progress"
+        @playtrack="playTrack"
+        @pausetrack="pauseTrack"
+        @stoptrack="stopTrack"
+        @skiptrack="skipTrack"
+        @updateseek="setSeek"
+        :trackInfo="getTrackInfo"></MusicBar>
+        asdf
   </div>
 </template>
 
 <script>
 import MusicService from '@/services/MusicService'
 import {Howl, Howler} from 'howler'
+import MusicBar from './MusicBar'
 
 export default {
   data () {
@@ -84,6 +59,9 @@ export default {
       volume: 1,
       sliderProgress: 0
     }
+  },
+  components: {
+    MusicBar
   },
   methods: {
     selectTrack (track) {
@@ -161,6 +139,12 @@ export default {
       // let mousePos = event.offsetX
       // let elWidth = el.clientWidth
       let percents = event
+      let track = this.currentTrack.howl
+      if (track.playing()) {
+        track.seek((track.duration() / 100) * percents)
+      }
+    },
+    setSeek (percents) {
       let track = this.currentTrack.howl
       if (track.playing()) {
         track.seek((track.duration() / 100) * percents)
@@ -249,7 +233,8 @@ export default {
 
 <style scoped>
   .selected {
-    background-color:  orange !important;
+    background-color:  rgb(214, 214, 214) !important;
+    font-size: 1.5rem;
   }
   .playlist {
     overflow: auto
