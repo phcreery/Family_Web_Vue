@@ -2,6 +2,7 @@
   <v-navigation-drawer
     v-model="toggleSidebar"
     app
+    clipped
     >
     <v-list
         dense
@@ -33,7 +34,7 @@ export default {
         {
           icon: 'home',
           title: 'Home',
-          href: '/'
+          href: '/#/'
         },
         {
           icon: 'mdi-music',

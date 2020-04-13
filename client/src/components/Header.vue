@@ -1,6 +1,6 @@
 <template>
   <!-- or v-app-bar or v-toolbar   (app) needed for attributing?? -->
-  <v-app-bar app fixed color="primary" dark>
+  <v-app-bar app fixed clipped-left color="primary" dark>
     <v-app-bar-nav-icon @click="drawerState" />
     <v-toolbar-title class="mr-4">
       <span class="home" @click="navigateTo({name: 'root'})" >

@@ -1,8 +1,6 @@
 <template>
 
-  
-    <!-- <v-app-bar bottom app fixed height="100px"> -->
-  <div class="MFooter">
+  <div>
       <v-toolbar height="8" top>
         <v-progress-linear top absolute height="8" v-model="trackProgress" @click="updateSeek($event)" >
         </v-progress-linear>
@@ -10,7 +8,7 @@
       <v-toolbar flat height=90>
 
         <v-toolbar-title>{{ trackInfo.artist }} - {{ trackInfo.title }}</v-toolbar-title>
-        <v-subheader>{{trackInfo.seek | minutes}}/{{trackInfo.duration | minutes}}</v-subheader>
+        <v-subheader :inset="inset">{{trackInfo.seek | minutes}}/{{trackInfo.duration | minutes}}</v-subheader>
 
         <v-card flat class="mx-auto" style="position: fixed; left: 40%;">
           <v-btn fab small color="secondary" @click="skipTrack('prev')" class="ma-3">
@@ -30,7 +28,7 @@
           </v-btn>
         </v-card>
 
-        <v-toolbar app flat style="position: fixed; right: 0%; width: 20%">
+        <v-toolbar flat style="position: fixed; right: 0%; width: 20%">
           <v-btn text icon @click="toggleMute" >
             <template v-if="!this.$data.muted">
               <v-icon v-if="this.$data.volume >= 0.5">volume_up</v-icon>
@@ -53,28 +51,18 @@
         </v-card-title>
       </v-card>
       -->
-        </div>
-      <!-- </v-app-bar> -->
-
+  </div>
 
 </template>
 
 <script>
 import {Howl, Howler} from 'howler'
-import MusicService, { MusicEventBus } from '@/services/MusicService'
+
 export default {
-  props: {
-    loop: Boolean,
-    shuffle: Boolean
-    // trackInfo: Object
-  },
   data () {
     return {
       volume: 0.5,
-      muted: false,
-      hover: true,
-      progress: 0,
-      trackInfo: null
+      muted: false
     }
   },
   computed: {
@@ -85,33 +73,25 @@ export default {
       },
       get: function () {
         // console.log(this.progress * 100)
-        return this.$data.progress * 100
+        return this.progress * 100
       }
     }
   },
   created: function () {
     Howler.volume(this.volume)
   },
-  mounted: function () {
-    MusicEventBus.$on('updateprogress', (progress) => { this.$data.progress = progress })
-    MusicEventBus.$on('updatetrackinfo', (payload) => { this.$data.trackInfo = payload })
-  },
   methods: {
     playTrack (index) {
-      // this.$emit('playtrack', index)
-      MusicEventBus.$emit('playtrack', index)
+      this.$emit('playtrack', index)
     },
     pauseTrack () {
-      // this.$emit('pausetrack')
-      MusicEventBus.$emit('pausetrack')
+      this.$emit('pausetrack')
     },
     stopTrack () {
-      // this.$emit('stoptrack')
-      MusicEventBus.$emit('stoptrack')
+      this.$emit('stoptrack')
     },
     skipTrack (direction) {
-      // this.$emit('skiptrack', direction)
-      MusicEventBus.$emit('skiptrack', direction)
+      this.$emit('skiptrack', direction)
     },
     updateVolume (volume) {
       Howler.volume(volume)
@@ -121,12 +101,10 @@ export default {
       this.muted = !this.muted
     },
     toggleLoop () {
-      // this.$emit('toggleloop', !this.loop)
-      MusicEventBus.$emit('toggleloop', !this.loop)
+      this.$emit('toggleloop', !this.loop)
     },
     toggleShuffle () {
-      // this.$emit('toggleshuffle', !this.shuffle)
-      MusicEventBus.$emit('toggleshuffle', !this.shuffle)
+      this.$emit('toggleshuffle', !this.shuffle)
     },
     updateSeek (event) {
       console.log(event)
@@ -134,8 +112,7 @@ export default {
       // let mousePos = event.offsetX
       // let elWidth = el.clientWidth
       let percents = event
-      // this.$emit('updateseek', percents)
-      MusicEventBus.$emit('updateseek', percents)
+      this.$emit('updateseek', percents)
     }
   },
   filters: {
@@ -163,14 +140,11 @@ export default {
 <style scoped>
 
   .MFooter {
-    /* position: fixed; */
     position: absolute;
     /* height: 225px; */
     left: 0px;
     bottom: 0px;
     right: 0px;
-    width: 100%;
-
   }
 
   .progress {

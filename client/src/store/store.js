@@ -10,9 +10,14 @@ export default new Vuex.Store({
     user: null,
     isUserLoggedIn: false,
     toggleSidebar: false,
-    isLoading: false
+    isLoading: false,
+
+    music: {
+      Playlist: [],
+      trackInfo: null
+    }
   },
-  mutations: { // sync
+  mutations: { // sync call by store.commit('')
     setToken (state, token) {
       state.token = token
       if (token) {
@@ -32,9 +37,16 @@ export default new Vuex.Store({
     },
     stopLoading (state) {
       state.isLoading = false
+    },
+    setMusicPlaylist (state, payload) {
+      state.music.Playlist = payload
+    },
+    setMusictrackInfo (state, payload) {
+      state.music.trackInfo = payload
     }
+
   },
-  actions: { // async
+  actions: { // async call by store.dispatch('')
     setToken ({commit}, token) {
       commit('setToken', token)
     },

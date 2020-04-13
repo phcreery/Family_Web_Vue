@@ -7,8 +7,8 @@
     >
       asdf
     </v-btn>
-  <music-bar :dialogVisible="myDialogVisible" @close="myDialogClose">
-  </music-bar>
+    <music-bar :dialogVisible="myDialogVisible" @close="myDialogClose">
+    </music-bar>
   </div>
 </template>
 
@@ -31,7 +31,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

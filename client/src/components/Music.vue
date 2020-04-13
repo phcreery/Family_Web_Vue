@@ -1,10 +1,13 @@
 <template>
-  <div>
-      <div :class="{playlist}">
-        <div id="scroll-target" class="overflow-y-auto">
+  <div class="lister">
+    <!-- <v-layout fill-height> -->
+      <!-- <v-row no-gutters> -->
+        <!-- <v-col> -->
+      <div :class="{playlist}" class="overflow-y-auto">
+        <!-- <v-card style="position: absolute; max-height: 100%; width: 100%;" class="overflow-y-auto"> -->
         <v-list>
           <v-subheader>MUSIC</v-subheader>
-          <v-list-item-group v-model="item" >
+          <v-list-item-group v-model="item">
           <v-list-item
             v-for="(track, index) in playlist"
             :key="track.title"
@@ -12,7 +15,7 @@
             :class="[{selected: track === currentTrack}]"
             @click="selectTrack(track)" @dblclick="playTrack()">
             <v-list-item-action>
-              <v-btn fab outlined :block=true small color="primary" @click="selectTrack(track); playTrack()">
+              <v-btn icon :block=true small color="secondary" @click="selectTrack(track); playTrack()">
                 <v-icon>{{ track == currentTrack ? 'mdi-pause' : 'mdi-play' }}</v-icon>
               </v-btn>
             </v-list-item-action>
@@ -24,23 +27,21 @@
           </v-list-item>
           </v-list-item-group>
         </v-list>
-        </div>
+        <!-- </v-card> -->
       </div>
-      asdf
-      <MusicBar
-        :progress="progress"
-        @playtrack="playTrack"
-        @pausetrack="pauseTrack"
-        @stoptrack="stopTrack"
-        @skiptrack="skipTrack"
-        @updateseek="setSeek"
-        :trackInfo="getTrackInfo"></MusicBar>
-        asdf
+      <!-- </v-col> -->
+      <!-- </v-row> -->
+      <!-- <v-row> -->
+    <v-flex>
+    <MusicBar></MusicBar>
+    </v-flex>
+    <!-- </v-row> -->
+    <!-- </v-layout> -->
   </div>
 </template>
 
 <script>
-import MusicService from '@/services/MusicService'
+import MusicService, { MusicEventBus } from '@/services/MusicService'
 import {Howl, Howler} from 'howler'
 import MusicBar from './MusicBar'
 
@@ -171,6 +172,11 @@ export default {
     this.$store.commit('stopLoading')
   },
   mounted: function () {
+    MusicEventBus.$on('playtrack', (index) => { this.playTrack(index) })
+    MusicEventBus.$on('pausetrack', () => { this.pauseTrack() })
+    MusicEventBus.$on('stoptrack', () => { this.stopTrack() })
+    MusicEventBus.$on('skiptrack', (direction) => { this.skipTrack(direction) })
+    MusicEventBus.$on('updateseek', (seek) => { this.setSeek(seek) })
   },
   filters: {
     numbers: (value) => {
@@ -191,12 +197,16 @@ export default {
     }
   },
   computed: {
-    currentTrack () {
-      return this.$data.playlist[this.$data.index]
+    currentTrack: {
+      get () {
+        return this.$data.playlist[this.$data.index]
+      },
+      set (value) {
+      }
     },
     progress () {
       if (this.currentTrack.howl.duration() === 0) return 0
-      return this.seek / this.currentTrack.howl.duration()
+      return this.$data.seek / this.currentTrack.howl.duration()
     },
     getTrackInfo () {
       let artist = this.currentTrack.artist
@@ -222,7 +232,7 @@ export default {
     }
   },
   watch: {
-    playing (playing) {
+    playing: function (playing) {
       this.$data.seek = this.currentTrack.howl.seek()
       let updateSeekr
       if (playing) {
@@ -233,6 +243,12 @@ export default {
       } else {
         clearInterval(updateSeekr)
       }
+    },
+    seek: function (val) {
+      // this.$store.commit('setMusicprogress', this.progress)
+      // console.log('new progress' + this.progress, val)
+      MusicEventBus.$emit('updateprogress', this.progress)
+      MusicEventBus.$emit('updatetrackinfo', this.getTrackInfo)
     }
   }
 }
@@ -244,6 +260,13 @@ export default {
     font-size: 1.5rem;
   }
   .playlist {
-    overflow: auto
+    /* overflow-y: auto */
+    position: absolute;
+    max-height: calc(100% - 90px);
+    width: 100%;
   }
+  .lister {
+    /* overflow: hidden; */
+  }
+
 </style>
