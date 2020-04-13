@@ -2,6 +2,7 @@
 
   
     <!-- <v-app-bar bottom app fixed height="100px"> -->
+      <v-footer app inset padless>
   <div class="MFooter">
       <v-toolbar height="8" top>
         <v-progress-linear top absolute height="8" v-model="trackProgress" @click="updateSeek($event)" >
@@ -54,6 +55,7 @@
       </v-card>
       -->
         </div>
+        </v-footer>
       <!-- </v-app-bar> -->
 
 
@@ -164,7 +166,7 @@ export default {
 
   .MFooter {
     /* position: fixed; */
-    position: absolute;
+    /* position: absolute; */
     /* height: 225px; */
     left: 0px;
     bottom: 0px;

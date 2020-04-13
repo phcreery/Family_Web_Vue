@@ -3,7 +3,7 @@
     <!-- <v-layout fill-height> -->
       <!-- <v-row no-gutters> -->
         <!-- <v-col> -->
-      <div :class="{playlist}" class="overflow-y-auto">
+      <div :class="{playlist}" >
         <!-- <v-card style="position: absolute; max-height: 100%; width: 100%;" class="overflow-y-auto"> -->
         <v-list>
           <v-subheader>MUSIC</v-subheader>
@@ -261,8 +261,8 @@ export default {
   }
   .playlist {
     /* overflow-y: auto */
-    position: absolute;
-    max-height: calc(100% - 90px);
+    /* position: absolute; */
+    /* max-height: calc(100% - 90px); */
     width: 100%;
   }
   .lister {
