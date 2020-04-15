@@ -55,20 +55,14 @@ export default {
       ]
     }
   },
-  methods: {
-    drawerStater () {
-      this.drawer = !this.drawer
-    },
-    toggleDrawer () {
-      this.drawer = !this.drawer
-    }
-  },
   computed: {
     toggleSidebar: {
       get () {
         return this.$store.getters['toggleSidebar']
       },
       set (value) {
+        // this.$store.dispatch('toggleSidebar')
+        // this.drawer = !this.drawer
       }
     }
   }

@@ -1,42 +1,37 @@
 <template>
-  <div class="lister">
-    <!-- <v-layout fill-height> -->
-      <!-- <v-row no-gutters> -->
-        <!-- <v-col> -->
-      <div :class="{playlist}" >
-        <!-- <v-card style="position: absolute; max-height: 100%; width: 100%;" class="overflow-y-auto"> -->
-        <v-list>
-          <v-subheader>MUSIC</v-subheader>
-          <v-list-item-group v-model="item">
-          <v-list-item
-            v-for="(track, index) in playlist"
-            :key="track.title"
-            v-show="track.display"
-            :class="[{selected: track === currentTrack}]"
-            @click="selectTrack(track)" @dblclick="playTrack()">
-            <v-list-item-action>
-              <v-btn icon :block=true small color="secondary" @click="selectTrack(track); playTrack()">
-                <v-icon>{{ track == currentTrack ? 'mdi-pause' : 'mdi-play' }}</v-icon>
-              </v-btn>
-            </v-list-item-action>
-            <v-list-item-content >
-              <v-list-item-title :class="[{selected: track === currentTrack}]">{{ index | numbers }}  {{ track.artist }} - {{ track.title }}</v-list-item-title>
-            </v-list-item-content>
-            <v-spacer></v-spacer>
-            {{ track.duration | minutes }}
-          </v-list-item>
-          </v-list-item-group>
-        </v-list>
-        <!-- </v-card> -->
-      </div>
-      <!-- </v-col> -->
-      <!-- </v-row> -->
-      <!-- <v-row> -->
-    <v-flex>
+  <div>
+
+    <div :class="{playlist}" >
+      
+      <v-list>
+        <v-subheader>MUSIC</v-subheader>
+        <v-list-item-group v-model="item">
+        <v-list-item
+          v-for="(track, index) in playlist"
+          :key="track.title"
+          v-show="track.display"
+          :class="[{selected: track === currentTrack}]"
+          @click="selectTrack(track)" @dblclick="playTrack()">
+          <v-list-item-action>
+            <v-btn icon :block=true small color="secondary" @click="selectTrack(track); playTrack()">
+              <v-icon>{{ track == currentTrack && isPlaying(track) ? 'mdi-pause' : 'mdi-play' }}</v-icon>
+            </v-btn>
+          </v-list-item-action>
+          <v-list-item-content >
+            <v-list-item-title :class="[{selected: track === currentTrack}]">{{ index | numbers }}  {{ track.artist }} - {{ track.title }}</v-list-item-title>
+          </v-list-item-content>
+          <v-spacer></v-spacer>
+          {{ track.duration | minutes }}
+        </v-list-item>
+        </v-list-item-group>
+      </v-list>
+
+    </div>
+
+    <!-- <v-flex> -->
     <MusicBar></MusicBar>
-    </v-flex>
-    <!-- </v-row> -->
-    <!-- </v-layout> -->
+    <!-- </v-flex> -->
+
   </div>
 </template>
 
@@ -50,15 +45,15 @@ export default {
     return {
       playlist: [],
       selectedTrack: null,
-      item: 1,
+      item: 0,
       index: 0,
       playing: false,
       loop: false,
       shuffle: false,
       seek: 0,
       muted: false,
-      volume: 1,
-      sliderProgress: 0
+      volume: 1
+      // sliderProgress: 0
     }
   },
   components: {
@@ -69,8 +64,10 @@ export default {
       this.$data.selectedTrack = track
     },
     playTrack (index) {
+      console.log('playtrack: ' + index)
       let selectedTrackIndex = this.$data.playlist.findIndex(track => track === this.$data.selectedTrack)
-      console.log(index)
+      console.log('selected: ' + selectedTrackIndex)
+      // console.log(typeof index)
       if (typeof index === 'number') {
         this.$data.index = index
         console.log('skipping by number:', index)
@@ -78,8 +75,8 @@ export default {
         if (this.$data.selectedTrack !== this.currentTrack) {
           this.stopTrack()
         }
-        console.log('skipping by selectedTrack:', index)
         index = selectedTrackIndex
+        console.log('skipping by selectedTrack:', index)
       } else {
         index = this.$data.index
         console.log('skipping by index:', index)
@@ -87,6 +84,7 @@ export default {
       let track = this.$data.playlist[index].howl
 
       if (track.playing()) {
+        this.pauseTrack()
         return
       } else {
         track.play()
@@ -107,7 +105,6 @@ export default {
       let index = 0
       if (direction === 'next') {
         index = this.$data.index + 1
-        // console.log(index, this.$data.playlist.length)
         if (index >= this.$data.playlist.length) {
           index = 0
         }
@@ -136,19 +133,19 @@ export default {
     },
     updateSeek (event) {
       console.log(event)
-      // let el = document.querySelector('.progress-linear__bar')
-      // let mousePos = event.offsetX
-      // let elWidth = el.clientWidth
       let percents = event
       let track = this.currentTrack.howl
       if (track.playing()) {
         track.seek((track.duration() / 100) * percents)
       }
     },
-    setSeek (percents) {
-      let track = this.currentTrack.howl
-      if (track.playing()) {
-        track.seek((track.duration() / 100) * percents)
+    isPlaying (track) {
+      // let track = this.$data.playlist[index].howl
+      let trackhowl = track.howl
+      if (trackhowl.playing()) {
+        return true
+      } else {
+        return false
       }
     }
   },
@@ -176,7 +173,7 @@ export default {
     MusicEventBus.$on('pausetrack', () => { this.pauseTrack() })
     MusicEventBus.$on('stoptrack', () => { this.stopTrack() })
     MusicEventBus.$on('skiptrack', (direction) => { this.skipTrack(direction) })
-    MusicEventBus.$on('updateseek', (seek) => { this.setSeek(seek) })
+    MusicEventBus.$on('updateseek', (seek) => { this.updateSeek(seek) })
   },
   filters: {
     numbers: (value) => {
@@ -226,7 +223,6 @@ export default {
         this.updateSeek(event)
       },
       get: function () {
-        // console.log(this.progress * 100)
         return this.progress * 100
       }
     }
@@ -245,8 +241,6 @@ export default {
       }
     },
     seek: function (val) {
-      // this.$store.commit('setMusicprogress', this.progress)
-      // console.log('new progress' + this.progress, val)
       MusicEventBus.$emit('updateprogress', this.progress)
       MusicEventBus.$emit('updatetrackinfo', this.getTrackInfo)
     }
@@ -260,13 +254,7 @@ export default {
     font-size: 1.5rem;
   }
   .playlist {
-    /* overflow-y: auto */
-    /* position: absolute; */
-    /* max-height: calc(100% - 90px); */
     width: 100%;
-  }
-  .lister {
-    /* overflow: hidden; */
   }
 
 </style>

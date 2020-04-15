@@ -13,8 +13,8 @@ export default new Vuex.Store({
     isLoading: false,
 
     music: {
-      Playlist: [],
-      trackInfo: null
+      trackInfo: null,
+      isPlaying: false
     }
   },
   mutations: { // sync call by store.commit('')
