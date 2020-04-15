@@ -3,6 +3,8 @@
     v-model="toggleSidebar"
     app
     clipped
+    expand-on-hover
+    stateless
     >
     <v-list
         dense
@@ -60,9 +62,11 @@ export default {
       get () {
         return this.$store.getters['toggleSidebar']
       },
-      set (value) {
-        // this.$store.dispatch('toggleSidebar')
-        // this.drawer = !this.drawer
+      set (state) {
+        // if (state !== this.$store.state.navigation) {
+          // this.$store.dispatch('toggleSidebar')
+          // this.drawer = !this.drawer
+        // }
       }
     }
   }
