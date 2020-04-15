@@ -4,13 +4,11 @@
     <v-app-bar-nav-icon @click="drawerState" />
     <v-toolbar-title class="mr-4">
       <span class="home" @click="navigateTo({name: 'root'})" >
-        Creery.org
+        Family Web
       </span>
     </v-toolbar-title>
     <v-toolbar-items>
-      <v-btn text @click="navigateTo({name: 'songs'})">
-        Browse
-      </v-btn>
+      
     </v-toolbar-items>
 
     <v-progress-linear
