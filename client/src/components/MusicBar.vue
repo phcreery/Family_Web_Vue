@@ -10,8 +10,24 @@
       </v-toolbar>
       <v-toolbar flat height=90>
 
-        <v-toolbar-title>{{ trackInfo.artist }} - {{ trackInfo.title }}</v-toolbar-title>
-        <v-subheader>{{trackInfo.seek | minutes}}/{{trackInfo.duration | minutes}}</v-subheader>
+        <!-- <v-toolbar-title <v-toolbar-title>{{ trackInfo.artist }} - {{ trackInfo.title }}</v-toolbar-title> -->
+        <!-- <v-subheader>{{trackInfo.seek | minutes}}/{{trackInfo.duration | minutes}}</v-subheader> -->
+        <v-card flat>
+          <v-list-item three-line>
+            <v-list-item-avatar
+              tile
+              size="50"
+              color="grey"
+            >
+              <v-icon dark>mdi-music</v-icon>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title class="headline mb-1">{{ trackInfo.artist }} - {{ trackInfo.title }}</v-list-item-title>
+              <v-list-item-subtitle>{{trackInfo.seek | minutes}}/{{trackInfo.duration | minutes}}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+
+        </v-card>
 
         <v-card flat class="mx-auto" style="position: fixed; left: 40%;">
           <v-btn fab small color="secondary" @click="skipTrack('prev')" class="ma-3">

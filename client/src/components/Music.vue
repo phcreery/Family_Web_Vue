@@ -20,8 +20,13 @@
           <v-list-item-content >
             <v-list-item-title :class="[{selected: track === currentTrack}]">{{ index | numbers }}  {{ track.artist }} - {{ track.title }}</v-list-item-title>
           </v-list-item-content>
-          <v-spacer></v-spacer>
-          {{ track.duration | minutes }}
+          <!-- <v-spacer></v-spacer> -->
+          <v-list-item-action>
+            <v-list-item-action-text>
+              {{ track.duration | minutes }}
+            </v-list-item-action-text>
+          </v-list-item-action>
+          <!-- {{ track.duration | minutes }} -->
         </v-list-item>
         </v-list-item-group>
       </v-list>

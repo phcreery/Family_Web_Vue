@@ -45,14 +45,29 @@ export default {
           href: '/#/music'
         },
         {
-          icon: 'content_copy',
-          title: 'Tasks',
-          href: '/'
+          icon: 'mdi-image-multiple',
+          title: 'Pictures',
+          href: '/#/pictures'
         },
         {
-          icon: 'mdi-music',
-          title: 'Playground',
-          href: '/#/Playground'
+          icon: 'mdi-video',
+          title: 'Videos',
+          href: '/#/videos'
+        },
+        {
+          icon: 'mdi-movie-open',
+          title: 'Movies',
+          href: '/#/movies'
+        },
+        {
+          icon: 'mdi-nintendo-game-boy',
+          title: 'Games',
+          href: '/#/games'
+        },
+        {
+          icon: 'mdi-folder',
+          title: 'Drive',
+          href: '/#/files'
         }
       ]
     }
