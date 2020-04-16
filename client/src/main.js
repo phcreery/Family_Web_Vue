@@ -11,10 +11,14 @@ import { sync } from 'vuex-router-sync'
 import store from '@/store/store'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'typeface-roboto/index.css'
+import VueEasyLightbox from 'vue-easy-lightbox'
+
 // import {Howl, Howler} from 'howler'
 
 Vue.config.productionTip = false
 //  Vue.use(Vuetify)
+
+Vue.use(VueEasyLightbox)
 
 sync(store, router)
 

@@ -22,6 +22,7 @@
     "vue": "^2.5.2",
     "vue-awesome-swiper": "^4.1.0",
     "vue-carousel-3d": "^0.2.0",
+    "vue-easy-lightbox": "^0.11.0",
     "vue-router": "^3.0.1",
     "vue-tiny-slider": "^0.1.39",
     "vuetify": "^2.2.19",
