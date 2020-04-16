@@ -1,10 +1,23 @@
 <template>
   <div>
-
     <div :class="{playlist}" >
       
       <v-list>
-        <v-subheader>MUSIC</v-subheader>
+        <v-subheader>MUSIC
+          <v-spacer></v-spacer>
+      <v-card max-width="300px" flat>
+        <v-text-field
+      clearable
+      prepend-icon="search"
+      placeholder="Search"
+      v-model="searchString"
+      @input="searchPlaylist">
+      </v-text-field>
+      </v-card>
+
+
+
+        </v-subheader>
         <v-list-item-group v-model="item">
         <v-list-item
           v-for="(track, index) in playlist"
@@ -57,7 +70,8 @@ export default {
       shuffle: false,
       seek: 0,
       muted: false,
-      volume: 1
+      volume: 1,
+      searchString: null
       // sliderProgress: 0
     }
   },
@@ -152,6 +166,20 @@ export default {
       } else {
         return false
       }
+    },
+    searchPlaylist () {
+      // console.log(this.searchString, this.playlist, this.$data.searchString)
+      this.playlist.forEach((track) => {
+        if (this.$data.searchString) {
+          if ((track.hasOwnProperty('title') && track.title.toLowerCase().includes(this.searchString.toLowerCase())) || (track.hasOwnProperty('artist') && track.artist.toLowerCase().includes(this.searchString.toLowerCase()))) {
+            track.display = true
+          } else {
+            track.display = false
+          }
+        } else if (this.searchString === '' || this.searchString === null) {
+          track.display = true
+        }
+      })
     }
   },
   beforeCreate: function () {
