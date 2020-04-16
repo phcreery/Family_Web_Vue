@@ -22,8 +22,8 @@
               <v-icon dark>mdi-music</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title class="headline mb-1">{{ trackInfo.artist }} - {{ trackInfo.title }}</v-list-item-title>
-              <v-list-item-subtitle>{{trackInfo.seek | minutes}}/{{trackInfo.duration | minutes}}</v-list-item-subtitle>
+              <v-list-item-title class="headline">{{ trackInfo.artist }}</v-list-item-title>
+              <v-list-item-title>{{ trackInfo.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
 
@@ -58,9 +58,11 @@
           </v-btn>
           <v-slider v-model="volume" hide-details @input="updateVolume(volume)" max="1" step="0.1" >
           </v-slider>
-
+          <v-subheader>{{trackInfo.seek | minutes}}/{{trackInfo.duration | minutes}}</v-subheader>
         </v-toolbar>
+        
       </v-toolbar>
+      
 <!--
       <v-card height="60">
         <v-card-title>
@@ -88,7 +90,7 @@ export default {
   },
   data () {
     return {
-      volume: 0.5,
+      volume: 0.8,
       muted: false,
       hover: true,
       progress: 0,
