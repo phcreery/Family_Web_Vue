@@ -6,12 +6,11 @@
         <v-content>
           <!-- have to use v-app for vuetify instead of just div -->
             <router-view />
-            
+
         </v-content>
 
-
         <!-- <MusicBar></MusicBar> -->
-        <!-- <v-footer dark app inset> 
+        <!-- <v-footer dark app inset>
           <span class="white--text">Made by the Creery Boys</span>
         </v-footer> -->
     </v-app>

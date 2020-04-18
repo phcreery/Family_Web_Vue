@@ -1,6 +1,5 @@
 <template>
 
-  
     <!-- <v-app-bar bottom app fixed height="100px"> -->
       <v-footer app inset padless>
   <div class="MFooter">
@@ -60,9 +59,9 @@
           </v-slider>
           <v-subheader>{{trackInfo.seek | minutes}}/{{trackInfo.duration | minutes}}</v-subheader>
         </v-toolbar>
-        
+
       </v-toolbar>
-      
+
 <!--
       <v-card height="60">
         <v-card-title>
@@ -76,12 +75,11 @@
         </v-footer>
       <!-- </v-app-bar> -->
 
-
 </template>
 
 <script>
-import {Howl, Howler} from 'howler'
-import MusicService, { MusicEventBus } from '@/services/MusicService'
+import {Howler} from 'howler'
+import { MusicEventBus } from '@/services/MusicService'
 export default {
   props: {
     loop: Boolean,

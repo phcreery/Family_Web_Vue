@@ -84,6 +84,7 @@ module.exports = {
             loader: 'sass-loader',
             // Requires sass-loader@^8.0.0
             options: {
+              modules: true,
               implementation: require('sass'),
               sassOptions: {
                 fiber: require('fibers'),

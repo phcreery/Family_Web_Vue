@@ -8,7 +8,7 @@
       </span>
     </v-toolbar-title>
     <v-toolbar-items>
-      
+
     </v-toolbar-items>
 
     <v-progress-linear

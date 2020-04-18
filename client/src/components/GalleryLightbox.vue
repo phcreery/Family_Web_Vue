@@ -8,7 +8,7 @@
           <img :src="client.src ? client.src : client">
         </div>
       </div>
-      
+
       <vue-easy-lightbox
         :visible="visible"
         :index="index"
@@ -22,6 +22,7 @@
 
 <script>
 import VueEasyLightbox from 'vue-easy-lightbox'
+import PhotoService from '@/services/PhotoService'
 
 export default {
   components: {
@@ -34,11 +35,16 @@ export default {
       index: 0 // default
     }
   },
-
-  mounted () {
-    this.importAll(require.context('@/assets', false, /\.(png|jpe?g|svg)$/));
+  beforeCreate: function () {
+    this.$store.commit('startLoading')
   },
-
+  mounted () {
+    // this.importAll(require.context('@/assets', false, /\.(png|jpe?g|svg)$/))
+  },
+  created: async function () {
+    this.$data.images = await PhotoService.getsrclist()
+    this.$store.commit('stopLoading')
+  },
   methods: {
     showUrl (url) {
       // this.index = index
@@ -53,7 +59,7 @@ export default {
       this.visible = false
     },
     importAll (r) {
-      r.keys().forEach(key => (this.images.push(r(key))));
+      r.keys().forEach(key => (this.images.push(r(key))))
     }
   }
 }

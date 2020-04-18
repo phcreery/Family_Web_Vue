@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :class="{playlist}" >
-      
+
       <v-list>
         <v-subheader>MUSIC
           <v-spacer></v-spacer>
@@ -14,8 +14,6 @@
       @input="searchPlaylist">
       </v-text-field>
       </v-card>
-
-
 
         </v-subheader>
         <v-list-item-group v-model="item">

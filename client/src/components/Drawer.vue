@@ -24,7 +24,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      
+
   </v-navigation-drawer>
 </template>
 
@@ -79,8 +79,8 @@ export default {
       },
       set (state) {
         // if (state !== this.$store.state.navigation) {
-          // this.$store.dispatch('toggleSidebar')
-          // this.drawer = !this.drawer
+        //    this.$store.dispatch('toggleSidebar')
+        //    this.drawer = !this.drawer
         // }
       }
     }

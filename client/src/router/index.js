@@ -5,6 +5,7 @@ import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Music from '@/components/Music'
 import GalleryLightbox from '@/components/GalleryLightbox'
+import Video from '@/components/Video/Video2'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/pictures',
       name: 'pictures',
       component: GalleryLightbox
+    },
+    {
+      path: '/videos',
+      name: 'videos',
+      component: Video
     }
   ]
 })
