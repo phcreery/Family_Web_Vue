@@ -23,6 +23,7 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-divider></v-divider>
       </v-list>
 
   </v-navigation-drawer>
