@@ -3,9 +3,9 @@
     v-model="toggleSidebar"
     app
     clipped
-    expand-on-hover
     stateless
     >
+    <!-- <v-subheader></v-subheader> -->
     <v-list
         dense
       > <!-- add 'nav' to v-list for round buttons -->

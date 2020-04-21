@@ -16,7 +16,7 @@
       </v-card>
 
         </v-subheader>
-        <v-list-item-group v-model="item">
+        <v-list-item-group v-model="track">
         <v-list-item
           v-for="(track, index) in playlist"
           :key="track.title"

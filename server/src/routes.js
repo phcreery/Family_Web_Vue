@@ -56,13 +56,13 @@ module.exports = (app) => {
     });
   });
 
-  app.use('/video', express.static('video'));
+  app.use('/video', express.static('videos'));
 
   app.get('/videolist', function(req, res){
     let data = [];
-    fs.readdir('./video', function(err, items) {
+    fs.readdir('./videos', function(err, items) {
       asyn.map(items, function(item, callback) {
-        ffmetadata.read('./video/' + item, callback);
+        ffmetadata.read('./videos/' + item, callback);
       },
       function(err, metadata){
         for(var i in metadata){

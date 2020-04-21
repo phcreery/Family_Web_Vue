@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-      <PageDrawer app />
       <PageHeader app />
+      <PageDrawer app />
+      
         <v-content>
           <!-- have to use v-app for vuetify instead of just div -->
             <router-view />
