@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="{playlist}" >
+    <div :class="{playlist}" id="style-default">
 
       <v-list>
         <v-subheader>MUSIC
@@ -293,7 +293,30 @@ export default {
     font-size: 1.5rem;
   }
   .playlist {
+    position: absolute;
     width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+
   }
 
+::-webkit-scrollbar {
+  display:block;
+  width: 1em;
+  }
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(196, 196, 196);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(104, 104, 104);
+}
 </style>
