@@ -6,6 +6,7 @@ import Login from '@/components/Login'
 import Music from '@/components/Music'
 import GalleryLightbox from '@/components/GalleryLightbox'
 import Video from '@/components/Video/Video2'
+import Catalog from '@/components/Catalog'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/videos',
       name: 'videos',
       component: Video
+    },
+    {
+      path: '/files',
+      name: 'files',
+      component: Catalog
     }
   ]
 })
