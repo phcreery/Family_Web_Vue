@@ -16,7 +16,7 @@
       </v-card>
 
         </v-subheader>
-        <v-list-item-group v-model="track">
+        <v-list-item-group v-model="item">
         <v-list-item
           v-for="(track, index) in playlist"
           :key="track.title"
@@ -275,6 +275,14 @@ export default {
       MusicEventBus.$emit('updateprogress', this.progress)
       MusicEventBus.$emit('updatetrackinfo', this.getTrackInfo)
     }
+  },
+  beforeDestroy () {
+    console.log('leaving...')
+    this.$data.playlist.forEach((track) => {
+      track.howl.stop()
+      // track.howl.unload()
+    })
+    // Howler.unload()
   }
 }
 </script>

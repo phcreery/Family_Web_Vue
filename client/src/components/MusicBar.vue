@@ -92,7 +92,7 @@ export default {
       muted: false,
       hover: true,
       progress: 0,
-      trackInfo: null
+      trackInfo: ''
     }
   },
   computed: {
