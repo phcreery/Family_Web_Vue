@@ -23,12 +23,12 @@
           </v-card>
         </v-col>
         <v-col cols="12" md="8">
-          <v-card class="container" style="max-height: 80vh">
+          <v-card class="container">
           <!-- <div>Duration: {{ duration }}</div> -->
           <!-- <div class="container"> -->
-              <vueplyr @timeupdate="videoTimeUpdated" :emit="['timeupdate']" ref="player">
+              <vueplyr @timeupdate="videoTimeUpdated" :emit="['timeupdate', 'enterfullscreen', 'exitfullscreen']" @enterfullscreen="enterFullScreen" @exitfullscreen="exitFullScreen" ref="player">
                 <!-- <div class="plyr__video-embed" id="player"> -->
-                <video :src="this.$data.currentVideosrc" style="max-height: 80vh">
+                <video :src="this.$data.currentVideosrc" :style="[this.isFullscreen ? {'max-height': '100vh'} : {'max-height': '80vh'}]">
                     <!-- <source :src="this.$data.currentVideosrc" type="video/mp4"  /> -->
                 </video>
                 <!-- </div> -->
@@ -53,10 +53,11 @@ export default {
   data () {
     return {
       duration: null,
-      player: null,
+      player: '',
       videolist: [],
       videoindex: 0,
-      currentVideosrc: null
+      currentVideosrc: null,
+      isFullscreen: false
     }
   },
   beforeCreate: function () {
@@ -93,7 +94,18 @@ export default {
       console.log(video.src)
       this.$data.currentVideosrc = video.src
       this.player.restart()
+    },
+    enterFullScreen (event) {
+      console.log('fullscreened' + event)
+      this.isFullscreen = true
+    },
+    exitFullScreen (event) {
+      console.log('fullscreened' + event)
+      this.isFullscreen = false
     }
+  },
+  computed: {
+
   }
 }
 </script>

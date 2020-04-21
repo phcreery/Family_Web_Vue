@@ -36,6 +36,12 @@ export default {
         options.hideYouTubeDOMError = true
       }
       return options
+    },
+    isfullscreen: {
+      get () {
+        return this.player.fullscreen.active
+      },
+      set () {}
     }
   },
   mounted () {
@@ -58,6 +64,8 @@ export default {
     emitPlayerEvent (event) {
       this.$emit(event.type, event)
     }
+  },
+  watch: {
   }
 }
 </script>
