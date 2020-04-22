@@ -22,7 +22,7 @@
           :key="track.title"
           v-show="track.display"
           :class="[{selected: track === currentTrack}]"
-          @click="selectTrack(track)" @dblclick="playTrack()">
+          @click="selectTrack(track)" @dblclick="selectTrack(track); playTrack()">
           <v-list-item-action>
             <v-btn icon :block=true small color="secondary" @click="selectTrack(track); playTrack()">
               <v-icon>{{ track == currentTrack && isPlaying(track) ? 'mdi-pause' : 'mdi-play' }}</v-icon>

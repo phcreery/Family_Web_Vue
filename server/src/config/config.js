@@ -13,5 +13,13 @@ module.exports = {
 
   authentication: {
     jwtSecret: process.env.JWT_SECRET || 'secret'
+  },
+
+  dir: {
+    images: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/family_images',
+    videos: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/videos',
+    files: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/files',
+    movies: '',
+    music: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/music'
   }
 }
