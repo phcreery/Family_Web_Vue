@@ -2,11 +2,12 @@
   <v-container
     fluid
     style="height: 100%; overflow-y: scroll; position: absolute;"
+    v-if="list !== null"
   >
     <v-row
-      align="end"
-      align-content="end"
-      justify="center"
+      align="start"
+      align-content="start"
+      justify="start"
     >
       <v-col
         cols="12"
@@ -14,15 +15,15 @@
         md="4"
         lg="3"
         xl="2"
-        v-for="k in 120"
-        :key="k"
+        v-for="(item, index) in list"
+        :key="index"
       >
-        <v-card hover>
+        <v-card hover v-on:click="clbk(index)">
 
           <v-list-item three-line>
             <v-list-item-content>
-              <v-list-item-title class="headline mb-1">Folder Name</v-list-item-title>
-              <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+              <v-list-item-title class="headline mb-1">{{ item.name }}</v-list-item-title>
+              <v-list-item-subtitle> someinfo </v-list-item-subtitle>
             </v-list-item-content>
             <!-- <v-list-item-avatar> -->
               <v-list-item-icon>
@@ -38,7 +39,6 @@
             </v-btn>
           </v-card-actions>
          </v-card>
-        
       </v-col>
     </v-row>
   </v-container>
@@ -47,14 +47,38 @@
 <script>
 
 export default {
-  data () {
-    return {
-
+  props: {
+    handoffComponent: String,
+    list: {
+      type: Array,
+      default: function () {
+        return null
+      }
     }
   },
-
+  data () {
+    return {
+      selecteditem: 0
+    }
+  },
+  mounted () {
+    // this.clbk(this.callbackDest)
+    // console.log(this.handoffComponent)
+    console.log(this.list)
+  },
   methods: {
-
+    clbk (index) {
+      // console.log(cbDesty)
+      // console.log(this.handoffComponent)
+      // this.$router.push({name: this.handoffComponent, params: {handoffData: 'test title'}})
+      console.log('clicked', index)
+      this.$emit('select', index)
+    }
+  },
+  watch: {
+    list: function (val) {
+      console.log('list has changed', this.list, val)
+    }
   }
 
 }

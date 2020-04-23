@@ -46,9 +46,14 @@
 import vueplyr from '@/components/Video/vueplyr'
 import VideoService from '@/services/VideoService'
 // https://github.com/redxtech/vue-plyr/tree/master/src
+
 export default {
   components: {
     vueplyr
+  },
+  props: {
+    // videolist: Array
+    directory: String
   },
   data () {
     return {
@@ -62,31 +67,34 @@ export default {
   },
   beforeCreate: function () {
     this.$store.commit('startLoading')
-    setTimeout(() => {}, 3000)
   },
   created: async function () {
-    const list = await VideoService.getlist()
-    const baseURL = await VideoService.getBaseURL()
-    this.$data.videolist = list.data
-    console.log(this.$data)
-    this.$data.videolist.forEach((video) => {
-      console.log(video)
-      let file = video.name.replace(/ /g, '%20')
-      console.log('src: ' + baseURL + `${file}`)
-      video.src = baseURL + `${file}`
-      video.filename = `${file}`
-      if (!video.hasOwnProperty('title')) {
-        video.title = video.filename
-      }
-    })
-    // console.log(this.$data.videolist[this.$data.video].src)
-    this.$store.commit('stopLoading')
+    this.fetchlist()
   },
   mounted () {
     this.player = this.$refs.player.player
     this.player.src = {}
   },
   methods: {
+    fetchlist: async function () {
+      console.log('getting list for: ', this.directory)
+      const list = await VideoService.getlist(this.directory)
+      const baseURL = await VideoService.getBaseURL(this.directory)
+      this.$data.videolist = list.data
+      // console.log(this.$data)
+      this.$data.videolist.forEach((video) => {
+        // console.log(video)
+        let file = video.name.replace(/ /g, '%20')
+        // console.log('src: ' + baseURL + `${file}`)
+        video.src = baseURL + `${file}`
+        video.filename = `${file}`
+        if (!video.hasOwnProperty('title')) {
+          video.title = video.filename
+        }
+      })
+      // console.log(this.$data.videolist[this.$data.video].src)
+      this.$store.commit('stopLoading')
+    },
     videoTimeUpdated: function (event) {
       this.duration = this.player.currentTime
     },
@@ -106,6 +114,12 @@ export default {
   },
   computed: {
 
+  },
+  watch: {
+    directory: function (val) {
+      console.log('got new dir!')
+      this.fetchlist()
+    }
   }
 }
 </script>

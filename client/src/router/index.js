@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import SlideShow4 from '@/components/SlideShow4'
+import SlideShow4 from '@/components/Photo/SlideShow4'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
-import Music from '@/components/Music'
-import GalleryLightbox from '@/components/GalleryLightbox'
-import Video from '@/components/Video/Video2'
+import Music from '@/components/Music/Music'
+import GalleryLightbox from '@/components/Photo/GalleryLightbox'
+import Video from '@/components/Video/Video'
+import VideoPlayer from '@/components/Video/VideoPlayer'
 import Catalog from '@/components/Catalog'
 
 Vue.use(Router)
@@ -40,12 +41,14 @@ export default new Router({
     {
       path: '/videos',
       name: 'videos',
-      component: Video
+      component: Video,
+      props: true
     },
     {
       path: '/files',
       name: 'files',
-      component: Catalog
+      component: Catalog,
+      props: true
     }
   ]
 })

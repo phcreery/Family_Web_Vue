@@ -3,10 +3,13 @@ import Vue from 'vue'
 export const VideoEventBus = new Vue()
 
 export default {
-  getlist () {
-    return Api().get('videolist')
+  getlist (dir) {
+    return Api().get('videolist/' + dir)
   },
-  getBaseURL () {
-    return Api().defaults.baseURL + '/video/'
+  getfolderlist () {
+    return Api().get('videofolderlist')
+  },
+  getBaseURL (dir) {
+    return Api().defaults.baseURL + '/video/' + dir + '/'
   }
 }

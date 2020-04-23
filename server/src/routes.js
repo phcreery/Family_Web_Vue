@@ -2,13 +2,13 @@ const AuthenticationController = require('./controllers/AuthenticationController
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
 const fs = require('fs');
 const { lstatSync, readdirSync } = require('fs')
-const { join } = require('path')
-var path = require('path');
+// const { join } = require('path')
+// var path = require('path');
 const express = require('express');
 const ffmetadata = require('ffmetadata');
 const asyn = require('async');
-var { exec }  = require('child_process');
-var imageThumbnail = require('image-thumbnail');
+// var { exec }  = require('child_process');
+// var imageThumbnail = require('image-thumbnail');
 const config = require('./config/config')
 
 module.exports = (app) => {
@@ -61,13 +61,28 @@ module.exports = (app) => {
 
   app.use('/video', express.static(config.dir.videos));
 
-  app.get('/videolist', function(req, res){
+  app.get('/videofolderlist', function(req, res){
+    const getDirectories = source =>
+      readdirSync(source, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name)
+    let files = getDirectories(config.dir.videos)
+    console.log(files)
+    let data = []
+    for(var file in files){
+      data.push({name: files[file]});
+    }
+    res.json(data);
+    res.end();
+  })
+
+  app.get('/videolist/:name', function(req, res){
     let data = [];
-    console.log(config.dir.videos)
-    fs.readdir(config.dir.videos, function(err, items) {
+    console.log(config.dir.video + '/' + req.params.names)
+    fs.readdir(config.dir.videos + '/' + req.params.name, function(err, items) {
       console.log(items)
       asyn.map(items, function(item, callback) {
-        ffmetadata.read(config.dir.videos + '/' + item, callback);
+        ffmetadata.read(config.dir.videos + '/' + req.params.name + '/' + item, callback);
       },
       function(err, metadata){
         for(var i in metadata){
@@ -80,19 +95,25 @@ module.exports = (app) => {
   });
 
 
+
   app.get('/folderlist', function(req, res){
     const getDirectories = source =>
       readdirSync(source, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
         .map(dirent => dirent.name)
-    console.log(getDirectories(config.dir.files))
-    res.json(getDirectories(config.dir.files));
+    let files = getDirectories(config.dir.files)
+    console.log(files)
+    let data = []
+    for(var file in files){
+      data.push({name: files[file]});
+    }
+    res.json(data);
     res.end();
   })
 
   app.get('/folder/:name', function(req, res){
-    console.log(config.dir.files + req.params.name);
-    res.sendFile(config.dir.files + req.params.name);
+    console.log(config.dir.files + '/' + req.params.name);
+    res.sendFile(config.dir.files + '/' + req.params.name);
   })
 
 
