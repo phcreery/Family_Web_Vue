@@ -42,7 +42,10 @@ export default {
       console.log(index, this.filelist[index].name)
       this.directory = this.filelist[index].name
       console.log('handing off to video player: ', this.directory)
-      this.catalog = false
+      // this.catalog = false
+
+      // this.$router.push({path: '/videos/' + this.directory})
+      this.$router.push({ name: 'videoplayer', params: { id: this.directory } })
     }
   },
   computed: {

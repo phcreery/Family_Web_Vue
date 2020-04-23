@@ -39,9 +39,15 @@ export default new Router({
       component: GalleryLightbox
     },
     {
-      path: '/videos',
+      path: '/videos/',
       name: 'videos',
       component: Video,
+      props: true
+    },
+    {
+      path: '/videos/:id',
+      name: 'videoplayer',
+      component: VideoPlayer,
       props: true
     },
     {

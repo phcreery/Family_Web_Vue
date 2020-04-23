@@ -71,6 +71,7 @@ export default {
       // console.log(cbDesty)
       // console.log(this.handoffComponent)
       // this.$router.push({name: this.handoffComponent, params: {handoffData: 'test title'}})
+      
       console.log('clicked', index)
       this.$emit('select', index)
     }

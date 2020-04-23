@@ -53,7 +53,7 @@ export default {
   },
   props: {
     // videolist: Array
-    directory: String
+    // directory: String
   },
   data () {
     return {
@@ -62,7 +62,8 @@ export default {
       videolist: [],
       videoindex: 0,
       currentVideosrc: null,
-      isFullscreen: false
+      isFullscreen: false,
+      directory: ''
     }
   },
   beforeCreate: function () {
@@ -77,6 +78,7 @@ export default {
   },
   methods: {
     fetchlist: async function () {
+      this.directory = this.$route.params.id
       console.log('getting list for: ', this.directory)
       const list = await VideoService.getlist(this.directory)
       const baseURL = await VideoService.getBaseURL(this.directory)
