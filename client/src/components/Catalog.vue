@@ -35,26 +35,28 @@
         v-show="item.display"
       >
         <v-card hover v-on:click="clbk(index)">
-
-          <v-list-item three-line>
-            <v-list-item-content>
-              <v-list-item-title class="headline mb-1">{{ item.name }}</v-list-item-title>
-              <!-- <v-list-item-subtitle> {{list[0].info}} </v-list-item-subtitle> -->
-              <v-list-item-subtitle v-for="(item, index2) in list[index].info" :key="index2"> {{ index2 }}: {{item}} </v-list-item-subtitle>
-            </v-list-item-content>
-            <!-- <v-list-item-avatar> -->
-              <v-list-item-icon>
-                <v-icon>mdi-folder</v-icon>
-              </v-list-item-icon>
-            <!-- </v-list-item-avatar> -->
-          </v-list-item>
-          <v-card-actions>
-            <!-- <v-btn text>Options</v-btn> -->
-            <v-spacer></v-spacer>
-            <v-btn icon>
-              <v-icon>mdi-dots-horizontal</v-icon>
-            </v-btn>
-          </v-card-actions>
+          <!-- <v-responsive :aspect-ratio="1/1"> -->
+            <v-list-item three-line>
+              <v-list-item-content>
+                <v-list-item-title class="headline mb-1">{{ item.name }}</v-list-item-title>
+                <!-- <v-list-item-subtitle> {{list[0].info}} </v-list-item-subtitle> -->
+                <v-list-item-subtitle v-for="(item, index2) in list[index].info" :key="index2"> {{ index2 }}: {{item}} </v-list-item-subtitle>
+              </v-list-item-content>
+              <!-- <v-list-item-avatar> -->
+                <v-list-item-icon>
+                  <v-icon>mdi-folder</v-icon>
+                </v-list-item-icon>
+              <!-- </v-list-item-avatar> -->
+            </v-list-item>
+            <!-- <v-spacer></v-spacer> -->
+            <v-card-actions style="position: absolute; bottom: 0px; right: 2px">
+              <!-- <v-btn text>Options</v-btn> -->
+              <v-spacer></v-spacer>
+              <v-btn icon>
+                <v-icon>mdi-dots-horizontal</v-icon>
+              </v-btn>
+            </v-card-actions>
+          <!-- </v-responsive> -->
          </v-card>
       </v-col>
     </v-row>
