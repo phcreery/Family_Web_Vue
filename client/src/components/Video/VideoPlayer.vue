@@ -6,15 +6,30 @@
       <v-row justify="space-around" align="center" no-gutters>
         <v-col md="3">
           <v-card>
-            <v-card-text>
-              Videos
-            </v-card-text>
+
+                <v-subheader>
+                  {{ title }} asdf
+                  <v-spacer></v-spacer>
+                  <v-card max-width="300px" flat>
+                    <v-text-field
+                      clearable
+                      hide-details
+                      dense
+                      prepend-icon="search"
+                      placeholder="Search"
+                      v-model="searchString"
+                      @input="searchList">
+                    </v-text-field>
+                  </v-card>
+                </v-subheader>
+
             <v-list>
               <v-list-item-group v-model="videoindex" color="primary">
               <v-list-item
                 v-for="(video, i) in videolist"
                 :key="i"
                 @click="selectVideo(video)"
+                v-show="video.display"
               >
                 {{ video.title }}
               </v-list-item>
@@ -60,10 +75,11 @@ export default {
       duration: null,
       player: '',
       videolist: [],
-      videoindex: 0,
+      videoindex: null,
       currentVideosrc: null,
       isFullscreen: false,
-      directory: ''
+      directory: '',
+      searchString: null
     }
   },
   beforeCreate: function () {
@@ -96,6 +112,20 @@ export default {
       })
       // console.log(this.$data.videolist[this.$data.video].src)
       this.$store.commit('stopLoading')
+    },
+    searchList () {
+      // console.log(this.searchString, this.playlist, this.$data.searchString)
+      this.videolist.forEach((item) => {
+        if (this.$data.searchString) {
+          if ((item.hasOwnProperty('title') && item.title.toLowerCase().includes(this.searchString.toLowerCase())) || (item.hasOwnProperty('name') && item.name.toLowerCase().includes(this.searchString.toLowerCase()))) {
+            item.display = true
+          } else {
+            item.display = false
+          }
+        } else if (this.searchString === '' || this.searchString === null) {
+          item.display = true
+        }
+      })
     },
     videoTimeUpdated: function (event) {
       this.duration = this.player.currentTime

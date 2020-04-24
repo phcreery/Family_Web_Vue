@@ -1,9 +1,24 @@
 <template>
+
   <v-container
     fluid
     style="height: 100%; overflow-y: scroll; position: absolute;"
     v-if="list !== null"
   >
+    <v-subheader>
+      {{ title }}
+      <v-spacer></v-spacer>
+      <v-card max-width="300px" flat>
+        <v-text-field
+          clearable
+          prepend-icon="search"
+          placeholder="Search"
+          v-model="searchString"
+          @input="searchList">
+        </v-text-field>
+      </v-card>
+    </v-subheader>
+
     <v-row
       align="start"
       align-content="start"
@@ -17,13 +32,15 @@
         xl="2"
         v-for="(item, index) in list"
         :key="index"
+        v-show="item.display"
       >
         <v-card hover v-on:click="clbk(index)">
 
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">{{ item.name }}</v-list-item-title>
-              <v-list-item-subtitle> someinfo </v-list-item-subtitle>
+              <!-- <v-list-item-subtitle> {{list[0].info}} </v-list-item-subtitle> -->
+              <v-list-item-subtitle v-for="(item, index2) in list[index].info" :key="index2"> {{ index2 }}: {{item}} </v-list-item-subtitle>
             </v-list-item-content>
             <!-- <v-list-item-avatar> -->
               <v-list-item-icon>
@@ -49,6 +66,7 @@
 export default {
   props: {
     handoffComponent: String,
+    title: String,
     list: {
       type: Array,
       default: function () {
@@ -58,7 +76,8 @@ export default {
   },
   data () {
     return {
-      selecteditem: 0
+      selecteditem: 0,
+      searchString: null
     }
   },
   mounted () {
@@ -71,9 +90,23 @@ export default {
       // console.log(cbDesty)
       // console.log(this.handoffComponent)
       // this.$router.push({name: this.handoffComponent, params: {handoffData: 'test title'}})
-      
+
       console.log('clicked', index)
       this.$emit('select', index)
+    },
+    searchList () {
+      // console.log(this.searchString, this.playlist, this.$data.searchString)
+      this.list.forEach((item) => {
+        if (this.$data.searchString) {
+          if (item.hasOwnProperty('name') && item.name.toLowerCase().includes(this.searchString.toLowerCase())) {
+            item.display = true
+          } else {
+            item.display = false
+          }
+        } else if (this.searchString === '' || this.searchString === null) {
+          item.display = true
+        }
+      })
     }
   },
   watch: {

@@ -66,11 +66,16 @@ module.exports = (app) => {
       readdirSync(source, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
         .map(dirent => dirent.name)
-    let files = getDirectories(config.dir.videos)
-    console.log(files)
+   
+    let folders = getDirectories(config.dir.videos)
+
+    console.log('folders: ', folders)
     let data = []
-    for(var file in files){
-      data.push({name: files[file]});
+    for(let folder in folders){
+      let count = fs.readdirSync(config.dir.videos + '/' + folders[folder]).length
+      
+      console.log(config.dir.videos + '/' + folders[folder], count)
+      data.push({name: folders[folder], display: true, info: {Files: count}})
     }
     res.json(data);
     res.end();
@@ -86,7 +91,7 @@ module.exports = (app) => {
       },
       function(err, metadata){
         for(var i in metadata){
-          data.push({name: items[i], title: metadata[i].title});
+          data.push({name: items[i], title: metadata[i].title, display: true});
         }
         res.json(data);
         res.end();

@@ -1,6 +1,6 @@
 <template>
     <v-container fill-height app fluid>
-        <catalogr v-if="catalog === true" v-on:select="SelectIndex" :list="this.filelist" />
+        <catalogr v-if="catalog === true" v-on:select="SelectIndex" :list="this.filelist" :title="'Video Catalog'" />
         <!-- this was here if you want video player in a single static url/page. -->
         <!-- <video-player v-else :directory="this.directory"/> -->
     </v-container>
