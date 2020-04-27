@@ -8,7 +8,7 @@
           <v-card>
 
                 <v-subheader>
-                  {{ title }} asdf
+                  {{ title }}
                   <v-spacer></v-spacer>
                   <v-card max-width="300px" flat>
                     <v-text-field
@@ -23,17 +23,22 @@
                   </v-card>
                 </v-subheader>
 
-            <v-list>
+            <v-list v-if="!videolist.length == 0">
               <v-list-item-group v-model="videoindex" color="primary">
-              <v-list-item
-                v-for="(video, i) in videolist"
-                :key="i"
-                @click="selectVideo(video)"
-                v-show="video.display"
-              >
-                {{ video.title }}
+                <v-list-item
+                  v-for="(video, i) in videolist"
+                  :key="i"
+                  @click="selectVideo(video)"
+                  v-show="video.display"
+                >
+                  {{ video.title }}
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+            <v-list v-else>
+              <v-list-item>
+                No files
               </v-list-item>
-            </v-list-item-group>
             </v-list>
           </v-card>
         </v-col>
@@ -145,7 +150,9 @@ export default {
     }
   },
   computed: {
-
+    title: function () {
+      return this.$route.params.id
+    }
   },
   watch: {
     directory: function (val) {

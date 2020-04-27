@@ -81,23 +81,117 @@ module.exports = (app) => {
     res.end();
   })
 
-  app.get('/videolist/:name', function(req, res){
+  app.get('/videolistold/:name', function(req, res){
     let data = [];
-    console.log(config.dir.video + '/' + req.params.names)
+    console.log(config.dir.videos + '/' + req.params.name)
     fs.readdir(config.dir.videos + '/' + req.params.name, function(err, items) {
       console.log(items)
-      asyn.map(items, function(item, callback) {
-        ffmetadata.read(config.dir.videos + '/' + req.params.name + '/' + item, callback);
-      },
-      function(err, metadata){
-        for(var i in metadata){
-          data.push({name: items[i], title: metadata[i].title, display: true});
-        }
-        res.json(data);
-        res.end();
-      });
+      asyn.map(items, 
+        function(item, callback) {
+          console.log("item: ", item, item.substr(item.length - 4), config.dir.supportedVideoFormats.includes(item.substr(item.length - 4)))
+          // if(config.dir.supportedVideoFormats.includes(item.substr(items.length - 3)) ){
+            ffmetadata.read(config.dir.videos + '/' + req.params.name + '/' + item, callback);
+          // }
+        },
+        function(err, itemswithmetadata){
+          console.log("metadata: ", itemswithmetadata)
+          for(var i in itemswithmetadata){
+            
+            // if(config.dir.supportedVideoFormats.includes(items[i].substr(items[i].length - 3)) ){
+              
+              data.push({name: items[i], title: itemswithmetadata[i].title, display: true});
+            // }
+          }
+          res.json(data);
+          res.end();
+        });
     });
   });
+
+
+
+
+
+
+  app.get('/videolisttest/:name', function(req, res){
+    let data = [];
+    console.log(config.dir.videos + '/' + req.params.name)
+    let a = fs.readdir(config.dir.videos + '/' + req.params.name, function(err, items) {
+      console.log(items)
+      let datar = items.filter( function (item) {
+        console.log('filter: ', item, item.substr(item.length - 4), config.dir.supportedVideoFormats.includes(item.substr(item.length - 4)))
+        return config.dir.supportedVideoFormats.includes(item.substr(item.length - 4))
+      })
+      .map( function(item) {
+        console.log("item: ", item)
+        // if(config.dir.supportedVideoFormats.includes(item.substr(items.length - 3)) ){
+        ffmetadata.read(config.dir.videos + '/' + req.params.name + '/' + item, function (err, itemswithmetadata) {
+          // console.log("metadata: ", itemswithmetadata)
+          // for(var i in itemswithmetadata){ 
+            
+            console.log(item, {name: item, title: itemswithmetadata.title, display: true})
+            data.push({name: item, title: itemswithmetadata.title, display: true});
+            return {name: item, title: itemswithmetadata.title, display: true}
+          // }
+            // res.json(data);
+            // res.end();
+        });
+        // console.log('b: ', b)
+        console.log('data:', data)
+        // return data
+      });
+      
+      console.log("send:", datar)
+      // Promise.all(datar).then( () => console.log('Result: ', data))
+      console.log('data:', data)
+    });
+    console.log('a ', a)
+    
+  });
+
+
+
+  app.get('/videolist/:name', function(req, res){
+    let data = [];
+    // console.log(config.dir.videos + '/' + req.params.name)
+    fs.readdir(config.dir.videos + '/' + req.params.name, function(err, items) {
+      // console.log(items)
+      asyn.waterfall([
+        function (callback) {
+          var newitems = items.filter( function (item) {
+            console.log('filter: ', item, item.substr(item.length - 4), config.dir.supportedVideoFormats.includes(item.substr(item.length - 4)))
+            return config.dir.supportedVideoFormats.includes(item.substr(item.length - 4))
+            // callback(null, config.dir.supportedVideoFormats.includes(item.substr(item.length - 4)))
+          })
+          // console.log('newitems:', newitems)
+          callback(null, newitems)
+        },
+        function (filtereditems, callback) {
+          // console.log('filtereditems: ', filtereditems)
+          asyn.map(filtereditems, 
+            function (item, innercallback) {
+              // console.log("item: ", item, config.dir.videos + '/' + req.params.name + '/' + item)
+              ffmetadata.read(config.dir.videos + '/' + req.params.name + '/' + item, innercallback)
+            }, function(err, results) {
+              // console.log('inner results', results)
+              callback(null, filtereditems, results)
+            }
+          )
+          // console.log('data: ', data)
+        }], function (err, items, itemswithmetadata) {
+          // console.log('results: ', items, itemswithmetadata)
+          for(var i in itemswithmetadata){ 
+              data.push({name: items[i], title: itemswithmetadata[i].title, display: true});
+          }
+          console.log('data: ', data)
+          res.json(data);
+          res.end();
+        }
+      )
+
+  })
+})
+
 
 
 
