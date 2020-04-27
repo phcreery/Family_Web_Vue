@@ -85,7 +85,7 @@ export default {
   mounted () {
     // this.clbk(this.callbackDest)
     // console.log(this.handoffComponent)
-    console.log(this.list)
+    console.log('catalogging: ', this.list)
   },
   methods: {
     clbk (index) {
@@ -113,7 +113,7 @@ export default {
   },
   watch: {
     list: function (val) {
-      console.log('list has changed', this.list, val)
+      // console.log('list has changed', this.list, val)
     }
   }
 

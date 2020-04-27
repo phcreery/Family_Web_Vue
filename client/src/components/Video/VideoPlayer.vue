@@ -8,7 +8,7 @@
           <v-card>
 
                 <v-subheader>
-                  {{ title }}
+                  {{ directory }}
                   <v-spacer></v-spacer>
                   <v-card max-width="300px" flat>
                     <v-text-field
@@ -35,7 +35,7 @@
                 </v-list-item>
               </v-list-item-group>
             </v-list>
-            <v-list v-else>
+            <v-list v-else-if="!isLoading">
               <v-list-item>
                 No files
               </v-list-item>
@@ -91,7 +91,24 @@ export default {
     this.$store.commit('startLoading')
   },
   created: async function () {
-    this.fetchlist()
+    this.directory = this.$route.params.id
+    console.log('getting list for: ', this.directory)
+    const list = await VideoService.getlist(this.directory)
+    const baseURL = await VideoService.getBaseURL(this.directory)
+    this.$data.videolist = list.data
+    // console.log(this.$data)
+    this.$data.videolist.forEach((video) => {
+      // console.log(video)
+      let file = video.name.replace(/ /g, '%20')
+      // console.log('src: ' + baseURL + `${file}`)
+      video.src = baseURL + `${file}`
+      video.filename = `${file}`
+      if (!video.hasOwnProperty('title')) {
+        video.title = video.filename
+      }
+    })
+    console.log('created videolist: ', this.$data.videolist, !this.$data.videolist.length == 0)
+    this.$store.commit('stopLoading')
   },
   mounted () {
     this.player = this.$refs.player.player
@@ -99,24 +116,7 @@ export default {
   },
   methods: {
     fetchlist: async function () {
-      this.directory = this.$route.params.id
-      console.log('getting list for: ', this.directory)
-      const list = await VideoService.getlist(this.directory)
-      const baseURL = await VideoService.getBaseURL(this.directory)
-      this.$data.videolist = list.data
-      // console.log(this.$data)
-      this.$data.videolist.forEach((video) => {
-        // console.log(video)
-        let file = video.name.replace(/ /g, '%20')
-        // console.log('src: ' + baseURL + `${file}`)
-        video.src = baseURL + `${file}`
-        video.filename = `${file}`
-        if (!video.hasOwnProperty('title')) {
-          video.title = video.filename
-        }
-      })
-      // console.log(this.$data.videolist[this.$data.video].src)
-      this.$store.commit('stopLoading')
+      
     },
     searchList () {
       // console.log(this.searchString, this.playlist, this.$data.searchString)
@@ -136,7 +136,7 @@ export default {
       this.duration = this.player.currentTime
     },
     selectVideo (video) {
-      console.log(video.src)
+      console.log('selected: ', video.src)
       this.$data.currentVideosrc = video.src
       this.player.restart()
     },
@@ -150,14 +150,17 @@ export default {
     }
   },
   computed: {
-    title: function () {
-      return this.$route.params.id
+    // title: function () {
+    //  return this.$route.params.id
+    // },
+    isLoading: function () {
+      return this.$store.getters['isLoading']
     }
   },
   watch: {
     directory: function (val) {
       console.log('got new dir!')
-      this.fetchlist()
+      // this.fetchlist()
     }
   }
 }

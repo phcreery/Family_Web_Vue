@@ -58,6 +58,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    toggleSidebar: state => state.toggleSidebar
+    toggleSidebar: state => state.toggleSidebar,
+    isLoading: state => state.isLoading
   }
 })
