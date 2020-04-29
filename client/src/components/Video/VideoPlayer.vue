@@ -12,7 +12,7 @@
           <v-card>
 
             <v-toolbar color="white" flat>
-              <v-btn icon light>
+              <v-btn icon light @click="$router.go(-1)">
                 <v-icon color="grey darken-2">mdi-arrow-left</v-icon>
               </v-btn>
 
