@@ -1,6 +1,6 @@
 <template>
     <v-container fill-height app fluid>
-        <catalogr v-if="catalog === true" v-on:select="SelectIndex" :list="this.filelist" :title="'Video Catalog'" />
+        <catalogr v-if="catalog === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndex" :list="this.filelist" :title="'Video Catalog'" :itemoptions="this.videooptions" />
         <!-- this was here if you want video player in a single static url/page. -->
         <!-- <video-player v-else :directory="this.directory"/> -->
     </v-container>
@@ -23,7 +23,10 @@ export default {
       catalog: true,
       videolist: [],
       filelist: [],
-      directory: null
+      directory: null,
+      videooptions: [
+        'Delete'
+      ]
     }
   },
   beforeCreate: function () {
@@ -47,6 +50,9 @@ export default {
 
       // this.$router.push({path: '/videos/' + this.directory})
       this.$router.push({ name: 'videoplayer', params: { id: this.directory } })
+    },
+    DeleteIndex: function (index) {
+      console.log('Deleting: ', this.filelist[index].name)
     }
   },
   computed: {

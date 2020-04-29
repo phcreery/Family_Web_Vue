@@ -34,9 +34,9 @@
         :key="index"
         v-show="item.display"
       >
-        <v-card hover v-on:click="clbk(index)">
+        <v-card hover >
           <!-- <v-responsive :aspect-ratio="1/1"> -->
-            <v-list-item three-line>
+            <v-list-item three-line v-on:click="clbk('select', index)">
               <v-list-item-content>
                 <v-list-item-title class="headline mb-1">{{ item.name }}</v-list-item-title>
                 <!-- <v-list-item-subtitle> {{list[0].info}} </v-list-item-subtitle> -->
@@ -52,9 +52,29 @@
             <v-card-actions style="position: absolute; bottom: 0px; right: 2px">
               <!-- <v-btn text>Options</v-btn> -->
               <v-spacer></v-spacer>
-              <v-btn icon>
+
+              <v-menu bottom :offset-y="true">
+                <template v-slot:activator="{ on }">
+                  <!-- <v-tooltip bottom> -->
+                    <!-- <template v-slot:activator="{ on: tooltip }"> -->
+                      <v-btn icon v-on="on">
                 <v-icon>mdi-dots-horizontal</v-icon>
               </v-btn>
+                    <!-- </template> -->
+                    <!-- <span>Im A ToolTip</span> -->
+                  <!-- </v-tooltip> -->
+                </template>
+                <v-list>
+                  <v-list-item
+                    v-for="(item, listindex) in itemoptions"
+                    :key="listindex"
+                    @click="clbk(item, index)"
+                  >
+                    <v-list-item-title>{{ item }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+
             </v-card-actions>
           <!-- </v-responsive> -->
          </v-card>
@@ -74,6 +94,12 @@ export default {
       default: function () {
         return null
       }
+    },
+    itemoptions: {
+      type: Array,
+      default: function () {
+        return null
+      }
     }
   },
   data () {
@@ -88,13 +114,13 @@ export default {
     console.log('catalogging: ', this.list)
   },
   methods: {
-    clbk (index) {
+    clbk (action, index) {
       // console.log(cbDesty)
       // console.log(this.handoffComponent)
       // this.$router.push({name: this.handoffComponent, params: {handoffData: 'test title'}})
 
-      console.log('clicked', index)
-      this.$emit('select', index)
+      console.log('clicked: ', action, index)
+      this.$emit(action, index)
     },
     searchList () {
       // console.log(this.searchString, this.playlist, this.$data.searchString)
