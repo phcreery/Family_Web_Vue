@@ -25,6 +25,7 @@ export default {
       filelist: [],
       directory: null,
       videooptions: [
+        'Share',
         'Delete'
       ]
     }

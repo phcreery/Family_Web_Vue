@@ -1,27 +1,37 @@
 <template>
-  <!-- <div> -->
+  <!-- <div style="height: 80%"> -->
+    <!-- <v-card height="100%"> -->
+
+    
     <v-container fill-height app fluid>
+      
       <!-- <v-layout row justify-left> -->
          <!-- use these on v-row for emergnecy use???   class="grey" style="position: absolute; height: 100%; width: 100%" -->
       <v-row justify="space-around" align="center" no-gutters>
         <v-col md="3">
           <v-card>
 
-                <v-subheader>
-                  {{ directory }}
-                  <v-spacer></v-spacer>
-                  <v-card max-width="300px" flat>
-                    <v-text-field
-                      clearable
-                      hide-details
-                      dense
-                      prepend-icon="search"
-                      placeholder="Search"
-                      v-model="searchString"
-                      @input="searchList">
-                    </v-text-field>
-                  </v-card>
-                </v-subheader>
+            <v-toolbar color="white" flat>
+              <v-btn icon light>
+                <v-icon color="grey darken-2">mdi-arrow-left</v-icon>
+              </v-btn>
+
+              <v-toolbar-title class="grey--text text--darken-4">{{ directory }}</v-toolbar-title>
+
+              <v-spacer></v-spacer>
+
+              <v-card max-width="150px" flat>
+                <v-text-field
+                  clearable
+                  hide-details
+                  dense
+                  prepend-icon="search"
+                  placeholder="Search"
+                  v-model="searchString"
+                  @input="searchList">
+                </v-text-field>
+              </v-card>
+            </v-toolbar>
 
             <v-list v-if="!videolist.length == 0">
               <v-list-item-group v-model="videoindex" color="primary">
@@ -40,6 +50,16 @@
                 No files
               </v-list-item>
             </v-list>
+            <v-btn
+                color="primary"
+                dark
+                absolute
+                bottom
+                right
+                fab
+              >
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
           </v-card>
         </v-col>
         <v-col cols="12" md="8">
@@ -60,6 +80,7 @@
     <!-- </v-layout> -->
     </v-container>
   <!-- </div> -->
+  <!-- </v-card> -->
 </template>
 
 <script>

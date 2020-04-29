@@ -5,6 +5,7 @@
     style="height: 100%; overflow-y: scroll; position: absolute;"
     v-if="list !== null"
   >
+  <!-- <v-card height="100%"> -->
     <v-subheader>
       {{ title }}
       <v-spacer></v-spacer>
@@ -80,7 +81,18 @@
          </v-card>
       </v-col>
     </v-row>
+
+    <v-btn
+      color="primary"
+      fab
+      class="v-btn--example"
+      >
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
+    <!-- </v-card> -->
+    
   </v-container>
+
 </template>
 
 <script>
@@ -148,6 +160,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.v-btn--example {
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    margin: 16px 16px 16px 16px;
+  }
+
 ::-webkit-scrollbar {
   display:block;
   width: 1em;
