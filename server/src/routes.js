@@ -81,33 +81,14 @@ module.exports = (app) => {
     res.end();
   })
 
-  app.get('/videolistold/:name', function(req, res){
-    let data = [];
-    console.log(config.dir.videos + '/' + req.params.name)
-    fs.readdir(config.dir.videos + '/' + req.params.name, function(err, items) {
-      console.log(items)
-      asyn.map(items, 
-        function(item, callback) {
-          console.log("item: ", item, item.substr(item.length - 4), config.dir.supportedVideoFormats.includes(item.substr(item.length - 4)))
-          // if(config.dir.supportedVideoFormats.includes(item.substr(items.length - 3)) ){
-            ffmetadata.read(config.dir.videos + '/' + req.params.name + '/' + item, callback);
-          // }
-        },
-        function(err, itemswithmetadata){
-          console.log("metadata: ", itemswithmetadata)
-          for(var i in itemswithmetadata){
-            
-            // if(config.dir.supportedVideoFormats.includes(items[i].substr(items[i].length - 3)) ){
-              
-              data.push({name: items[i], title: itemswithmetadata[i].title, display: true});
-            // }
-          }
-          res.json(data);
-          res.end();
-        });
+  app.delete('/videofolder', function(req, res){
+    let path = config.dir.videos + '/' + req.body.dir
+    console.log('Deleting: ', path)
+    fs.rmdir(path, { recursive: true }, function () {
+      res.send('success')
     });
-  });
-
+    // res.send('success')
+  })
 
 
 

@@ -107,7 +107,7 @@ export default {
         video.title = video.filename
       }
     })
-    console.log('created videolist: ', this.$data.videolist, !this.$data.videolist.length == 0)
+    console.log('created videolist: ', this.$data.videolist, !this.$data.videolist.length === 0)
     this.$store.commit('stopLoading')
   },
   mounted () {
@@ -116,7 +116,6 @@ export default {
   },
   methods: {
     fetchlist: async function () {
-      
     },
     searchList () {
       // console.log(this.searchString, this.playlist, this.$data.searchString)

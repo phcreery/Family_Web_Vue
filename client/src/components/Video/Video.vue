@@ -33,15 +33,18 @@ export default {
     this.$store.commit('startLoading')
   },
   created: async function () {
-    let list = await VideoService.getfolderlist()
-    this.filelist = list.data
-    console.log('filelist', this.filelist)
+    await this.RefreshList()
     this.$store.commit('stopLoading')
   },
   mounted () {
 
   },
   methods: {
+    RefreshList: async function () {
+      let list = await VideoService.getfolderlist()
+      this.filelist = list.data
+      console.log('filelist', this.filelist)
+    },
     SelectIndex: function (index) {
       console.log(index, this.filelist[index].name)
       this.directory = this.filelist[index].name
@@ -53,6 +56,15 @@ export default {
     },
     DeleteIndex: function (index) {
       console.log('Deleting: ', this.filelist[index].name)
+      this.$store.commit('startLoading')
+      VideoService.deleteCatalog(this.filelist[index].name).then(function (res) {
+        console.log('aye!', res.data)
+        if (res.data === 'success') {
+          // this.$forceUpdate()
+          this.RefreshList()
+          this.$store.commit('stopLoading')
+        }
+      }.bind(this))
     }
   },
   computed: {

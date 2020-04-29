@@ -11,5 +11,9 @@ export default {
   },
   getBaseURL (dir) {
     return Api().defaults.baseURL + '/video/' + dir + '/'
+  },
+  async deleteCatalog (dir) {
+    let res = await Api().delete('videofolder', {data: {dir: dir}})
+    return res
   }
 }
