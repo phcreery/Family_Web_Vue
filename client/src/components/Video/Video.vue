@@ -3,6 +3,7 @@
         <catalogr v-if="catalog === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndex" :list="this.filelist" :title="'Video Catalog'" :itemoptions="this.videooptions" />
         <!-- this was here if you want video player in a single static url/page. -->
         <!-- <video-player v-else :directory="this.directory"/> -->
+        <confirm-delete :dialog="deleteDialog" v-on:Delete="ConfirmedDeleteIndex" v-on:Cancel="deleteDialog = false" />
     </v-container>
 </template>
 
@@ -11,12 +12,15 @@
 import VideoService from '@/services/VideoService'
 import VideoPlayer from './VideoPlayer'
 import Catalogr from '../Catalog'
+import ConfirmDelete from '../ConfirmDelete'
+
 
 // https://github.com/redxtech/vue-plyr/tree/master/src
 export default {
   components: {
     VideoPlayer,
-    Catalogr
+    Catalogr,
+    ConfirmDelete
   },
   data () {
     return {
@@ -24,6 +28,8 @@ export default {
       videolist: [],
       filelist: [],
       directory: null,
+      deleteDialog: false,
+      deleteDialogIndex: null,
       videooptions: [
         'Share',
         'Delete'
@@ -57,6 +63,12 @@ export default {
     },
     DeleteIndex: function (index) {
       console.log('Deleting: ', this.filelist[index].name)
+      this.deleteDialog = true
+      this.deleteDialogIndex = index
+    },
+    ConfirmedDeleteIndex: function () {
+      this.deleteDialog = false
+      let index = this.deleteDialogIndex
       this.$store.commit('startLoading')
       VideoService.deleteCatalog(this.filelist[index].name).then(function (res) {
         console.log('aye!', res.data)

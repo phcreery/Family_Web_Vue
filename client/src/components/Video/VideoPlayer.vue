@@ -2,9 +2,8 @@
   <!-- <div style="height: 80%"> -->
     <!-- <v-card height="100%"> -->
 
-    
     <v-container fill-height app fluid>
-      
+
       <!-- <v-layout row justify-left> -->
          <!-- use these on v-row for emergnecy use???   class="grey" style="position: absolute; height: 100%; width: 100%" -->
       <v-row justify="space-around" align="center" no-gutters>
