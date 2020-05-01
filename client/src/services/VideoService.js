@@ -15,5 +15,9 @@ export default {
   async deleteCatalog (dir) {
     let res = await Api().delete('videofolder', {data: {dir: dir}})
     return res
+  },
+  async createCatalog (dir) {
+    let res = await Api().post('videofolderlist/' + dir)
+    return res
   }
 }

@@ -86,6 +86,7 @@
       color="primary"
       fab
       class="v-btn--example"
+      @click="clbk('Add', null)"
       >
       <v-icon>mdi-plus</v-icon>
     </v-btn>

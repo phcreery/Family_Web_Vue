@@ -90,7 +90,16 @@ module.exports = (app) => {
     // res.send('success')
   })
 
-
+  app.post('/videofolderlist/:name', function (req, res) {
+    // let dir = req.body.dir
+    let dir = config.dir.videos + '/' + req.params.name
+    if (!fs.existsSync(dir)){
+      fs.mkdirSync(dir);
+      res.status('200').send('success')
+    } else {
+      res.status('500').send('cannot be done')
+    }
+  })
 
 
 

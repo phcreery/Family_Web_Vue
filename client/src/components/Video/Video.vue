@@ -1,9 +1,10 @@
 <template>
     <v-container fill-height app fluid>
-        <catalogr v-if="catalog === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndex" :list="this.filelist" :title="'Video Catalog'" :itemoptions="this.videooptions" />
+        <catalogr v-if="catalog === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="this.filelist" :title="'Video Catalog'" :itemoptions="this.videooptions" />
         <!-- this was here if you want video player in a single static url/page. -->
         <!-- <video-player v-else :directory="this.directory"/> -->
-        <confirm-delete :dialog="deleteDialog" v-on:Delete="ConfirmedDeleteIndex" v-on:Cancel="deleteDialog = false" />
+        <confirm-delete :dialog="deleteDialog" v-on:Delete="DeleteIndex" v-on:Cancel="deleteDialog = false" />
+        <confirm-create :dialog="createDialog" v-on:Confirmed="CreateCatalog" v-on:Cancel="createDialog = false" />
     </v-container>
 </template>
 
@@ -13,14 +14,15 @@ import VideoService from '@/services/VideoService'
 import VideoPlayer from './VideoPlayer'
 import Catalogr from '../Catalog'
 import ConfirmDelete from '../ConfirmDelete'
-
+import ConfirmCreate from '../ConfirmCreate'
 
 // https://github.com/redxtech/vue-plyr/tree/master/src
 export default {
   components: {
     VideoPlayer,
     Catalogr,
-    ConfirmDelete
+    ConfirmDelete,
+    ConfirmCreate
   },
   data () {
     return {
@@ -30,6 +32,7 @@ export default {
       directory: null,
       deleteDialog: false,
       deleteDialogIndex: null,
+      createDialog: false,
       videooptions: [
         'Share',
         'Delete'
@@ -61,16 +64,32 @@ export default {
       // this.$router.push({path: '/videos/' + this.directory})
       this.$router.push({ name: 'videoplayer', params: { id: this.directory } })
     },
-    DeleteIndex: function (index) {
+    DeleteIndexDialog: function (index) {
       console.log('Deleting: ', this.filelist[index].name)
       this.deleteDialog = true
       this.deleteDialogIndex = index
     },
-    ConfirmedDeleteIndex: function () {
+    DeleteIndex: function () {
       this.deleteDialog = false
       let index = this.deleteDialogIndex
       this.$store.commit('startLoading')
       VideoService.deleteCatalog(this.filelist[index].name).then(function (res) {
+        console.log('aye!', res.data)
+        if (res.data === 'success') {
+          // this.$forceUpdate()
+          this.RefreshList()
+          this.$store.commit('stopLoading')
+        }
+      }.bind(this))
+    },
+    CreateDialog: function () {
+      this.createDialog = true
+    },
+    CreateCatalog: function (name) {
+      this.createDialog = false
+      this.$store.commit('startLoading')
+      console.log('creating: ', name)
+      VideoService.createCatalog(name).then(function (res) {
         console.log('aye!', res.data)
         if (res.data === 'success') {
           // this.$forceUpdate()
