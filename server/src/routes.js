@@ -204,13 +204,13 @@ module.exports = (app) => {
       var supportedstring = ''
       config.dir.supportedVideoFormats.forEach(element => {
         console.log(element)
-        supportedstring = supportedstring.concat(element + "|")
+        supportedstring = supportedstring.concat(element.toUpperCase().replace('.', '') + "|")
       })
       supportedstring = supportedstring.slice(0, -1)
       console.log(supportedstring)
       var strRegExPattern = '\\.('+supportedstring+')$';
-
-      if (!file.originalname.match( new RegExp(strRegExPattern,'g') )) {
+      console.log(strRegExPattern)
+      if (!file.originalname.toUpperCase().match( new RegExp(strRegExPattern,'g') )) {
         console.log('Only video files are allowed!')
         req.fileValidationError = 'Only video files are allowed!';
         return cb(new Error('Only video files are allowed!'), false);

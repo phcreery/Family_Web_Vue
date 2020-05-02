@@ -114,27 +114,10 @@ export default {
     }
   },
   beforeCreate: function () {
-    this.$store.commit('startLoading')
+    // this.$store.commit('startLoading')
   },
   created: async function () {
-    this.directory = this.$route.params.id
-    console.log('getting list for: ', this.directory)
-    const list = await VideoService.getlist(this.directory)
-    const baseURL = await VideoService.getBaseURL(this.directory)
-    this.$data.videolist = list.data
-    // console.log(this.$data)
-    this.$data.videolist.forEach((video) => {
-      // console.log(video)
-      let file = video.name.replace(/ /g, '%20')
-      // console.log('src: ' + baseURL + `${file}`)
-      video.src = baseURL + `${file}`
-      video.filename = `${file}`
-      if (!video.hasOwnProperty('title')) {
-        video.title = video.filename
-      }
-    })
-    console.log('created videolist: ', this.$data.videolist, !this.$data.videolist.length === 0)
-    this.$store.commit('stopLoading')
+    this.fetchlist()
   },
   mounted () {
     this.player = this.$refs.player.player
@@ -142,6 +125,25 @@ export default {
   },
   methods: {
     fetchlist: async function () {
+      this.$store.commit('startLoading')
+      this.directory = this.$route.params.id
+      console.log('getting list for: ', this.directory)
+      const list = await VideoService.getlist(this.directory)
+      const baseURL = await VideoService.getBaseURL(this.directory)
+      this.$data.videolist = list.data
+      // console.log(this.$data)
+      this.$data.videolist.forEach((video) => {
+        // console.log(video)
+        let file = video.name.replace(/ /g, '%20')
+        // console.log('src: ' + baseURL + `${file}`)
+        video.src = baseURL + `${file}`
+        video.filename = `${file}`
+        if (!video.hasOwnProperty('title')) {
+          video.title = video.filename
+        }
+      })
+      console.log('created videolist: ', this.$data.videolist, !this.$data.videolist.length === 0)
+      this.$store.commit('stopLoading')
     },
     searchList () {
       // console.log(this.searchString, this.playlist, this.$data.searchString)
@@ -183,12 +185,16 @@ export default {
         }
 
         // additional data
-        formData.append('test', 'foo bar')
-
+        // formData.append('test', 'foo bar')
+        this.$store.commit('startLoading')
         VideoService.uploadVideo(this.directory, formData)
           .then(response => {
             console.log('Success!')
             console.log({ response })
+            this.uploadDialog = false
+            this.uploaderrmessage = ''
+            this.$store.commit('startLoading')
+            this.fetchlist()
           })
           .catch(error => {
             console.log('msg ', error.response.data )
@@ -196,6 +202,7 @@ export default {
           })
       } else {
         console.log('there are no files.')
+        this.uploaderrmessage = 'Need at least 1 file'
       }
     }
   },
