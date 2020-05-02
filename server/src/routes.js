@@ -3,13 +3,16 @@ const AuthenticationControllerPolicy = require('./policies/AuthenticationControl
 const fs = require('fs');
 const { lstatSync, readdirSync } = require('fs')
 // const { join } = require('path')
-// var path = require('path');
+// const path = require('path');
 const express = require('express');
 const ffmetadata = require('ffmetadata');
 const asyn = require('async');
 // var { exec }  = require('child_process');
 // var imageThumbnail = require('image-thumbnail');
 const config = require('./config/config')
+const multer = require("multer")
+// var videoupload = multer({ dest: 'uploads/' })
+
 
 module.exports = (app) => {
 
@@ -182,7 +185,50 @@ module.exports = (app) => {
   })
 })
 
+// https://stackabuse.com/handling-file-uploads-in-node-js-with-expres-and-multer/
+  app.post("/videolist/:name", function (req, res) {
+    console.log(req.files)
 
+    const storage = multer.diskStorage({
+      destination: function(req, file, cb) {
+          cb(null, config.dir.videos + '/' + req.params.name)
+      },
+  
+      // By default, multer removes file name and extensions so let's add them back
+      filename: function(req, file, cb) {
+          cb(null, file.originalname);
+      }
+    })
+    const videoFilter = function(req, file, cb) {
+      // Accept images only
+      var supportedstring = ''
+      config.dir.supportedVideoFormats.forEach(element => {
+        console.log(element)
+        supportedstring = supportedstring.concat(element + "|")
+      })
+      supportedstring = supportedstring.slice(0, -1)
+      console.log(supportedstring)
+      var strRegExPattern = '\\.('+supportedstring+')$';
+
+      if (!file.originalname.match( new RegExp(strRegExPattern,'g') )) {
+        console.log('Only video files are allowed!')
+        req.fileValidationError = 'Only video files are allowed!';
+        return cb(new Error('Only video files are allowed!'), false);
+      }
+      cb(null, true);
+    };
+
+    let upload = multer({ storage: storage, fileFilter: videoFilter }).array("files")
+    upload(req, res, function (err) {
+      if (req.fileValidationError) {
+        return res.status('406').send(req.fileValidationError);
+      }
+      console.log("body: ", req.body);
+      console.log("files:", req.files);
+      return res.sendStatus(200);
+    })
+    
+  });
 
 
   app.get('/folderlist', function(req, res){

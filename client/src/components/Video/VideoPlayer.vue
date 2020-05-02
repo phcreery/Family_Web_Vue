@@ -56,6 +56,7 @@
                 bottom
                 right
                 fab
+                @click="uploadDialog = true"
               >
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
@@ -77,6 +78,7 @@
         </v-col>
       </v-row>
     <!-- </v-layout> -->
+    <uupload :dialog="uploadDialog" v-on:Confirmed="SubmitFiles" v-on:Cancel="uploadDialog = false" :dmessage="uploaderrmessage" />
     </v-container>
   <!-- </div> -->
   <!-- </v-card> -->
@@ -85,11 +87,13 @@
 <script>
 import vueplyr from '@/components/Video/vueplyr'
 import VideoService from '@/services/VideoService'
+import uupload from '@/components/Upload'
 // https://github.com/redxtech/vue-plyr/tree/master/src
 
 export default {
   components: {
-    vueplyr
+    vueplyr,
+    uupload
   },
   props: {
     // videolist: Array
@@ -104,7 +108,9 @@ export default {
       currentVideosrc: null,
       isFullscreen: false,
       directory: '',
-      searchString: null
+      searchString: null,
+      uploadDialog: false,
+      uploaderrmessage: ''
     }
   },
   beforeCreate: function () {
@@ -166,6 +172,31 @@ export default {
     exitFullScreen (event) {
       console.log('fullscreened' + event)
       this.isFullscreen = false
+    },
+    SubmitFiles (files) {
+      if (files) {
+        let formData = new FormData()
+
+        // files
+        for (let file of files) {
+          formData.append('files', file, file.name)
+        }
+
+        // additional data
+        formData.append('test', 'foo bar')
+
+        VideoService.uploadVideo(this.directory, formData)
+          .then(response => {
+            console.log('Success!')
+            console.log({ response })
+          })
+          .catch(error => {
+            console.log('msg ', error.response.data )
+            this.uploaderrmessage = error.response.data
+          })
+      } else {
+        console.log('there are no files.')
+      }
     }
   },
   computed: {

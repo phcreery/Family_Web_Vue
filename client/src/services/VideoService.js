@@ -19,5 +19,9 @@ export default {
   async createCatalog (dir) {
     let res = await Api().post('videofolderlist/' + dir)
     return res
+  },
+  async uploadVideo (dir, filesasformData) {
+    let res = await Api().post('videolist/' + dir, filesasformData)
+    return res
   }
 }
