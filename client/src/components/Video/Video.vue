@@ -35,6 +35,7 @@ export default {
       createDialog: false,
       videooptions: [
         'Share',
+        'Rename',
         'Delete'
       ]
     }

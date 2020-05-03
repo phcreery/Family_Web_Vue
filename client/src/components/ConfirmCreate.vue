@@ -25,7 +25,7 @@
       </v-btn>
 
       <v-btn
-      color="green darken-1"
+      color="primary"
       text
       @click="clbk('Confirmed', text); text = null"
       >

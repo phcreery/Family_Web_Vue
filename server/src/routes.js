@@ -1,12 +1,17 @@
 const AuthenticationController = require('./controllers/AuthenticationController')
+const MusicController = require('./controllers/MusicController')
+const VideoController = require('./controllers/VideoController')
+const PhotoController = require('./controllers/PhotoController')
+
+
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
 const fs = require('fs');
-const { lstatSync, readdirSync } = require('fs')
+const { readdirSync } = require('fs')
 // const { join } = require('path')
 // const path = require('path');
 const express = require('express');
-const ffmetadata = require('ffmetadata');
-const asyn = require('async');
+// const ffmetadata = require('ffmetadata');
+// const asyn = require('async');
 // var { exec }  = require('child_process');
 // var imageThumbnail = require('image-thumbnail');
 const config = require('./config/config')
@@ -15,13 +20,6 @@ const multer = require("multer")
 
 
 module.exports = (app) => {
-
-  app.post('/register', 
-    AuthenticationControllerPolicy.register,
-    AuthenticationController.register)
-  
-  app.post('/login', 
-  AuthenticationController.login)
   
   app.get('/test', (req, res) => {
     res.send(
@@ -29,161 +27,36 @@ module.exports = (app) => {
     )
   })
 
-  app.get('/famphoto', function(req, res){
-    fs.readdir(config.dir.images, function(err, items) {
-      res.json(items);
-    })
-  })
 
-  app.get('/famphoto/:name', function(req, res){
-    console.log(config.dir.images + '/' + req.params.name);
-    res.sendFile(config.dir.images + '/' + req.params.name);
-  })
+  // ############  AUTH  ############
+
+  app.post('/register', AuthenticationControllerPolicy.register, AuthenticationController.register)
+  
+  app.post('/login', AuthenticationController.login)
+
+  // ############  PHOTOS  ############
+
+  app.get('/famphoto', PhotoController.getfamphoto)
+
+  app.get('/famphoto/:name', PhotoController.getfamphotobyname)
+
+  // ############  MUSIC  ############
 
   app.use('/music', express.static('music'));
 
-  app.get('/musiclist', function(req,res){
-    let data = [];
-    fs.readdir(config.dir.music, function(err, items) {
-      asyn.map(items, function(item, callback) {
-        ffmetadata.read(config.dir.music + '/' + item, callback);
-      },
-      function(err, metadata){
-        if(err){
-          console.log(err)
-        }
-        // console.log(metadata); 
-          for(let i in metadata){      
-            data.push({name: items[i], title: metadata[i].title, album: metadata[i].album, artist: metadata[i].album_artist, duration: metadata[i].TLEN, howl: null, display:true});
-          }
-          res.json(data);
-          res.end();
-        });
-    });
-  });
+  app.get('/musiclist', MusicController.getmusiclist)
+
+  // ############  VIDEO  ############
 
   app.use('/video', express.static(config.dir.videos));
 
-  app.get('/videofolderlist', function(req, res){
-    const getDirectories = source =>
-      readdirSync(source, { withFileTypes: true })
-        .filter(dirent => dirent.isDirectory())
-        .map(dirent => dirent.name)
-   
-    let folders = getDirectories(config.dir.videos)
+  app.get('/videofolderlist', VideoController.getlistofvideofolders)
 
-    console.log('folders: ', folders)
-    let data = []
-    for(let folder in folders){
-      let count = fs.readdirSync(config.dir.videos + '/' + folders[folder]).length
-      
-      console.log(config.dir.videos + '/' + folders[folder], count)
-      data.push({name: folders[folder], display: true, info: {Files: count}})
-    }
-    res.json(data);
-    res.end();
-  })
+  app.delete('/videofolder', VideoController.deletevideofolder)
 
-  app.delete('/videofolder', function(req, res){
-    let path = config.dir.videos + '/' + req.body.dir
-    console.log('Deleting: ', path)
-    fs.rmdir(path, { recursive: true }, function () {
-      res.send('success')
-    });
-    // res.send('success')
-  })
+  app.post('/videofolderlist/:name', VideoController.makenewfolder)
 
-  app.post('/videofolderlist/:name', function (req, res) {
-    // let dir = req.body.dir
-    let dir = config.dir.videos + '/' + req.params.name
-    if (!fs.existsSync(dir)){
-      fs.mkdirSync(dir);
-      res.status('200').send('success')
-    } else {
-      res.status('500').send('cannot be done')
-    }
-  })
-
-
-
-  app.get('/videolisttest/:name', function(req, res){
-    let data = [];
-    console.log(config.dir.videos + '/' + req.params.name)
-    let a = fs.readdir(config.dir.videos + '/' + req.params.name, function(err, items) {
-      console.log(items)
-      let datar = items.filter( function (item) {
-        console.log('filter: ', item, item.substr(item.length - 4), config.dir.supportedVideoFormats.includes(item.substr(item.length - 4)))
-        return config.dir.supportedVideoFormats.includes(item.substr(item.length - 4))
-      })
-      .map( function(item) {
-        console.log("item: ", item)
-        // if(config.dir.supportedVideoFormats.includes(item.substr(items.length - 3)) ){
-        ffmetadata.read(config.dir.videos + '/' + req.params.name + '/' + item, function (err, itemswithmetadata) {
-          // console.log("metadata: ", itemswithmetadata)
-          // for(var i in itemswithmetadata){ 
-            
-            console.log(item, {name: item, title: itemswithmetadata.title, display: true})
-            data.push({name: item, title: itemswithmetadata.title, display: true});
-            return {name: item, title: itemswithmetadata.title, display: true}
-          // }
-            // res.json(data);
-            // res.end();
-        });
-        // console.log('b: ', b)
-        console.log('data:', data)
-        // return data
-      });
-      
-      console.log("send:", datar)
-      // Promise.all(datar).then( () => console.log('Result: ', data))
-      console.log('data:', data)
-    });
-    console.log('a ', a)
-    
-  });
-
-
-
-  app.get('/videolist/:name', function(req, res){
-    let data = [];
-    // console.log(config.dir.videos + '/' + req.params.name)
-    fs.readdir(config.dir.videos + '/' + req.params.name, function(err, items) {
-      // console.log(items)
-      asyn.waterfall([
-        function (callback) {
-          var newitems = items.filter( function (item) {
-            console.log('filter: ', item, item.substr(item.length - 4), config.dir.supportedVideoFormats.includes(item.substr(item.length - 4)))
-            return config.dir.supportedVideoFormats.includes(item.substr(item.length - 4))
-            // callback(null, config.dir.supportedVideoFormats.includes(item.substr(item.length - 4)))
-          })
-          // console.log('newitems:', newitems)
-          callback(null, newitems)
-        },
-        function (filtereditems, callback) {
-          // console.log('filtereditems: ', filtereditems)
-          asyn.map(filtereditems, 
-            function (item, innercallback) {
-              // console.log("item: ", item, config.dir.videos + '/' + req.params.name + '/' + item)
-              ffmetadata.read(config.dir.videos + '/' + req.params.name + '/' + item, innercallback)
-            }, function(err, results) {
-              // console.log('inner results', results)
-              callback(null, filtereditems, results)
-            }
-          )
-          // console.log('data: ', data)
-        }], function (err, items, itemswithmetadata) {
-          // console.log('results: ', items, itemswithmetadata)
-          for(var i in itemswithmetadata){ 
-              data.push({name: items[i], title: itemswithmetadata[i].title, display: true});
-          }
-          console.log('data: ', data)
-          res.json(data);
-          res.end();
-        }
-      )
-
-  })
-})
+  app.get('/videolist/:name', VideoController.getlistofvideosbyfoldername)
 
 // https://stackabuse.com/handling-file-uploads-in-node-js-with-expres-and-multer/
   app.post("/videolist/:name", function (req, res) {
@@ -230,6 +103,7 @@ module.exports = (app) => {
     
   });
 
+  // ############  FILES  ############
 
   app.get('/folderlist', function(req, res){
     const getDirectories = source =>
