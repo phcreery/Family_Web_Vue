@@ -59,49 +59,7 @@ module.exports = (app) => {
   app.get('/videolist/:name', VideoController.getlistofvideosbyfoldername)
 
 // https://stackabuse.com/handling-file-uploads-in-node-js-with-expres-and-multer/
-  app.post("/videolist/:name", function (req, res) {
-    console.log(req.files)
-
-    const storage = multer.diskStorage({
-      destination: function(req, file, cb) {
-          cb(null, config.dir.videos + '/' + req.params.name)
-      },
-  
-      // By default, multer removes file name and extensions so let's add them back
-      filename: function(req, file, cb) {
-          cb(null, file.originalname);
-      }
-    })
-    const videoFilter = function(req, file, cb) {
-      // Accept images only
-      var supportedstring = ''
-      config.dir.supportedVideoFormats.forEach(element => {
-        console.log(element)
-        supportedstring = supportedstring.concat(element.toUpperCase().replace('.', '') + "|")
-      })
-      supportedstring = supportedstring.slice(0, -1)
-      console.log(supportedstring)
-      var strRegExPattern = '\\.('+supportedstring+')$';
-      console.log(strRegExPattern)
-      if (!file.originalname.toUpperCase().match( new RegExp(strRegExPattern,'g') )) {
-        console.log('Only video files are allowed!')
-        req.fileValidationError = 'Only video files are allowed!';
-        return cb(new Error('Only video files are allowed!'), false);
-      }
-      cb(null, true);
-    };
-
-    let upload = multer({ storage: storage, fileFilter: videoFilter }).array("files")
-    upload(req, res, function (err) {
-      if (req.fileValidationError) {
-        return res.status('406').send(req.fileValidationError);
-      }
-      console.log("body: ", req.body);
-      console.log("files:", req.files);
-      return res.sendStatus(200);
-    })
-    
-  });
+  app.post("/videolist/:name", VideoController.uploadvideo);
 
   // ############  FILES  ############
 
