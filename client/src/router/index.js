@@ -56,6 +56,12 @@ export default new Router({
       name: 'files',
       component: Browser,
       props: true
+    },
+    {
+      path: '/files/*',
+      name: 'files',
+      component: Browser,
+      props: true
     }
   ]
 })

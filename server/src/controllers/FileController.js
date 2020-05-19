@@ -26,9 +26,16 @@ module.exports = {
   },
 
   async readdircontents2 (req, res) {
-    // var path = req.body.path
-    var path = 'C:\\Users\\phcre\\Documents\\GameBoy'
-    // var path = config.dir.files
+    // var path = req
+    var path = req.query.path
+    // console.log('Received path: ', path)
+    if (typeof path === 'undefined') {
+      path = config.dir.files
+    } else {
+      path = config.dir.files + '/' + path
+    }
+    // console.log('Readign folders and files from ', path)
+    // var path = 'C:\\Users\\phcre\\Documents\\GameBoy'
     const getDirectories = source =>
       readdirSync(source, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())

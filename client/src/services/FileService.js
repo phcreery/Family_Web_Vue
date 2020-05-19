@@ -4,7 +4,8 @@ export const MusicEventBus = new Vue()
 
 export default {
   getfolderlist (dir) {
-    return Api().get('folderreaddir/' + dir)
+    console.log('Seinding axios rerwuard with body:', {data: {path: dir}})
+    return Api().get('folderreaddir', {params: {path: dir}})
   },
   getBaseURL () {
     return Api().defaults.baseURL + '/music/'

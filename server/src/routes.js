@@ -63,6 +63,7 @@ module.exports = (app) => {
   // ############  FILES  ############
 
   app.get('/folderreaddir', FileController.readdircontents2)
+  // app.get('/folderreaddir*', FileController.readdircontents2)
   // app.get('/folderreaddir2', FileController.readdircontents2)
   // app.get('/folderlist', FileController.readdircontents3)
 
