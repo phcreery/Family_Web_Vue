@@ -6,7 +6,7 @@
     >
     <!-- <v-toolbar> -->
       <v-subheader>
-        <v-btn class="mx-2" style="position: absolute; left: 10px;" fab small @click="$router.go(-1)">
+        <v-btn class="mx-2" style="position: absolute; left: 10px;" icon @click="$router.go(-1)">
           <v-icon dark>mdi-arrow-left</v-icon>
         </v-btn>
         <h3 style="text-indent: 50px;">/{{ currentURLpath }}</h3>
@@ -29,7 +29,7 @@
 
       <!-- <v-divider :inset="true"></v-divider> -->
       <v-subheader>Files</v-subheader>
-      
+
       <explorer v-if="browse === true" ref="files" v-on:select="SelectFileIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="filelist" :title="'File Browser'" :itemoptions="this.folderoptions" />
       <!-- <explorer v-if="browse === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :title="'File Browser'" :itemoptions="this.folderoptions" :searchString="null"/> -->
 
