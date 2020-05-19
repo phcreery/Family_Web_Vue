@@ -12,47 +12,56 @@
         :key="index"
         v-show="item.display"
       >
-        <v-card hover>
-          <!-- <v-responsive :aspect-ratio="1/1"> -->
-          <v-list-item three-line v-on:click="clbk('select', index)">
-            <v-list-item-content>
-              <v-list-item-title class="headline mb-1">{{ item.name }}</v-list-item-title>
-              <v-list-item-subtitle
-                v-for="(item, index2) in list[index].info"
-                :key="index2"
-              >{{ index2 }}: {{item}}</v-list-item-subtitle>
-            </v-list-item-content>
-            <v-list-item-icon>
-              <v-icon>mdi-folder</v-icon>
-            </v-list-item-icon>
-          </v-list-item>
-          <!-- <v-spacer></v-spacer> -->
-          <v-card-actions style="position: absolute; bottom: 0px; right: 2px">
-            <v-spacer></v-spacer>
 
-            <v-menu bottom :offset-y="true">
-              <template v-slot:activator="{ on }">
-                <!-- <v-tooltip bottom> -->
-                <!-- <template v-slot:activator="{ on: tooltip }"> -->
-                <v-btn icon v-on="on">
-                  <v-icon>mdi-dots-horizontal</v-icon>
-                </v-btn>
-                <!-- </template> -->
-                <!-- <span>Im A ToolTip</span> -->
-                <!-- </v-tooltip> -->
-              </template>
-              <v-list>
-                <v-list-item
-                  v-for="(item, listindex) in itemoptions"
-                  :key="listindex"
-                  @click="clbk(item, index)"
-                >
-                  <v-list-item-title>{{ item }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-card-actions>
-        </v-card>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+
+            <v-card hover v-on="on">
+              <!-- <v-responsive :aspect-ratio="1/1"> -->
+              <v-list-item three-line v-on:click="clbk('select', index)">
+                <v-list-item-content>
+                  <v-list-item-title class="mb-1">{{ item.name }}</v-list-item-title>
+                  <v-list-item-subtitle
+                    v-for="(item, index2) in list[index].info"
+                    :key="index2"
+                  >{{ index2 }}: {{item}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-icon>
+                  <v-icon>mdi-folder</v-icon>
+                </v-list-item-icon>
+              </v-list-item>
+              <!-- <v-spacer></v-spacer> -->
+              <v-card-actions style="position: absolute; bottom: 0px; right: 2px">
+                <v-spacer></v-spacer>
+
+                <v-menu bottom :offset-y="true">
+                  <template v-slot:activator="{ on }">
+                    <!-- <v-tooltip bottom> -->
+                    <!-- <template v-slot:activator="{ on: tooltip }"> -->
+                    <v-btn icon v-on="on">
+                      <v-icon>mdi-dots-horizontal</v-icon>
+                    </v-btn>
+                    <!-- </template> -->
+                    <!-- <span>Im A ToolTip</span> -->
+                    <!-- </v-tooltip> -->
+                  </template>
+                  <v-list>
+                    <v-list-item
+                      v-for="(item, listindex) in itemoptions"
+                      :key="listindex"
+                      @click="clbk(item, index)"
+                    >
+                      <v-list-item-title>{{ item }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-card-actions>
+            </v-card>
+
+          </template>
+          <span>{{ item.name }}</span>
+        </v-tooltip>
+
       </v-col>
     </v-row>
 
