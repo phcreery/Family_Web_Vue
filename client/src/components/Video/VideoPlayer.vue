@@ -193,12 +193,13 @@ export default {
             console.log({ response })
             this.uploadDialog = false
             this.uploaderrmessage = ''
-            this.$store.commit('startLoading')
+            this.$store.commit('stopLoading')
             this.fetchlist()
           })
           .catch(error => {
-            console.log('msg ', error.response.data )
+            console.log('msg ', error.response.data)
             this.uploaderrmessage = error.response.data
+            this.$store.commit('stopLoading')
           })
       } else {
         console.log('there are no files.')

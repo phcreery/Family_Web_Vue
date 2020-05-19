@@ -48,6 +48,7 @@ module.exports = {
     }
   },
 
+  // https://stackabuse.com/handling-file-uploads-in-node-js-with-expres-and-multer/
   getlistofvideosbyfoldername (req, res){
     let data = [];
     // console.log(config.dir.videos + '/' + req.params.name)

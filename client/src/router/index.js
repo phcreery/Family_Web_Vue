@@ -7,7 +7,8 @@ import Music from '@/components/Music/Music'
 import GalleryLightbox from '@/components/Photo/GalleryLightbox'
 import Video from '@/components/Video/Video'
 import VideoPlayer from '@/components/Video/VideoPlayer'
-import Catalog from '@/components/Catalog'
+// import Catalog from '@/components/Catalog'
+import Browser from '@/components/Files/Browser'
 
 Vue.use(Router)
 
@@ -53,7 +54,7 @@ export default new Router({
     {
       path: '/files',
       name: 'files',
-      component: Catalog,
+      component: Browser,
       props: true
     }
   ]

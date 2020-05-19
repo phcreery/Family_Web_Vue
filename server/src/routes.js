@@ -2,7 +2,7 @@ const AuthenticationController = require('./controllers/AuthenticationController
 const MusicController = require('./controllers/MusicController')
 const VideoController = require('./controllers/VideoController')
 const PhotoController = require('./controllers/PhotoController')
-
+const FileController = require('./controllers/FileController')
 
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
 const fs = require('fs');
@@ -15,7 +15,7 @@ const express = require('express');
 // var { exec }  = require('child_process');
 // var imageThumbnail = require('image-thumbnail');
 const config = require('./config/config')
-const multer = require("multer")
+// const multer = require("multer")
 // var videoupload = multer({ dest: 'uploads/' })
 
 
@@ -58,25 +58,13 @@ module.exports = (app) => {
 
   app.get('/videolist/:name', VideoController.getlistofvideosbyfoldername)
 
-// https://stackabuse.com/handling-file-uploads-in-node-js-with-expres-and-multer/
   app.post("/videolist/:name", VideoController.uploadvideo);
 
   // ############  FILES  ############
 
-  app.get('/folderlist', function(req, res){
-    const getDirectories = source =>
-      readdirSync(source, { withFileTypes: true })
-        .filter(dirent => dirent.isDirectory())
-        .map(dirent => dirent.name)
-    let files = getDirectories(config.dir.files)
-    console.log(files)
-    let data = []
-    for(var file in files){
-      data.push({name: files[file]});
-    }
-    res.json(data);
-    res.end();
-  })
+  app.get('/folderreaddir', FileController.readdircontents2)
+  // app.get('/folderreaddir2', FileController.readdircontents2)
+  // app.get('/folderlist', FileController.readdircontents3)
 
   app.get('/folder/:name', function(req, res){
     console.log(config.dir.files + '/' + req.params.name);
