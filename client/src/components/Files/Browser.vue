@@ -18,7 +18,13 @@
         </v-card>
       </v-subheader>
 
-      <explorer v-if="browse === true" ref="folders" v-on:select="SelectIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :title="'File Browser'" :itemoptions="this.folderoptions" />
+      <explorer v-if="browse === true" ref="folders" v-on:select="SelectFolderIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :title="'File Browser'" :itemoptions="this.folderoptions" />
+      <!-- <v-divider :inset="true"></v-divider> -->
+      <v-subheader>
+        Files
+      <v-spacer></v-spacer>
+      </v-subheader>
+      <explorer v-if="browse === true" ref="files" v-on:select="SelectFileIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="filelist" :title="'File Browser'" :itemoptions="this.folderoptions" />
       <!-- <explorer v-if="browse === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :title="'File Browser'" :itemoptions="this.folderoptions" :searchString="null"/> -->
 
     </v-container>
@@ -59,11 +65,15 @@ export default {
       const list = await FileService.getfolderlist(this.currentDir)
       this.folderlist = list.data.folders
       this.filelist = list.data.files
+      console.log(this.folderlist, this.filelist)
       this.$store.commit('stopLoading')
     },
-    SelectIndex (index) {
+    SelectFolderIndex (index) {
       console.log(this.folderlist[index].name)
 
+    },
+    SelectFileIndex (index) {
+      console.log(this.filelist[index].name)
     },
     DeleteIndexDialog () {
 
