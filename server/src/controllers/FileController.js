@@ -32,11 +32,65 @@ module.exports = {
     const getDirectories = source =>
       readdirSync(source, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
-        .map(dirent => {return {name: dirent.name, display: true}})
+        .map(dirent => {return {name: dirent.name, display: true, icon: 'mdi-folder'}})
     const getFiles = source =>
       readdirSync(source, { withFileTypes: true })
         .filter(dirent => !dirent.isDirectory())
-        .map(dirent => {return {name: dirent.name, display: true}} )
+        .map(dirent => {
+          var icon = 'mdi-file'
+          switch ( dirent.name.split('.').pop().toLowerCase() ) {
+            case 'zip':
+              icon = 'mdi-zip-box'
+              break
+            case 'doc':
+            case 'docx':
+            case 'txt':
+            case 'md':
+              icon = 'mdi-file-document-outline'
+              break
+            case 'json':
+              icon = 'mdi-code-json'
+              break
+            case 'c':
+            case 'js':
+            case 'cpp':
+            case 'vue':
+            case 'jsx':
+            case 'py':
+            case 'pyc':
+            case 'ts':
+            case 'ps1':
+            case 'sh':
+            case 'bat':
+              icon = 'file-code'
+              break
+            case 'png':
+            case 'jpg':
+            case 'jpeg':
+            case 'ps':
+            case 'bmp':
+            case 'raw':
+            case 'nef':
+            case 'crw':
+            case 'cr2':
+            case 'cr3':
+            case 'ciff':
+              icon = 'image'
+              break
+            case 'pdf':
+              icon = 'mdi-file-pdf'
+              break
+            case 'dxf':
+            case 'dwg':
+            case 'svg':
+              icon = 'mdi-drawing-box'
+              break
+            default:
+              icon = 'mdi-file'
+              break
+          }
+          return {name: dirent.name, display: true, icon: icon}
+        })
   
     let folders = getDirectories(path)
     let files = getFiles(path)

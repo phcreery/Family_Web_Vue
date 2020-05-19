@@ -27,7 +27,7 @@
                   >{{ index2 }}: {{item}}</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-icon>
-                  <v-icon>mdi-folder</v-icon>
+                  <v-icon>{{item.icon}}</v-icon>
                 </v-list-item-icon>
               </v-list-item>
               <!-- <v-spacer></v-spacer> -->
