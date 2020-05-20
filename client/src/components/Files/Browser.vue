@@ -17,7 +17,7 @@
             prepend-icon="search"
             placeholder="Search"
             v-model="searchString"
-            @input="$refs.folders.searchList(searchString)"
+            @input="$refs.folders.searchList(searchString); $refs.files.searchList(searchString)"
           ></v-text-field>
         </v-card>
       </v-subheader>
@@ -25,12 +25,12 @@
       <!-- <v-divider :inset="false"></v-divider> -->
       <v-subheader>Folders</v-subheader>
 
-      <explorer v-if="browse === true" ref="folders" v-on:select="SelectFolderIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :title="'File Browser'" :itemoptions="this.folderoptions" />
+      <explorer v-if="browse === true" ref="folders" v-on:select="SelectFolderIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :itemoptions="this.folderoptions" />
 
       <!-- <v-divider :inset="true"></v-divider> -->
       <v-subheader>Files</v-subheader>
 
-      <explorer v-if="browse === true" ref="files" v-on:select="SelectFileIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="filelist" :title="'File Browser'" :itemoptions="this.folderoptions" />
+      <explorer v-if="browse === true" ref="files" v-on:select="SelectFileIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="filelist" :itemoptions="this.folderoptions" />
       <!-- <explorer v-if="browse === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :title="'File Browser'" :itemoptions="this.folderoptions" :searchString="null"/> -->
 
     </v-container>

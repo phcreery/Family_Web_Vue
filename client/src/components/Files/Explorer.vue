@@ -16,9 +16,18 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
 
-            <v-card hover v-on="on">
+            <v-card hover v-on="on" v-on:click="clbk('select', index)">
               <!-- <v-responsive :aspect-ratio="1/1"> -->
-              <v-list-item three-line v-on:click="clbk('select', index)">
+              <v-img
+                v-if="item.thumb"
+                height="200px"
+              >
+                <div class="fill-height bottom-gradient">
+                  <v-icon size="200">{{item.thumb}}</v-icon>
+                </div>
+                
+              </v-img>
+              <v-list-item three-line>
                 <v-list-item-content>
                   <v-list-item-title class="mb-1">{{ item.name }}</v-list-item-title>
                   <v-list-item-subtitle
@@ -56,6 +65,7 @@
                   </v-list>
                 </v-menu>
               </v-card-actions>
+              <!-- </v-responsive> -->
             </v-card>
 
           </template>
@@ -140,5 +150,9 @@ export default {
     right: 0;
     position: absolute;
     margin: 16px 16px 16px 16px;
+  }
+
+.bottom-gradient {
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 72px);
   }
 </style>

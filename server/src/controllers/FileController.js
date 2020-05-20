@@ -92,11 +92,15 @@ module.exports = {
             case 'svg':
               icon = 'mdi-drawing-box'
               break
+            case 'xls':
+            case 'xlsx':
+              icon = 'mdi-table-large'
+              break
             default:
               icon = 'mdi-file'
               break
           }
-          return {name: dirent.name, display: true, icon: icon}
+          return {name: dirent.name, display: true, icon: icon, thumb: icon}
         })
   
     let folders = getDirectories(path)
