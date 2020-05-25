@@ -9,5 +9,9 @@ export default {
   },
   getBaseURL () {
     return Api().defaults.baseURL + '/music/'
+  },
+  async createDir (dir) {
+    let res = await Api().post('createfiledir/', {dir: dir})
+    return res
   }
 }

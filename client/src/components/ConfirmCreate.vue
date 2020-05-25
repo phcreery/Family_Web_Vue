@@ -14,6 +14,8 @@
           label="Name"
         ></v-text-field>
 
+        <div class="danger-alert" v-html="msg"></div>
+
     <v-card-actions>
       <v-spacer></v-spacer>
 
@@ -45,7 +47,8 @@ export default {
 
   },
   props: {
-    dialog: Boolean
+    dialog: Boolean,
+    msg: String
   },
   data () {
     return {

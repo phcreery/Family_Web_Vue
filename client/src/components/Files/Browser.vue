@@ -33,6 +33,9 @@
       <explorer v-if="browse === true" ref="files" v-on:select="SelectFileIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="filelist" :itemoptions="this.folderoptions" />
       <!-- <explorer v-if="browse === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :title="'File Browser'" :itemoptions="this.folderoptions" :searchString="null"/> -->
 
+      <!-- <confirm-delete :dialog="deleteDialog" v-on:Delete="DeleteIndex" v-on:Cancel="deleteDialog = false" /> -->
+      <confirm-create :dialog="createDialog" :msg="createMessage" v-on:Confirmed="CreateCatalog" v-on:Cancel="createMessage = null; createDialog = false" />
+
     </v-container>
   </div>
 </template>
@@ -40,9 +43,14 @@
 <script>
 import FileService from '@/services/FileService'
 import Explorer from './Explorer'
+import ConfirmDelete from '../ConfirmDelete'
+import ConfirmCreate from '../ConfirmCreate'
+
 export default {
   components: {
-    Explorer
+    Explorer,
+    ConfirmDelete,
+    ConfirmCreate
   },
   data () {
     return {
@@ -55,19 +63,23 @@ export default {
         'Share',
         'Rename',
         'Delete'
-      ]
+      ],
+      deleteDialog: false,
+      deleteDialogIndex: null,
+      createDialog: false,
+      createMessage: ''
     }
   },
   beforeCreate: function () {
   },
   created: async function () {
-    this.refresh()
+    this.RefreshList()
     // console.log('browsing:', this.$route.params.pathMatch)
   },
   mounted () {
   },
   methods: {
-    async refresh () {
+    async RefreshList () {
       this.$store.commit('startLoading')
       const list = await FileService.getfolderlist(this.currentURLpath)
       this.folderlist = list.data.folders
@@ -82,7 +94,7 @@ export default {
       }
       this.$router.push({ path: '/files/' + dir })
       // console.log('browsing:', this.$route.params.pathMatch)
-      this.refresh()
+      this.RefreshList()
     },
     SelectFileIndex (index) {
       console.log(this.filelist[index].name)
@@ -90,8 +102,26 @@ export default {
     DeleteIndexDialog () {
 
     },
-    CreateDialog () {
-
+    CreateDialog: function () {
+      this.createDialog = true
+    },
+    CreateCatalog: function (name) {
+      // this.createDialog = false
+      this.$store.commit('startLoading')
+      console.log('creating: ', name)
+      FileService.createDir(this.currentURLpath + '/' + name).then(function (res) {
+        console.log('aye!', res.data)
+        if (res.data === 'success') {
+          // this.$forceUpdate()
+          this.createDialog = false
+          this.RefreshList()
+          this.$store.commit('stopLoading')
+        } else {
+          console.log('oh no,', res)
+          this.createMessage = res.data
+          this.$store.commit('stopLoading')
+        }
+      }.bind(this)) // .catch((res) => { console.log('bad ugh oh', res) })
     }
   },
   computed: {
@@ -105,7 +135,7 @@ export default {
   },
   watch: {
     '$route' () {
-      this.refresh()
+      this.RefreshList()
     }
   }
 }

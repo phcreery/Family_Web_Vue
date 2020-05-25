@@ -19,7 +19,7 @@ module.exports = {
           console.log(items[i]);
           list.push(items[i])
       }
-      console.log('list', list)
+      // console.log('list', list)
       res.send(list)
       res.end();
     });
@@ -105,7 +105,7 @@ module.exports = {
   
     let folders = getDirectories(path)
     let files = getFiles(path)
-    console.log(folders,files)
+    // console.log(folders,files)
     res.send({folders,files})
     res.end()
   },
@@ -116,13 +116,27 @@ module.exports = {
         .filter(dirent => dirent.isDirectory())
         .map(dirent => dirent.name)
     let files = getDirectories(config.dir.files)
-    console.log(files)
+    // console.log(files)
     let data = []
     for(var file in files){
       data.push({name: files[file]});
     }
     res.json(data);
     res.end();
+  },
+
+
+  createdir (req, res) {
+    console.log('creating dir:', req.body.dir)
+    // let dir = req.body.dir
+    let dir = config.dir.files + '/' + req.body.dir
+    if (!fs.existsSync(dir)){
+      fs.mkdirSync(dir);
+      res.status('200').send('success')
+    } else {
+      res.send('Folder already exists')
+    }
+    // res.status('200').send('success')
   }
 
 }

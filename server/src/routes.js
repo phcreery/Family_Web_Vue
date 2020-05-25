@@ -67,6 +67,8 @@ module.exports = (app) => {
   // app.get('/folderreaddir2', FileController.readdircontents2)
   // app.get('/folderlist', FileController.readdircontents3)
 
+  app.post('/createfiledir', FileController.createdir)
+
   app.get('/folder/:name', function(req, res){
     console.log(config.dir.files + '/' + req.params.name);
     res.sendFile(config.dir.files + '/' + req.params.name);
