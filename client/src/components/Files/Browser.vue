@@ -9,7 +9,7 @@
         <v-btn class="mx-2" style="position: absolute; left: 10px;" icon @click="$router.go(-1)">
           <v-icon dark>mdi-arrow-left</v-icon>
         </v-btn>
-        <h3 style="text-indent: 50px;">/{{ currentURLpath }}</h3>
+        <h3 style="text-indent: 50px;">{{ currentURLpathPretty }}</h3>
         <v-spacer></v-spacer>
         <v-card max-width="300px" flat>
           <v-text-field
@@ -25,16 +25,17 @@
       <!-- <v-divider :inset="false"></v-divider> -->
       <v-subheader>Folders</v-subheader>
 
-      <explorer v-if="browse === true" ref="folders" v-on:select="SelectFolderIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :itemoptions="this.folderoptions" />
+      <explorer v-if="browse === true" ref="folders" v-on:select="SelectFolderIndex" v-on:Delete="DeleteFolderIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :itemoptions="this.folderoptions" />
 
       <!-- <v-divider :inset="true"></v-divider> -->
       <v-subheader>Files</v-subheader>
 
-      <explorer v-if="browse === true" ref="files" v-on:select="SelectFileIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="filelist" :itemoptions="this.folderoptions" />
+      <explorer v-if="browse === true" ref="files" v-on:select="SelectFileIndex"  v-on:Add="CreateDialog" :list="filelist" :itemoptions="this.folderoptions" />
       <!-- <explorer v-if="browse === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :title="'File Browser'" :itemoptions="this.folderoptions" :searchString="null"/> -->
 
-      <!-- <confirm-delete :dialog="deleteDialog" v-on:Delete="DeleteIndex" v-on:Cancel="deleteDialog = false" /> -->
-      <confirm-create :dialog="createDialog" :msg="createMessage" v-on:Confirmed="CreateCatalog" v-on:Cancel="createMessage = null; createDialog = false" />
+      <confirm-delete :dialog="deleteFolderDialog" v-on:Delete="DeleteFolderIndex" v-on:Cancel="deleteFolderDialog = false" />
+      <!-- <confirm-delete :dialog="deleteDialog" v-on:Delete="DeleteFileIndex" v-on:Cancel="deleteFileDialog = false" /> -->
+      <confirm-create :dialog="createDialog" :msg="createErrorMessage" v-on:Confirmed="CreateCatalog" v-on:Cancel="createMessage = null; createDialog = false" />
 
     </v-container>
   </div>
@@ -64,10 +65,12 @@ export default {
         'Rename',
         'Delete'
       ],
-      deleteDialog: false,
-      deleteDialogIndex: null,
+      deleteFolderDialog: false,
+      deleteFolderDialogIndex: null,
+      deleteFileDialog: false,
+      deleteFileDialogIndex: null,
       createDialog: false,
-      createMessage: ''
+      createErrorMessage: ''
     }
   },
   beforeCreate: function () {
@@ -89,18 +92,12 @@ export default {
     },
     SelectFolderIndex (index) {
       var dir = this.folderlist[index].name
-      if (typeof this.$route.params.pathMatch !== 'undefined') {
-        dir = this.$route.params.pathMatch + '/' + dir
-      }
-      this.$router.push({ path: '/files/' + dir })
-      // console.log('browsing:', this.$route.params.pathMatch)
+      dir = this.currentURLpath + dir
+      this.$router.push({ path: '/files' + dir })
       this.RefreshList()
     },
     SelectFileIndex (index) {
       console.log(this.filelist[index].name)
-    },
-    DeleteIndexDialog () {
-
     },
     CreateDialog: function () {
       this.createDialog = true
@@ -109,7 +106,7 @@ export default {
       // this.createDialog = false
       this.$store.commit('startLoading')
       console.log('creating: ', name)
-      FileService.createDir(this.currentURLpath + '/' + name).then(function (res) {
+      FileService.createDir(this.currentURLpath + name).then(function (res) {
         console.log('aye!', res.data)
         if (res.data === 'success') {
           // this.$forceUpdate()
@@ -118,18 +115,44 @@ export default {
           this.$store.commit('stopLoading')
         } else {
           console.log('oh no,', res)
-          this.createMessage = res.data
+          this.createErrorMessage = res.data
           this.$store.commit('stopLoading')
         }
       }.bind(this)) // .catch((res) => { console.log('bad ugh oh', res) })
+    },
+    DeleteFolderIndexDialog: function (index) {
+      console.log('Deleting: ', this.folderlist[index].name)
+      this.deleteFolderDialog = true
+      this.deleteFolderDialogIndex = index
+    },
+    DeleteFolderIndex: function () {
+      // this.deleteDialog = false
+      let index = this.deleteFolderDialogIndex
+      this.$store.commit('startLoading')
+      FileService.deleteDir(this.currentURLpath + this.folderlist[index].name).then(function (res) {
+        console.log('aye!', res.data)
+        if (res.data === 'success') {
+          this.deleteFolderDialog = false
+          // this.$forceUpdate()
+          this.RefreshList()
+          this.$store.commit('stopLoading')
+        }
+      }.bind(this))
     }
   },
   computed: {
     currentURLpath () {
       if (typeof this.$route.params.pathMatch !== 'undefined') {
-        return this.$route.params.pathMatch
+        return '/' + this.$route.params.pathMatch + '/'
       } else {
-        return ''
+        return '/'
+      }
+    },
+    currentURLpathPretty () {
+      if (typeof this.$route.params.pathMatch !== 'undefined') {
+        return '/' + this.$route.params.pathMatch
+      } else {
+        return '/'
       }
     }
   },

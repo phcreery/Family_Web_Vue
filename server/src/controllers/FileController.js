@@ -137,6 +137,23 @@ module.exports = {
       res.send('Folder already exists')
     }
     // res.status('200').send('success')
+  },
+
+
+  deletefolder (req, res) {
+    // console.log('deleting dir:', req.body.dir)
+    let dir = config.dir.files + req.body.dir
+    console.log('deleting dir:', dir)
+    fs.rmdirSync(dir, { recursive: true });
+    res.status('200').send('success')
+
+  },
+
+  deletefile (req, res) {
+    console.log('deleting dir:', req.body)
+    // let dir = config.dir.files + '/' + req.body.dir
+    // fs.rmdirSync(dir, { recursive: true });
+
   }
 
 }

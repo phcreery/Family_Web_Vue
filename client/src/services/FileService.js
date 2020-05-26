@@ -13,5 +13,13 @@ export default {
   async createDir (dir) {
     let res = await Api().post('createfiledir/', {dir: dir})
     return res
+  },
+  async deleteDir (dir) {
+    let res = await Api().delete('deletefolder/', {data: {dir: dir}})
+    return res
+  },
+  async deleteFile (file) {
+    let res = await Api().delete('deletefile/', {data: {file: file}})
+    return res
   }
 }

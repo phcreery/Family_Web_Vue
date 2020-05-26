@@ -69,6 +69,10 @@ module.exports = (app) => {
 
   app.post('/createfiledir', FileController.createdir)
 
+  app.delete('/deletefile', FileController.deletefile)
+
+  app.delete('/deletefolder', FileController.deletefolder)
+
   app.get('/folder/:name', function(req, res){
     console.log(config.dir.files + '/' + req.params.name);
     res.sendFile(config.dir.files + '/' + req.params.name);
