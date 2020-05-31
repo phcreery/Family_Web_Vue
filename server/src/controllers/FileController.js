@@ -157,7 +157,13 @@ module.exports = {
   },
 
   uploadfile (req, res) {
-    console.log('uploading dir:', req.body, req.params.dir, req.files)
+    if (req.params.dir === 'root') {
+      req.params.dir = ''
+    }
+    console.log('uploading dir:', config.dir.files + '/' + req.params.dir)
+    // console.log('Form submitting:', req.files.get('files'))
+    // console.log()
+
 
     // let dir = config.dir.files + '/' + req.body.dir
     // fs.rmdirSync(dir, { recursive: true });

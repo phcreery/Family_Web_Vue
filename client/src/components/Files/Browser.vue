@@ -37,7 +37,7 @@
       <!-- <confirm-delete :dialog="deleteDialog" v-on:Delete="DeleteFileIndex" v-on:Cancel="deleteFileDialog = false" /> -->
       <confirm-create :dialog="createDialog" :msg="createErrorMessage" v-on:Confirmed="CreateCatalog" v-on:Cancel="createMessage = null; createDialog = false" />
 
-      <uupload :dialog="uploadDialog" v-on:Confirmed="SubmitFiles" v-on:Cancel="uploadDialog = false" :dmessage="uploaderrmessage" />
+      <Myupload :dialog="uploadDialog" v-on:Confirmed="SubmitFiles" v-on:Cancel="uploadDialog = false" :dmessage="uploaderrmessage" />
 <!--
       <v-btn color="primary" fab class="v-btn--example" @click="CreateDialog()">
         <v-icon>mdi-plus</v-icon>
@@ -89,14 +89,17 @@ import FileService from '@/services/FileService'
 import Explorer from './Explorer'
 import ConfirmDelete from '../ConfirmDelete'
 import ConfirmCreate from '../ConfirmCreate'
-import uupload from '@/components/Upload'
+import Myupload from '@/components/Upload'
+import VideoService from '@/services/VideoService'
+
+// const FormData = require('form-data')
 
 export default {
   components: {
     Explorer,
     ConfirmDelete,
     ConfirmCreate,
-    uupload
+    Myupload
   },
   data () {
     return {
@@ -188,20 +191,21 @@ export default {
       }.bind(this))
     },
     SubmitFiles (files) {
-      console.log('Gonna take these files', files)
+      console.log('Gonna take these files', files, 'to:', this.currentURLpath)
       if (files) {
-        var formData = new FormData()
+        let formData = new FormData()
 
         // files
         for (var file of files) {
-          console.log('Appending:', file, file.name)
+          console.log('Appending:', file.name)
           formData.append('files', file, file.name)
           // console.log('Now', file, file.name, formData)
         }
         // console.log('Form submitting:', formData)
-        formData.forEach((value, key) => {
-          console.log('key %s: value %s', key, value)
-        })
+        console.log('Form submitting:', formData.get('files'))
+        // formData.forEach((value, key) => {
+        //   console.log('key %s: value %s', key, value)
+        // })
 
         // additional data
         // formData.append('test', 'foo bar')
@@ -213,7 +217,7 @@ export default {
             this.uploadDialog = false
             this.uploaderrmessage = ''
             this.$store.commit('stopLoading')
-            this.fetchlist()
+            this.RefreshList()
           })
           .catch(error => {
             console.log('msg ', error.response.data)

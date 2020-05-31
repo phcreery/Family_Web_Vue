@@ -1,6 +1,6 @@
 import Api from '@/services/Api'
-import Vue from 'vue'
-export const MusicEventBus = new Vue()
+// import Vue from 'vue'
+// export const MusicEventBus = new Vue()
 
 export default {
   getfolderlist (dir) {
@@ -27,7 +27,7 @@ export default {
       dir = 'root'
     }
     // console.log('Gonna post this file:', filesasformData)
-    let res = await Api().post('uploadfile/' + dir, filesasformData)
+    let res = await Api().post('uploadfile/' + dir, filesasformData, {headers: {'Content-Type': 'multipart/form-data'}})
     return res
   }
 }

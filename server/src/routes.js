@@ -58,7 +58,7 @@ module.exports = (app) => {
 
   app.get('/videolist/:name', VideoController.getlistofvideosbyfoldername)
 
-  app.post("/videolist/:name", VideoController.uploadvideo);
+  app.post("/videolist/:name", VideoController.uploadvideo)
 
   // ############  FILES  ############
 
