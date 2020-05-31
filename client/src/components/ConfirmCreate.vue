@@ -7,33 +7,33 @@
   >
     <v-card>
       <v-container>
-    <!-- <v-card-title class="headline">Name</v-card-title> -->
+        <!-- <v-card-title class="headline">Name</v-card-title> -->
+          <v-card-text>
+            <v-text-field
+                  v-model="text"
+                  label="Name"
+                ></v-text-field>
 
-    <v-text-field
-          v-model="text"
-          label="Name"
-        ></v-text-field>
+            <div class="danger-alert" v-html="msg"></div>
+          </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
 
-        <div class="danger-alert" v-html="msg"></div>
+          <v-btn
+          text
+          @click="clbk('Cancel')"
+          >
+            Cancel
+          </v-btn>
 
-    <v-card-actions>
-      <v-spacer></v-spacer>
-
-      <v-btn
-      text
-      @click="clbk('Cancel')"
-      >
-        Cancel
-      </v-btn>
-
-      <v-btn
-      color="primary"
-      text
-      @click="clbk('Confirmed', text); text = null"
-      >
-        Create
-      </v-btn>
-    </v-card-actions>
+          <v-btn
+          color="primary"
+          text
+          @click="clbk('Confirmed', text); text = null"
+          >
+            Create
+          </v-btn>
+        </v-card-actions>
       </v-container>
     </v-card>
   </v-dialog>

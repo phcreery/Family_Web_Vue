@@ -3,27 +3,27 @@ const config = require('../config/config')
 const fs = require('fs');
 // const asyn = require('async');
 // const ffmetadata = require('ffmetadata');
-// const multer = require("multer")
+const multer = require("multer")
 
 
 module.exports = {
-  async readdircontents (req, res) {
-    // var path = req.body.path
-    // var path = 'C:\\Users\\phcre\\Documents\\GameBoy'
-    var path = config.dir.files
-    let list = []
-    // let list = fs.readdirSync(path)
-    fs.readdir(path, function(err, items) {
-      console.log(items);
-      for (var i=0; i<items.length; i++) {
-          console.log(items[i]);
-          list.push(items[i])
-      }
-      // console.log('list', list)
-      res.send(list)
-      res.end();
-    });
-  },
+  // async readdircontents (req, res) {
+  //   // var path = req.body.path
+  //   // var path = 'C:\\Users\\phcre\\Documents\\GameBoy'
+  //   var path = config.dir.files
+  //   let list = []
+  //   // let list = fs.readdirSync(path)
+  //   fs.readdir(path, function(err, items) {
+  //     console.log(items);
+  //     for (var i=0; i<items.length; i++) {
+  //         console.log(items[i]);
+  //         list.push(items[i])
+  //     }
+  //     // console.log('list', list)
+  //     res.send(list)
+  //     res.end();
+  //   });
+  // },
 
   async readdircontents2 (req, res) {
     // var path = req
@@ -110,20 +110,20 @@ module.exports = {
     res.end()
   },
 
-  readdircontents3 (req, res) {
-    const getDirectories = source =>
-      readdirSync(source, { withFileTypes: true })
-        .filter(dirent => dirent.isDirectory())
-        .map(dirent => dirent.name)
-    let files = getDirectories(config.dir.files)
-    // console.log(files)
-    let data = []
-    for(var file in files){
-      data.push({name: files[file]});
-    }
-    res.json(data);
-    res.end();
-  },
+  // readdircontents3 (req, res) {
+  //   const getDirectories = source =>
+  //     readdirSync(source, { withFileTypes: true })
+  //       .filter(dirent => dirent.isDirectory())
+  //       .map(dirent => dirent.name)
+  //   let files = getDirectories(config.dir.files)
+  //   // console.log(files)
+  //   let data = []
+  //   for(var file in files){
+  //     data.push({name: files[file]});
+  //   }
+  //   res.json(data);
+  //   res.end();
+  // },
 
 
   createdir (req, res) {
@@ -142,7 +142,7 @@ module.exports = {
 
   deletefolder (req, res) {
     // console.log('deleting dir:', req.body.dir)
-    let dir = config.dir.files + req.body.dir
+    let dir = config.dir.files + '/' + req.body.dir
     console.log('deleting dir:', dir)
     fs.rmdirSync(dir, { recursive: true });
     res.status('200').send('success')
@@ -154,6 +154,54 @@ module.exports = {
     // let dir = config.dir.files + '/' + req.body.dir
     // fs.rmdirSync(dir, { recursive: true });
 
+  },
+
+  uploadfile (req, res) {
+    console.log('uploading dir:', req.body, req.params.dir, req.files)
+
+    // let dir = config.dir.files + '/' + req.body.dir
+    // fs.rmdirSync(dir, { recursive: true });
+
+    const storage = multer.diskStorage({
+      destination: function(req, file, cb) {
+          cb(null, config.dir.files + '/' + req.params.dir)
+      },
+  
+      // By default, multer removes file name and extensions so let's add them back
+      filename: function(req, file, cb) {
+          cb(null, file.originalname);
+      }
+    })
+    const videoFilter = function(req, file, cb) {
+      // // Accept images only
+      // var supportedstring = ''
+      // config.dir.supportedVideoFormats.forEach(element => {
+      //   console.log(element)
+      //   supportedstring = supportedstring.concat(element.toUpperCase().replace('.', '') + "|")
+      // })
+      // supportedstring = supportedstring.slice(0, -1)
+      // console.log(supportedstring)
+      // var strRegExPattern = '\\.('+supportedstring+')$';
+      // console.log(strRegExPattern)
+      // if (!file.originalname.toUpperCase().match( new RegExp(strRegExPattern,'g') )) {
+      //   console.log('Only video files are allowed!')
+      //   req.fileValidationError = 'Only video files are allowed!';
+      //   return cb(new Error('Only video files are allowed!'), false);
+      // }
+      cb(null, true);
+    };
+
+    let upload = multer({ storage: storage, fileFilter: videoFilter }).array("files")
+    upload(req, res, function (err) {
+      if (req.fileValidationError) {
+        return res.status('406').send(req.fileValidationError);
+      }
+      console.log("body: ", req.body);
+      console.log("files:", req.files);
+      return res.sendStatus(200);
+    })
+    
   }
+
 
 }

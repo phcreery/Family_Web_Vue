@@ -21,5 +21,13 @@ export default {
   async deleteFile (file) {
     let res = await Api().delete('deletefile/', {data: {file: file}})
     return res
+  },
+  async uploadFile (dir, filesasformData) {
+    if (dir === '') {
+      dir = 'root'
+    }
+    // console.log('Gonna post this file:', filesasformData)
+    let res = await Api().post('uploadfile/' + dir, filesasformData)
+    return res
   }
 }

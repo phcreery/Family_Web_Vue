@@ -75,9 +75,9 @@
       </v-col>
     </v-row>
 
-    <v-btn color="primary" fab class="v-btn--example" @click="clbk('Add', null)">
+    <!-- <v-btn color="primary" fab class="v-btn--example" @click="clbk('Add', null)">
       <v-icon>mdi-plus</v-icon>
-    </v-btn>
+    </v-btn> -->
     <!-- </v-card> -->
 </div>
   <!-- </v-container> -->
@@ -145,13 +145,6 @@ export default {
 </script>
 
 <style scoped>
-.v-btn--example {
-    bottom: 0;
-    right: 0;
-    position: absolute;
-    margin: 16px 16px 16px 16px;
-  }
-
 .bottom-gradient {
     background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 72px);
   }

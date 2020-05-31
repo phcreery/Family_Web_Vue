@@ -37,6 +37,49 @@
       <!-- <confirm-delete :dialog="deleteDialog" v-on:Delete="DeleteFileIndex" v-on:Cancel="deleteFileDialog = false" /> -->
       <confirm-create :dialog="createDialog" :msg="createErrorMessage" v-on:Confirmed="CreateCatalog" v-on:Cancel="createMessage = null; createDialog = false" />
 
+      <uupload :dialog="uploadDialog" v-on:Confirmed="SubmitFiles" v-on:Cancel="uploadDialog = false" :dmessage="uploaderrmessage" />
+<!--
+      <v-btn color="primary" fab class="v-btn--example" @click="CreateDialog()">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn> -->
+
+      <v-speed-dial
+      v-model="fab"
+      class="v-btn--example"
+      direction="top"
+      ransition="slide-y-reverse-transition"
+    >
+      <template v-slot:activator>
+        <v-btn
+          v-model="fab"
+          color="primary"
+          dark
+          fab
+        >
+          <v-icon v-if="fab">mdi-close</v-icon>
+          <v-icon v-else>mdi-plus</v-icon>
+        </v-btn>
+      </template>
+      <v-btn
+        fab
+        dark
+        small
+        color="primary"
+        @click="CreateDialog()"
+      >
+        <v-icon>mdi-folder-plus</v-icon>
+      </v-btn>
+      <v-btn
+        fab
+        dark
+        small
+        color="green"
+        @click="uploadDialog = true"
+      >
+        <v-icon>mdi-file-upload</v-icon>
+      </v-btn>
+    </v-speed-dial>
+
     </v-container>
   </div>
 </template>
@@ -46,15 +89,18 @@ import FileService from '@/services/FileService'
 import Explorer from './Explorer'
 import ConfirmDelete from '../ConfirmDelete'
 import ConfirmCreate from '../ConfirmCreate'
+import uupload from '@/components/Upload'
 
 export default {
   components: {
     Explorer,
     ConfirmDelete,
-    ConfirmCreate
+    ConfirmCreate,
+    uupload
   },
   data () {
     return {
+      fab: false,
       browse: true,
       currentDir: '',
       searchString: null,
@@ -70,7 +116,9 @@ export default {
       deleteFileDialog: false,
       deleteFileDialogIndex: null,
       createDialog: false,
-      createErrorMessage: ''
+      createErrorMessage: '',
+      uploadDialog: false,
+      uploaderrmessage: ''
     }
   },
   beforeCreate: function () {
@@ -93,7 +141,7 @@ export default {
     SelectFolderIndex (index) {
       var dir = this.folderlist[index].name
       dir = this.currentURLpath + dir
-      this.$router.push({ path: '/files' + dir })
+      this.$router.push({ path: '/files/' + dir })
       this.RefreshList()
     },
     SelectFileIndex (index) {
@@ -138,14 +186,52 @@ export default {
           this.$store.commit('stopLoading')
         }
       }.bind(this))
+    },
+    SubmitFiles (files) {
+      console.log('Gonna take these files', files)
+      if (files) {
+        var formData = new FormData()
+
+        // files
+        for (var file of files) {
+          console.log('Appending:', file, file.name)
+          formData.append('files', file, file.name)
+          // console.log('Now', file, file.name, formData)
+        }
+        // console.log('Form submitting:', formData)
+        formData.forEach((value, key) => {
+          console.log('key %s: value %s', key, value)
+        })
+
+        // additional data
+        // formData.append('test', 'foo bar')
+        this.$store.commit('startLoading')
+        FileService.uploadFile(this.currentURLpath, formData)
+          .then(response => {
+            console.log('Success!')
+            console.log({ response })
+            this.uploadDialog = false
+            this.uploaderrmessage = ''
+            this.$store.commit('stopLoading')
+            this.fetchlist()
+          })
+          .catch(error => {
+            console.log('msg ', error.response.data)
+            this.uploaderrmessage = error.response.data
+            this.$store.commit('stopLoading')
+          })
+      } else {
+        console.log('there are no files.')
+        this.uploaderrmessage = 'Need at least 1 file'
+      }
     }
   },
   computed: {
     currentURLpath () {
       if (typeof this.$route.params.pathMatch !== 'undefined') {
-        return '/' + this.$route.params.pathMatch + '/'
+        return this.$route.params.pathMatch + '/'
       } else {
-        return '/'
+        return ''
       }
     },
     currentURLpathPretty () {
@@ -165,6 +251,13 @@ export default {
 </script>
 
 <style scoped>
+.v-btn--example {
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  margin: 16px 16px 16px 16px;
+}
+
 ::-webkit-scrollbar {
   display:block;
   width: 1em;

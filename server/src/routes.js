@@ -5,8 +5,8 @@ const PhotoController = require('./controllers/PhotoController')
 const FileController = require('./controllers/FileController')
 
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
-const fs = require('fs');
-const { readdirSync } = require('fs')
+// const fs = require('fs');
+// const { readdirSync } = require('fs')
 // const { join } = require('path')
 // const path = require('path');
 const express = require('express');
@@ -69,9 +69,11 @@ module.exports = (app) => {
 
   app.post('/createfiledir', FileController.createdir)
 
+  app.delete('/deletefolder', FileController.deletefolder)
+  
   app.delete('/deletefile', FileController.deletefile)
 
-  app.delete('/deletefolder', FileController.deletefolder)
+  app.post('/uploadfile/:dir', FileController.uploadfile)
 
   app.get('/folder/:name', function(req, res){
     console.log(config.dir.files + '/' + req.params.name);

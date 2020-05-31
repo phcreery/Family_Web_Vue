@@ -52,7 +52,7 @@ export default {
       default: function () {
         return null
       }
-    },
+    }
   },
   data () {
     return {
