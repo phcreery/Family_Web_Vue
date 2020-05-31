@@ -7,8 +7,24 @@
       <!-- <v-layout row justify-left> -->
          <!-- use these on v-row for emergnecy use???   class="grey" style="position: absolute; height: 100%; width: 100%" -->
       <v-row justify="space-around" align="center" no-gutters>
-        <v-col md="3">
-          <v-card>
+        
+        <v-col cols="12" md="8" sm="8">
+          <v-card class="container">
+          <!-- <div>Duration: {{ duration }}</div> -->
+          <!-- <div class="container"> -->
+              <vueplyr @timeupdate="videoTimeUpdated" :emit="['timeupdate', 'enterfullscreen', 'exitfullscreen']" @enterfullscreen="enterFullScreen" @exitfullscreen="exitFullScreen" ref="player">
+                <!-- <div class="plyr__video-embed" id="player"> -->
+                <video :src="this.$data.currentVideosrc" :style="[this.isFullscreen ? {'max-height': '100vh'} : {'max-height': '80vh'}]">
+                    <!-- <source :src="this.$data.currentVideosrc" type="video/mp4"  /> -->
+                </video>
+                <!-- </div> -->
+              </vueplyr>
+              <!-- </div> -->
+          </v-card>
+        </v-col>
+
+        <v-col lg="3" md="8" sm="8">
+          <v-card style="margin-top: 10px; margin-bottom: 30px">
 
             <v-toolbar color="white" flat>
               <v-btn icon light @click="$router.go(-1)">
@@ -50,32 +66,20 @@
               </v-list-item>
             </v-list>
             <v-btn
-                color="primary"
-                dark
-                absolute
-                bottom
-                right
-                fab
-                @click="uploadDialog = true"
-              >
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
+              color="primary"
+              dark
+              absolute
+              bottom
+              right
+              fab
+              @click="uploadDialog = true"
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
           </v-card>
         </v-col>
-        <v-col cols="12" md="8">
-          <v-card class="container">
-          <!-- <div>Duration: {{ duration }}</div> -->
-          <!-- <div class="container"> -->
-              <vueplyr @timeupdate="videoTimeUpdated" :emit="['timeupdate', 'enterfullscreen', 'exitfullscreen']" @enterfullscreen="enterFullScreen" @exitfullscreen="exitFullScreen" ref="player">
-                <!-- <div class="plyr__video-embed" id="player"> -->
-                <video :src="this.$data.currentVideosrc" :style="[this.isFullscreen ? {'max-height': '100vh'} : {'max-height': '80vh'}]">
-                    <!-- <source :src="this.$data.currentVideosrc" type="video/mp4"  /> -->
-                </video>
-                <!-- </div> -->
-              </vueplyr>
-              <!-- </div> -->
-          </v-card>
-        </v-col>
+
+
       </v-row>
     <!-- </v-layout> -->
     <uupload :dialog="uploadDialog" v-on:Confirmed="SubmitFiles" v-on:Cancel="uploadDialog = false" :dmessage="uploaderrmessage" />
@@ -230,6 +234,7 @@ export default {
     /* max-width: 50%; */
     /* max-height: 10%; */
     overflow: hidden;
+    margin-top: 10px;
     /* border-radius: 10px; */
     padding: 0px;
   }

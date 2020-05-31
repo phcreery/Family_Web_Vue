@@ -146,6 +146,6 @@ export default {
 
 <style scoped>
 .bottom-gradient {
-    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 72px);
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.1) 0%, transparent 72px);
   }
 </style>
