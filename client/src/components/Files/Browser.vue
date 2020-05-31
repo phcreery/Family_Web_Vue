@@ -23,14 +23,14 @@
       </v-subheader>
     <!-- </v-toolbar> -->
       <!-- <v-divider :inset="false"></v-divider> -->
-      <v-subheader>Folders</v-subheader>
+      <!-- <v-subheader>Folders</v-subheader> -->
 
       <explorer v-if="browse === true" ref="folders" v-on:select="SelectFolderIndex" v-on:Delete="DeleteFolderIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :itemoptions="this.folderoptions" />
 
       <!-- <v-divider :inset="true"></v-divider> -->
-      <v-subheader>Files</v-subheader>
+      <!-- <v-subheader>Files</v-subheader> -->
 
-      <explorer v-if="browse === true" ref="files" v-on:select="SelectFileIndex" v-on:Delete="DeleteFileIndexDialog" v-on:Add="CreateDialog" :list="filelist" :itemoptions="this.folderoptions" />
+      <explorer v-if="browse === true" ref="files" v-on:select="SelectFileIndex" v-on:Delete="DeleteFileIndexDialog" v-on:Add="CreateDialog" :list="filelist" :itemoptions="this.fileoptions" />
       <!-- <explorer v-if="browse === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :title="'File Browser'" :itemoptions="this.folderoptions" :searchString="null"/> -->
 
       <confirm-delete :dialog="deleteFolderDialog" v-on:Delete="DeleteFolderIndex" v-on:Cancel="deleteFolderDialog = false" />
@@ -111,8 +111,10 @@ export default {
       filelist: [],
       folderlist: [],
       folderoptions: [
-        'Share',
         'Rename',
+        'Delete'
+      ],
+      fileoptions: [
         'Delete'
       ],
       deleteFolderDialog: false,
