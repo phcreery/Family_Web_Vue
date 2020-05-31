@@ -150,9 +150,21 @@ module.exports = {
   },
 
   deletefile (req, res) {
-    console.log('deleting dir:', req.body)
-    // let dir = config.dir.files + '/' + req.body.dir
-    // fs.rmdirSync(dir, { recursive: true });
+    let subdir = req.params.dir + '/'
+    if (req.params.dir === 'root' || typeof req.params.dir === "undefined")  {
+      subdir = ''
+    }
+    let dir = config.dir.files + '/' + subdir + req.body.file
+    console.log('deleting file:', dir)
+    
+    try {
+      fs.unlinkSync(dir)
+      res.status('200').send('success')
+      //file removed
+    } catch(err) {
+      console.error(err)
+      res.status('406').send(err);
+    }
 
   },
 

@@ -75,6 +75,8 @@ module.exports = (app) => {
 
   app.post('/uploadfile/:dir', FileController.uploadfile)
 
+  app.delete('/deletefile/:dir', FileController.deletefile)
+
   app.get('/folder/:name', function(req, res){
     console.log(config.dir.files + '/' + req.params.name);
     res.sendFile(config.dir.files + '/' + req.params.name);

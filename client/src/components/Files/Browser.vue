@@ -30,11 +30,12 @@
       <!-- <v-divider :inset="true"></v-divider> -->
       <v-subheader>Files</v-subheader>
 
-      <explorer v-if="browse === true" ref="files" v-on:select="SelectFileIndex"  v-on:Add="CreateDialog" :list="filelist" :itemoptions="this.folderoptions" />
+      <explorer v-if="browse === true" ref="files" v-on:select="SelectFileIndex" v-on:Delete="DeleteFileIndexDialog" v-on:Add="CreateDialog" :list="filelist" :itemoptions="this.folderoptions" />
       <!-- <explorer v-if="browse === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="folderlist" :title="'File Browser'" :itemoptions="this.folderoptions" :searchString="null"/> -->
 
       <confirm-delete :dialog="deleteFolderDialog" v-on:Delete="DeleteFolderIndex" v-on:Cancel="deleteFolderDialog = false" />
-      <!-- <confirm-delete :dialog="deleteDialog" v-on:Delete="DeleteFileIndex" v-on:Cancel="deleteFileDialog = false" /> -->
+      <confirm-delete :dialog="deleteFileDialog" v-on:Delete="DeleteFileIndex" v-on:Cancel="deleteFileDialog = false" />
+
       <confirm-create :dialog="createDialog" :msg="createErrorMessage" v-on:Confirmed="CreateCatalog" v-on:Cancel="createMessage = null; createDialog = false" />
 
       <Myupload :dialog="uploadDialog" v-on:Confirmed="SubmitFiles" v-on:Cancel="uploadDialog = false" :dmessage="uploaderrmessage" />
@@ -90,7 +91,7 @@ import Explorer from './Explorer'
 import ConfirmDelete from '../ConfirmDelete'
 import ConfirmCreate from '../ConfirmCreate'
 import Myupload from '@/components/Upload'
-import VideoService from '@/services/VideoService'
+// import VideoService from '@/services/VideoService'
 
 // const FormData = require('form-data')
 
@@ -176,6 +177,11 @@ export default {
       this.deleteFolderDialog = true
       this.deleteFolderDialogIndex = index
     },
+    DeleteFileIndexDialog: function (index) {
+      console.log('Deleting: ', this.filelist[index].name)
+      this.deleteFileDialog = true
+      this.deleteFileDialogIndex = index
+    },
     DeleteFolderIndex: function () {
       // this.deleteDialog = false
       let index = this.deleteFolderDialogIndex
@@ -184,6 +190,20 @@ export default {
         console.log('aye!', res.data)
         if (res.data === 'success') {
           this.deleteFolderDialog = false
+          // this.$forceUpdate()
+          this.RefreshList()
+          this.$store.commit('stopLoading')
+        }
+      }.bind(this))
+    },
+    DeleteFileIndex: function () {
+      // this.deleteDialog = false
+      let index = this.deleteFileDialogIndex
+      this.$store.commit('startLoading')
+      FileService.deleteFile(this.currentURLpath + this.filelist[index].name).then(function (res) {
+        console.log('aye!', res.data)
+        if (res.data === 'success') {
+          this.deleteFileDialog = false
           // this.$forceUpdate()
           this.RefreshList()
           this.$store.commit('stopLoading')
