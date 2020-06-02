@@ -4,6 +4,29 @@ const cors = require('cors')      //  some security thing?
 const morgan = require('morgan')  //  for debugging
 const {sequelize} = require('./models') //  sql connector
 const config = require('./config/config') // server config properties
+const mongoosedb = require('./mongomodels') //  sql connector
+const mongoose = require('mongoose')
+// mongoose.pluralize(null); // doesnt work??
+
+mongoose.connect('mongodb://admin:Twinsrock98@192.168.1.128/familyweb?authSource=admin') // admin/admin:Twinsrock98@
+
+let db = mongoose.connection
+db.on("error", console.error.bind(console, "MongoDB connection error"));
+db.once("open", function(callback){
+  console.log("MongoDB Connection Succeeded");
+});
+
+// var new_post = new mongoosedb['asdfr']({
+//   title: 'asdfdd',
+//   description: 'description'
+// })
+
+// new_post.save(function (error) {
+//   if (error) {
+//     console.log(error)
+//   }
+//   console.log('Done')
+// })
 
 const app = express()
 app.use(morgan('combined')) //  formatting for debugging site hits

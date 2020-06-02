@@ -60,11 +60,11 @@ export default {
           title: 'Movies',
           href: '/#/movies'
         },
-        {
-          icon: 'mdi-nintendo-game-boy',
-          title: 'Games',
-          href: '/#/games'
-        },
+        // {
+        //   icon: 'mdi-nintendo-game-boy',
+        //   title: 'Games',
+        //   href: '/#/games'
+        // },
         {
           icon: 'mdi-folder',
           title: 'Drive',

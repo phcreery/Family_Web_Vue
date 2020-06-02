@@ -84,6 +84,16 @@ module.exports = {
             case 'ciff':
               icon = 'image'
               break
+            case 'mp4':
+            case 'vid':
+            case 'avi':
+            case 'wmv':
+            case 'mov':
+              icon = 'mdi-file-video'
+              break
+            case 'mp3':
+              icon = 'mdi-file-music'
+              break
             case 'pdf':
               icon = 'mdi-file-pdf'
               break

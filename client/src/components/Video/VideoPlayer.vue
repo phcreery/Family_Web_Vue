@@ -7,7 +7,7 @@
       <!-- <v-layout row justify-left> -->
          <!-- use these on v-row for emergnecy use???   class="grey" style="position: absolute; height: 100%; width: 100%" -->
       <v-row justify="space-around" align="center" no-gutters>
-        
+
         <v-col cols="12" md="8" sm="8">
           <v-card class="container">
           <!-- <div>Duration: {{ duration }}</div> -->
@@ -78,7 +78,6 @@
             </v-btn>
           </v-card>
         </v-col>
-
 
       </v-row>
     <!-- </v-layout> -->
