@@ -3,6 +3,7 @@ const MusicController = require('./controllers/MusicController')
 const VideoController = require('./controllers/VideoController')
 const PhotoController = require('./controllers/PhotoController')
 const FileController = require('./controllers/FileController')
+const NewAuthenticationController = require('./controllers/NewAuthenticationController')
 
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
 // const fs = require('fs');
@@ -33,6 +34,10 @@ module.exports = (app) => {
   app.post('/register', AuthenticationControllerPolicy.register, AuthenticationController.register)
   
   app.post('/login', AuthenticationController.login)
+
+  app.post('/newregister', NewAuthenticationController.register)
+
+  app.post('/newlogin', NewAuthenticationController.login)
 
   // ############  PHOTOS  ############
 

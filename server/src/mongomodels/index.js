@@ -1,6 +1,6 @@
 const fs = require('fs')
-const path = require('path')
-const config = require('../config/config')
+// const path = require('path')
+// const config = require('../config/config')
 const mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 

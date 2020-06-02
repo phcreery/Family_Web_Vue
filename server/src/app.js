@@ -4,7 +4,7 @@ const cors = require('cors')      //  some security thing?
 const morgan = require('morgan')  //  for debugging
 const {sequelize} = require('./models') //  sql connector
 const config = require('./config/config') // server config properties
-const mongoosedb = require('./mongomodels') //  sql connector
+// const mongoosedb = require('./mongomodels') //  sql connector
 const mongoose = require('mongoose')
 // mongoose.pluralize(null); // doesnt work??
 
