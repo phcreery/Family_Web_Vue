@@ -8,7 +8,8 @@
   <!-- <div style="height: 100%; overflow-y: scroll;" v-if="list !== null"> -->
   <!-- <v-card height="100%"> -->
     <v-subheader>
-      {{ title }}
+      <!-- {{ title }} -->
+      <h3 style="text-indent: 0px;">{{ title }}</h3>
       <v-spacer></v-spacer>
       <v-card max-width="300px" flat>
         <v-text-field

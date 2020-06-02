@@ -27,7 +27,7 @@
 
       <!-- <v-layout row justify-left> -->
          <!-- use these on v-row for emergnecy use???   class="grey" style="position: absolute; height: 100%; width: 100%" -->
-         <v-row no-gutters align="center" style="height: calc(100% - (150px));">
+         <v-row no-gutters align="center" style="height: calc(100% - (60px));">
 <v-container fill-height fluid>
       <v-row justify="space-around" align="center" no-gutters>
 
@@ -50,15 +50,15 @@
           <v-card style="margin-top: 10px; margin-bottom: 30px">
 
             <v-toolbar color="white" flat>
-              <v-btn icon light @click="$router.go(-1)">
+              <!-- <v-btn icon light @click="$router.go(-1)">
                 <v-icon color="grey darken-2">mdi-arrow-left</v-icon>
-              </v-btn>
+              </v-btn> -->
 
               <v-toolbar-title class="grey--text text--darken-4">{{ directory }}</v-toolbar-title>
 
               <v-spacer></v-spacer>
 
-              <v-card max-width="150px" flat>
+              <!-- <v-card max-width="150px" flat>
                 <v-text-field
                   clearable
                   hide-details
@@ -68,7 +68,7 @@
                   v-model="searchString"
                   @input="searchList">
                 </v-text-field>
-              </v-card>
+              </v-card> -->
             </v-toolbar>
 
             <v-list v-if="!videolist.length == 0">
