@@ -1,6 +1,7 @@
 <template>
   <v-navigation-drawer
     v-model="toggleSidebar"
+    v-if="$store.state.isUserLoggedIn"
     app
     clipped
     stateless
@@ -9,6 +10,20 @@
     <v-list
         dense
       > <!-- add 'nav' to v-list for round buttons -->
+      <v-list-item two-line :class="miniVariant && 'px-0'">
+            <v-list-item-avatar>
+              <!-- <img src="https://randomuser.me/api/portraits/men/81.jpg"> -->
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-avatar>
+
+            <v-list-item-content>
+              <v-list-item-title>Name</v-list-item-title>
+              <v-list-item-subtitle>{{ $store.state.user.email }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-divider></v-divider>
+
         <v-list-item
           v-for="item in items"
           :key="item.title"

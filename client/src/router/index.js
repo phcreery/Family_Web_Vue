@@ -9,10 +9,11 @@ import Video from '@/components/Video/Video'
 import VideoPlayer from '@/components/Video/VideoPlayer'
 // import Catalog from '@/components/Catalog'
 import Browser from '@/components/Files/Browser'
+import store from '@/store/store'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -65,3 +66,18 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  let userIsLogged = store.state.isUserLoggedIn // Call to your api
+  // console.log('Id he logged in?', userIsLogged)
+  var allowedDest = ['login', 'root', 'register']
+
+  if (allowedDest.indexOf(to.name) === -1 && !userIsLogged) {
+    // Redirect user
+    return next({path: '/login'})
+  }
+  // Let the user pass
+  return next()
+})
+
+export default router

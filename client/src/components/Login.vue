@@ -21,6 +21,7 @@
           >
             <v-toolbar-title>Login</v-toolbar-title>
           </v-toolbar>
+          <!-- <v-card-title>Login</v-card-title> -->
           <v-card-text>
             <v-form>
               <v-text-field
@@ -44,7 +45,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="primary" @click="login">Login</v-btn>
+            <v-btn color="primary" @click="login">Sign in</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -70,9 +71,12 @@ export default {
           email: this.email,
           password: this.password
         })
-        console.log(response)
+        // console.log(response)
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        if (response.data.user) {
+          this.$router.push({ name: 'root' })
+        }
       } catch (error) {
         console.log(JSON.stringify(error))
         this.error = error.response.data.error

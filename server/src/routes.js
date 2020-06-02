@@ -31,13 +31,13 @@ module.exports = (app) => {
 
   // ############  AUTH  ############
 
-  app.post('/register', AuthenticationControllerPolicy.register, AuthenticationController.register)
+  // app.post('/register', AuthenticationControllerPolicy.register, AuthenticationController.register)
   
-  app.post('/login', AuthenticationController.login)
+  // app.post('/login', AuthenticationController.login)
 
-  app.post('/newregister', NewAuthenticationController.register)
+  app.post('/register', AuthenticationControllerPolicy.register, NewAuthenticationController.register)
 
-  app.post('/newlogin', NewAuthenticationController.login)
+  app.post('/login', NewAuthenticationController.login)
 
   // ############  PHOTOS  ############
 
