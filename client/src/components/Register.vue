@@ -73,6 +73,9 @@ export default {
         console.log(response)
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        if (response.data.user) {
+          this.$router.push({ name: 'root' })
+        }
       } catch (error) {
         console.log(JSON.stringify(error))
         this.error = error.response.data.error
