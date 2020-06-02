@@ -2,9 +2,10 @@
 
   <v-container
     fluid
-    style="height: 100%; overflow-y: scroll; position: absolute;"
+    style="height: 100%; overflow-y: scroll;"
     v-if="list !== null"
   >
+  <!-- <div style="height: 100%; overflow-y: scroll;" v-if="list !== null"> -->
   <!-- <v-card height="100%"> -->
     <v-subheader>
       {{ title }}
@@ -91,7 +92,7 @@
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <!-- </v-card> -->
-
+<!-- </div> -->
   </v-container>
 
 </template>

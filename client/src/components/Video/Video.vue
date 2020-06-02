@@ -1,11 +1,13 @@
 <template>
-    <v-container fill-height app fluid>
-        <catalogr v-if="catalog === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="this.filelist" :title="'Video Catalog'" :itemoptions="this.videooptions" />
-        <!-- this was here if you want video player in a single static url/page. -->
-        <!-- <video-player v-else :directory="this.directory"/> -->
-        <confirm-delete :dialog="deleteDialog" v-on:Delete="DeleteIndex" v-on:Cancel="deleteDialog = false" />
-        <confirm-create :dialog="createDialog" v-on:Confirmed="CreateCatalog" v-on:Cancel="createDialog = false" />
-    </v-container>
+  <!-- <v-container fill-height fluid> -->
+  <div style="height: 100%">
+    <catalogr v-if="catalog === true" v-on:select="SelectIndex" v-on:Delete="DeleteIndexDialog" v-on:Add="CreateDialog" :list="this.filelist" :title="'Video Catalog'" :itemoptions="this.videooptions" />
+    <!-- this was here if you want video player in a single static url/page. -->
+    <!-- <video-player v-else :directory="this.directory"/> -->
+    <confirm-delete :dialog="deleteDialog" v-on:Delete="DeleteIndex" v-on:Cancel="deleteDialog = false" />
+    <confirm-create :dialog="createDialog" v-on:Confirmed="CreateCatalog" v-on:Cancel="createDialog = false" />
+  </div>
+  <!-- </v-container> -->
 </template>
 
 <script>

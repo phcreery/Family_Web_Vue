@@ -1,15 +1,38 @@
 <template>
-  <!-- <div style="height: 80%"> -->
-    <!-- <v-card height="100%"> -->
-
-    <v-container fill-height app fluid>
+  <v-container style="height: 100%; overflow-y: scroll;" fluid> <!-- fill-height -->
+<!-- <v-row align="start" no-gutters> -->
+  <div>
+       <v-subheader>
+        <v-btn class="mx-2" style="position: absolute; left: 10px;" icon @click="$router.go(-1)">
+          <v-icon dark>mdi-arrow-left</v-icon>
+        </v-btn>
+        <h3 style="text-indent: 50px;">{{ directory }}</h3>
+        <!-- <v-toolbar-title class="grey--text text--darken-4">{{ directory }}</v-toolbar-title> -->
+        <v-spacer></v-spacer>
+        <v-card max-width="300px" flat>
+          <v-text-field
+            clearable
+            hide-details
+            dense
+            prepend-icon="search"
+            placeholder="Search"
+            v-model="searchString"
+            @input="searchList">
+          </v-text-field>
+        </v-card>
+      </v-subheader>
+      </div>
+<!-- </v-row> -->
+      <!-- <div style="position: absolute; top: 0px;"> -->
 
       <!-- <v-layout row justify-left> -->
          <!-- use these on v-row for emergnecy use???   class="grey" style="position: absolute; height: 100%; width: 100%" -->
+         <v-row no-gutters align="center" style="height: calc(100% - (150px));">
+<v-container fill-height fluid>
       <v-row justify="space-around" align="center" no-gutters>
 
         <v-col cols="12" md="8" sm="8">
-          <v-card class="container">
+          <v-card class="vidcontainer">
           <!-- <div>Duration: {{ duration }}</div> -->
           <!-- <div class="container"> -->
               <vueplyr @timeupdate="videoTimeUpdated" :emit="['timeupdate', 'enterfullscreen', 'exitfullscreen']" @enterfullscreen="enterFullScreen" @exitfullscreen="exitFullScreen" ref="player">
@@ -78,13 +101,12 @@
             </v-btn>
           </v-card>
         </v-col>
-
       </v-row>
     <!-- </v-layout> -->
     <uupload :dialog="uploadDialog" v-on:Confirmed="SubmitFiles" v-on:Cancel="uploadDialog = false" :dmessage="uploaderrmessage" />
     </v-container>
-  <!-- </div> -->
-  <!-- </v-card> -->
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -228,7 +250,7 @@ export default {
 </script>
 
 <style scoped>
-  .container {
+  .vidcontainer {
     /* margin: 50px auto; */
     /* max-width: 50%; */
     /* max-height: 10%; */
