@@ -13,7 +13,7 @@ cd ..
 cd server
 npm install
 ```
-
+```
 mongodb Environment Variables: {
   host: DB_HOST
   database: DB_NAME
@@ -34,7 +34,7 @@ dir: {
   movies: '',
   music: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/music'
 }
-
+```
 
 
 
