@@ -13,8 +13,11 @@ cd ..
 cd server
 npm install
 ```
+
+
+Environment Variables
 ```
-mongodb Environment Variables: {
+mongodb : {
   host: DB_HOST
   database: DB_NAME
   user: DB_USER
