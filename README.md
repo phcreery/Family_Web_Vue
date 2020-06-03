@@ -14,6 +14,30 @@ cd server
 npm install
 ```
 
+mongodb Environment Variables: {
+  host: DB_HOST
+  database: DB_NAME
+  user: DB_USER
+  password: DB_PASS
+  authdb: DB_AUTH
+}
+
+authentication: {
+  jwtSecret: JWT_SECRET
+}
+
+dir: {
+  images: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/family_images',
+  videos: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/videos',
+  supportedVideoFormats: ['.mp4'],
+  files: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/files',
+  movies: '',
+  music: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/music'
+}
+
+
+
+
 ## /client
 To start: `npm start`
 ### Dependencies

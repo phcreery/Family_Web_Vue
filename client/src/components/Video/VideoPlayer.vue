@@ -1,6 +1,5 @@
 <template>
   <v-container style="height: 100%; overflow-y: scroll;" fluid> <!-- fill-height -->
-<!-- <v-row align="start" no-gutters> -->
   <div>
        <v-subheader>
         <v-btn class="mx-2" style="position: absolute; left: 10px;" icon @click="$router.go(-1)">
@@ -12,8 +11,6 @@
         <v-card max-width="300px" flat>
           <v-text-field
             clearable
-            hide-details
-            dense
             prepend-icon="search"
             placeholder="Search"
             v-model="searchString"
@@ -22,8 +19,6 @@
         </v-card>
       </v-subheader>
       </div>
-<!-- </v-row> -->
-      <!-- <div style="position: absolute; top: 0px;"> -->
 
       <!-- <v-layout row justify-left> -->
          <!-- use these on v-row for emergnecy use???   class="grey" style="position: absolute; height: 100%; width: 100%" -->

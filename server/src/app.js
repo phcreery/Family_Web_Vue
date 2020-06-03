@@ -2,13 +2,16 @@ const express = require('express')  //  backend route manager/site server
 const bodyParser = require('body-parser')
 const cors = require('cors')      //  some security thing?
 const morgan = require('morgan')  //  for debugging
-const {sequelize} = require('./models') //  sql connector
+// const {sequelize} = require('./models') //  sql connector
 const config = require('./config/config') // server config properties
 // const mongoosedb = require('./mongomodels') //  sql connector
 const mongoose = require('mongoose')
 // mongoose.pluralize(null); // doesnt work??
 
-mongoose.connect('mongodb://admin:Twinsrock98@192.168.1.128/familyweb?authSource=admin') // admin/admin:Twinsrock98@
+// mongoose.connect(`mongodb://admin:Twinsrock98@192.168.1.128/familyweb?authSource=admin`) // admin/admin:Twinsrock98@
+
+mongoose.connect(`mongodb://${config.mongodb.user}:${config.mongodb.password}@${config.mongodb.host}/${config.mongodb.database}?authSource=${config.mongodb.options.authdb}`)
+
 
 let db = mongoose.connection
 db.on("error", console.error.bind(console, "MongoDB connection error"));
@@ -38,8 +41,8 @@ require('./routes')(app)
 
 // connect to sql db then run function that starts server on port defined in ./config/config.js
 //  add {force: true} in () of .sync to clear database
-sequelize.sync()
-  .then(() => {
+// sequelize.sync()
+  // .then(() => {
     app.listen(config.port)
     console.log(`Server Started on port ${config.port}`)
-    })
+    // })

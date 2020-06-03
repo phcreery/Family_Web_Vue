@@ -70,11 +70,11 @@ export default {
           title: 'Videos',
           href: '/#/videos'
         },
-        {
-          icon: 'mdi-movie-open',
-          title: 'Movies',
-          href: '/#/movies'
-        },
+        // {
+        //   icon: 'mdi-movie-open',
+        //   title: 'Movies',
+        //   href: '/#/movies'
+        // },
         // {
         //   icon: 'mdi-nintendo-game-boy',
         //   title: 'Games',
@@ -82,7 +82,7 @@ export default {
         // },
         {
           icon: 'mdi-folder',
-          title: 'Drive',
+          title: 'Files',
           href: '/#/files'
         }
       ]

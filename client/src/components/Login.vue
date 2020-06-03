@@ -67,6 +67,7 @@ export default {
   methods: {
     async login () {
       try {
+        this.$store.commit('startLoading')
         const response = await AuthenticationService.login({
           email: this.email,
           password: this.password
@@ -74,12 +75,14 @@ export default {
         // console.log(response)
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        this.$store.commit('stopLoading')
         if (response.data.user) {
           this.$router.push({ name: 'root' })
         }
       } catch (error) {
         console.log(JSON.stringify(error))
         this.error = error.response.data.error
+        this.$store.commit('stopLoading')
       }
     }
   }
