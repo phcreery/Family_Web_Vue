@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import SlideShow4 from '@/components/Photo/SlideShow4'
+import SlideShow4 from '@/components/Photo/Slideshow4'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Music from '@/components/Music/Music'
