@@ -25,11 +25,11 @@ module.exports = {
   },
 
   dir: {
-    images: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/family_images',
-    videos: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/videos',
+    images: process.env.DIR_IMG || 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/family_images',
+    videos: process.env.DIR_VID || 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/videos',
     supportedVideoFormats: ['.mp4'],
-    files: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/files',
-    movies: '',
-    music: 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/music'
+    files: process.env.DIR_FILES || 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/files',
+    movies: process.env.DIR_MOVIES || '',
+    music: process.env.DIR_MUSIC || 'C:/Users/phcre/Documents/JS/Family_Web_Vue/server/music'
   }
 }
