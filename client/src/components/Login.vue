@@ -63,6 +63,11 @@ export default {
       error: null
     }
   },
+  created () {
+    console.log('Host:', process.env.HOSTN)
+    console.log('Hostm:', process.env.HOSTM)
+    console.log('env:', process.env)
+  },
 
   methods: {
     async login () {

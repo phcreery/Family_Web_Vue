@@ -15,6 +15,10 @@ import VueEasyLightbox from 'vue-easy-lightbox'
 // import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueCoreVideoPlayer from 'vue-core-video-player'
 
+// require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
+
 // import {Howl, Howler} from 'howler'
 
 Vue.config.productionTip = false
