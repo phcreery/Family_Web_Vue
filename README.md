@@ -21,9 +21,10 @@ Environment Variables
 
 ```
 client: {
-  host: HOST  default: 'localhost'
-  port: PORT  default: 8080, if port is in use, a free one will be determined
-  server URL: BACKEND default: `http://localhost:8081`
+  host: HOST
+    default: 'localhost'
+  port: PORT
+    default: 8080, if port is in use, a free one will be determined
 }
 
 mongodb : {
