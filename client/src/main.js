@@ -16,8 +16,10 @@ import VueEasyLightbox from 'vue-easy-lightbox'
 import VueCoreVideoPlayer from 'vue-core-video-player'
 
 // require('dotenv').config()
-import dotenv from 'dotenv'
-dotenv.config()
+// import dotenv from 'dotenv'
+// dotenv.config()
+// const result = dotenv.config()
+// console.log('config result', result)
 
 // import {Howl, Howler} from 'howler'
 

@@ -66,6 +66,7 @@ export default {
   created () {
     console.log('Host:', process.env.HOSTN)
     console.log('Hostm:', process.env.HOSTM)
+    console.log('Hostb:', process.env.VUE_APP_HOSTB)
     console.log('env:', process.env)
   },
 
