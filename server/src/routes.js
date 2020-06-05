@@ -1,4 +1,4 @@
-const AuthenticationController = require('./controllers/AuthenticationController')
+// const AuthenticationController = require('./controllers/AuthenticationController')
 const MusicController = require('./controllers/MusicController')
 const VideoController = require('./controllers/VideoController')
 const PhotoController = require('./controllers/PhotoController')

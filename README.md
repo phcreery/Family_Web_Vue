@@ -16,9 +16,15 @@ cd server
 npm install
 ```
 
+
 Environment Variables
 
 ```
+client: {
+  host: HOST default: 'localhost'
+  port: PORT default: 8080, if port is in use, a free one will be determined
+}
+
 mongodb : {
   host: DB_HOST
   database: DB_NAME
