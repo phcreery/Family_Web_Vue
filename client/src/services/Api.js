@@ -3,6 +3,6 @@ import axios from 'axios' // used to connect to server backend in ./server folde
 
 export default() => {
   return axios.create({
-    baseURL: `http://192.168.1.215:8081`
+    baseURL: process.env.BACKEND || `http://localhost:8081`
   })
 }

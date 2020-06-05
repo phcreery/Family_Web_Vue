@@ -27,6 +27,11 @@ client: {
     default: 8080, if port is in use, a free one will be determined
 }
 
+in the .env file: {
+  backend url: BACKEND
+    default: 'http://localhost:8081'
+}
+
 mongodb : {
   host: DB_HOST
   database: DB_NAME
