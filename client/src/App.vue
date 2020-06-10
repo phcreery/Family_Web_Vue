@@ -3,7 +3,7 @@
     <v-app id="inspire">
       <PageHeader app />
       <PageDrawer app />
-      
+
         <v-content>
           <!-- have to use v-app for vuetify instead of just div -->
             <router-view />

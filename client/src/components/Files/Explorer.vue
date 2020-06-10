@@ -25,7 +25,7 @@
                 <div class="fill-height bottom-gradient">
                   <v-icon size="200">{{item.thumb}}</v-icon>
                 </div>
-                
+
               </v-img>
               <v-list-item three-line>
                 <v-list-item-content>

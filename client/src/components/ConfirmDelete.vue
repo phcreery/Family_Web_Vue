@@ -60,7 +60,7 @@ export default {
     clbk (action) {
       console.log('clicked: ', action)
       this.$emit(action)
-    },
+    }
   },
   computed: {
 
