@@ -38,6 +38,7 @@
                 prepend-icon="lock"
                 type="password"
                 v-model="password"
+                @keydown.enter="login"
               />
             </v-form>
 

@@ -17,7 +17,20 @@ module.exports = {
           console.log(err)
         }
         // console.log(metadata); 
-        for(let i in metadata){      
+        for(let i in metadata){
+          if (typeof metadata[i].title === 'undefined') {
+            metadata[i].title = ''
+          }
+          if (typeof metadata[i].album === 'undefined') {
+            metadata[i].album = ''
+          }
+          if (typeof metadata[i].album_artist === 'undefined') {
+            metadata[i].album_artist = ''
+          }
+          if (typeof metadata[i].TLEN === 'undefined') {
+            metadata[i].TLEN = ''
+          }
+
           data.push({name: items[i], title: metadata[i].title, album: metadata[i].album, artist: metadata[i].album_artist, duration: metadata[i].TLEN, howl: null, display:true});
         }
         res.json(data);
