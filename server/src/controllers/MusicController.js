@@ -18,6 +18,9 @@ module.exports = {
         }
         // console.log(metadata); 
         for(let i in metadata){
+          if (typeof metadata[i] === 'undefined') {
+            metadata[i] = ''
+          }
           if (typeof metadata[i].title === 'undefined') {
             metadata[i].title = ''
           }
