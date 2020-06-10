@@ -47,7 +47,7 @@ module.exports = (app) => {
 
   // ############  MUSIC  ############
 
-  app.use('/music', express.static('music'));
+  app.use('/music', express.static(config.dir.music));
 
   app.get('/musiclist', MusicController.getmusiclist)
 
