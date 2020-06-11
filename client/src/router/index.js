@@ -60,7 +60,7 @@ const router = new Router({
     },
     {
       path: '/files/*',
-      name: 'files',
+      name: 'filedir',
       component: Browser,
       props: true
     }

@@ -10,7 +10,7 @@
     <v-list
         dense
       > <!-- add 'nav' to v-list for round buttons -->
-      <v-list-item two-line :class="miniVariant && 'px-0'">
+      <v-list-item two-line >
             <v-list-item-avatar>
               <!-- <img src="https://randomuser.me/api/portraits/men/81.jpg"> -->
               <v-icon>mdi-account</v-icon>
