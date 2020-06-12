@@ -69,7 +69,8 @@ export default {
       seek: 0,
       muted: false,
       volume: 1,
-      searchString: null
+      searchString: null,
+      baseURL: null
       // sliderProgress: 0
     }
   },
@@ -98,6 +99,11 @@ export default {
         index = this.$data.index
         console.log('skipping by index:', index)
       }
+
+      // let file = this.$data.playlist[index].name.replace(/ /g, '%20')
+      // this.$data.playlist[index].howl = new Howl({
+      //   src: [this.$data.baseURL + `${file}`]
+      // })
       let track = this.$data.playlist[index].howl
 
       if (track.playing()) {
@@ -117,6 +123,7 @@ export default {
     stopTrack () {
       this.currentTrack.howl.stop()
       this.$data.playing = false
+      // MusicEventBus.$emit('updateprogress', this.progress)
     },
     skipTrack (direction) {
       let index = 0
@@ -187,6 +194,7 @@ export default {
   created: async function () {
     const list = await MusicService.getlist()
     const baseURL = await MusicService.getBaseURL()
+    // this.$data.baseURL = await MusicService.getBaseURL()
     this.$data.playlist = list.data
     console.log(this.$data)
     this.$data.playlist.forEach((track) => {
@@ -261,6 +269,7 @@ export default {
   watch: {
     playing: function (playing) {
       this.$data.seek = this.currentTrack.howl.seek()
+      MusicEventBus.$emit('updatetrackplaystate', this.$data.playing)
       let updateSeekr
       if (playing) {
         // this.$data.sliderProgress = this.progress * 100
@@ -300,23 +309,4 @@ export default {
 
   }
 
-::-webkit-scrollbar {
-  display:block;
-  width: 1em;
-  }
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: rgb(196, 196, 196);
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(104, 104, 104);
-}
 </style>
