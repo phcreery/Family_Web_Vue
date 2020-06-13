@@ -30,6 +30,7 @@
               <v-list-item three-line>
                 <v-list-item-content>
                   <v-list-item-title class="mb-1">{{ item.name }}</v-list-item-title>
+                  <!-- <v-list-item-title class="headline mb-1">{{ item.name }}</v-list-item-title> -->
                   <v-list-item-subtitle
                     v-for="(item, index2) in list[index].info"
                     :key="index2"

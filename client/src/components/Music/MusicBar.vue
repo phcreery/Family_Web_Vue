@@ -7,8 +7,9 @@
         </v-progress-linear>
       </v-toolbar>
       <v-toolbar flat height=90>
+        <v-row justify="space-between">
 
-
+<v-col v-if="!($store.state.toggleSidebar && $vuetify.breakpoint.smAndDown)" cols="auto" xs="2" sm="2" md="auto" >
         <v-card flat>
           <v-list-item three-line>
             <v-list-item-avatar
@@ -19,15 +20,21 @@
               <v-icon dark>mdi-music</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title class="headline">{{ trackInfo.artist }}</v-list-item-title>
-              <v-list-item-title>{{ trackInfo.title }}</v-list-item-title>
+              <v-list-item-title v-if="this.$vuetify.breakpoint.lgAndUp" class="headline">{{ trackInfo.artist }}</v-list-item-title>
+              <v-list-item-title v-if="this.$vuetify.breakpoint.lgAndUp">{{ trackInfo.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
 
         </v-card>
+</v-col>
 
-        <v-card flat class="mx-auto" style="position: fixed; left: 40%;">
-          <v-btn fab text small color="secondary" @click="skipTrack('prev')" class="ma-3">
+<v-col >
+  <v-row >
+
+        <!-- <v-col > -->
+        <!-- <v-card flat class="mx-auto" style="position: fixed;" v-bind:style="{ left: $vuetify.breakpoint.smAndUp ? '30%' : '40%' }"> -->
+        <v-card flat class="mx-auto" >
+          <v-btn v-if="this.$vuetify.breakpoint.smAndUp" fab text small color="secondary" @click="skipTrack('prev')" class="ma-3">
             <v-icon>skip_previous</v-icon>
           </v-btn>
           <!-- <v-btn fab small color="secondary" @click="stopTrack" class="ma-3">
@@ -39,12 +46,21 @@
           <!-- <v-btn fab small color="secondary " @click="pauseTrack" class="ma-3">
             <v-icon>pause</v-icon>
           </v-btn> -->
-          <v-btn fab text small color="secondary" @click="skipTrack('next')" class="ma-3">
+          <v-btn v-if="this.$vuetify.breakpoint.smAndUp" fab text small color="secondary" @click="skipTrack('next')" class="ma-3">
             <v-icon>skip_next</v-icon>
           </v-btn>
         </v-card>
+        <!-- </v-col > -->
 
-        <v-toolbar app flat style="position: fixed; right: 0%; width: 20%">
+        </v-row>
+  </v-col>
+
+  <v-col cols="auto" sm="2" md="4" lg="auto" v-if="this.$vuetify.breakpoint.smAndUp">
+    <v-row justify="end">
+        <!-- <v-toolbar app flat style="position: fixed; right: 0%; width: 20%"> -->
+          <!-- <v-toolbar  > -->
+            <v-card flat>
+              <v-card-title>
           <v-btn text icon @click="toggleMute" >
             <template v-if="!this.$data.muted">
               <v-icon v-if="this.$data.volume >= 0.5">volume_up</v-icon>
@@ -53,10 +69,20 @@
             </template>
             <v-icon v-show="this.$data.muted">volume_off</v-icon>
           </v-btn>
-          <v-slider v-if="this.$vuetify.breakpoint.lgAndUp" v-model="volume" hide-details @input="updateVolume(volume)" max="1" step="0.1" >
-          </v-slider>
-          <v-subheader>{{trackInfo.seek | minutes}}/{{trackInfo.duration | minutes}}</v-subheader>
-        </v-toolbar>
+          <!-- <v-col v-if="this.$vuetify.breakpoint.lgAndUp" cols="4"> -->
+          <v-slider style="width: 100px;" v-if="this.$vuetify.breakpoint.lgAndUp" v-model="volume" hide-details @input="updateVolume(volume)" max="1" step="0.1" >
+            </v-slider>
+          <!-- </v-col> -->
+          
+          <v-subheader v-if="this.$vuetify.breakpoint.mdAndUp">{{trackInfo.seek | minutes}}/{{trackInfo.duration | minutes}}</v-subheader>
+          <!-- <v-subheader v-else>1</v-subheader> -->
+          </v-card-title>
+          </v-card>
+        <!-- </v-toolbar> -->
+        </v-row>
+</v-col>
+
+</v-row>
 
       </v-toolbar>
 
